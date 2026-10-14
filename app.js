@@ -144,6 +144,42 @@ function pkgBlocks(s, lvl) {
   return `<h2>О сервисе</h2>${out}`;
 }
 
+// Long texts: paragraphs, «•» lines become a list, a short lead phrase («Вопрос.», «Основа успеха.») is bolded.
+function richText(txt) {
+  const out = []; let list = [];
+  const flush = () => { if (list.length) { out.push(`<ul>${list.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>`); list = []; } };
+  txt.split(/\n+/).map((l) => l.trim()).filter(Boolean).forEach((l) => {
+    if (/^[•–-]\s*/.test(l)) { list.push(l.replace(/^[•–-]\s*/, '')); return; }
+    flush();
+    const m = l.match(/^([А-ЯЁA-Z][^.!?:\d]{3,38}[.:])(?:\s+(.*))?$/);
+    out.push(m ? `<p><b>${esc(m[1])}</b>${m[2] ? ' ' + esc(m[2]) : ''}</p>` : `<p>${esc(l)}</p>`);
+  });
+  flush(); return out.join('');
+}
+const clampBlock = (k, title, html) => { const open = S.open[k]; return `<section class="tblock"><h3>${title}</h3><div class="rich${open ? '' : ' clamp'}">${html}</div><button type="button" class="more-btn" onclick="toggle('${k}')">${open ? 'Свернуть' : 'Показать полностью'}</button></section>`; };
+// Per-criterion results come from r.c when loaded; until then statuses are derived from the score.
+function critList(t, r) {
+  const crit = t.crit || SAMPLE.crit;
+  if (!r) return crit.map((c) => ({ ...c, ok: null }));
+  if (r.c) return crit.map((c) => ({ ...c, ok: !!r.c[c.code] }));
+  const keys = crit.filter((c) => c.type === 'key'); const opts = crit.filter((c) => c.type !== 'key');
+  const okOpt = Math.max(0, Math.min(opts.length, Math.round((r.p / t.total) * opts.length)));
+  let h = 0; for (const ch of t.id + r.p) h = (h * 31 + ch.charCodeAt(0)) % 997;
+  const met = opts.map((c, i) => [c, (i * 7 + h) % 11]).sort((a, b) => a[1] - b[1]).slice(0, okOpt).map((x) => x[0]);
+  return crit.map((c) => ({ ...c, ok: c.type === 'key' ? (r.s || c !== keys[keys.length - 1]) : met.includes(c) }));
+}
+function critPanel(t, r) {
+  const cl = critList(t, r);
+  const grp = (isKey, title) => {
+    const g = cl.filter((c) => (c.type === 'key') === isKey); const n = g.filter((c) => c.ok).length;
+    return `<div class="cgroup"><div class="cgroup-h"><p class="b">${title}</p>${r ? `<span class="cscore">${n} из ${g.length}</span>` : ''}</div><ol class="clist">${g.map((c) => `<li class="citem${c.ok === null ? '' : c.ok ? ' ok' : ' no'}">${c.ok === null ? '' : `<span class="cmark" aria-hidden="true">${c.ok ? '✓' : '✕'}</span>`}<div><p class="chead"><span class="ccode">${c.code}</span>${c.ok === null ? '' : `<span class="cstate">${c.ok ? 'выполнен' : 'не выполнен'}</span>`}</p><p>${esc(c.text)}</p></div></li>`).join('')}</ol></div>`;
+  };
+  return `<aside class="crit-panel">${grp(true, 'Ключевые критерии')}${grp(false, 'Опциональные критерии')}</aside>`;
+}
+function taskDetail(s, t, r, k) {
+  return `<div class="tdetail"><div class="tmain">${clampBlock(k + 'q', 'Задача', richText(t.text || SAMPLE.task))}${clampBlock(k + 'a', `Ответ сервиса ${esc(s.name)}, дословно`, richText(r.answer || SAMPLE.answer))}<a class="tlink" href="#/task/${t.id}">Эта задача у всех сервисов →</a></div>${critPanel(t, r)}</div>`;
+}
+
 function service(id) {
   const s = byId(id); if (!s) return '<p>Нет такого сервиса</p>';
   const lvl = LVL[S.view[id] || s.pkg || 'free'];
@@ -155,15 +191,16 @@ function service(id) {
   const resultBlock = `<h2>Результат</h2>
 <div class="grid3"><div class="box stat"><span class="num">${st.solved} / ${D.tasks.length}</span><p class="muted">задач решено</p></div><div class="box stat"><span class="num">${st.pts} / ${TOTAL}</span><p class="muted">полнота ответов</p></div>${areaBars(st)}</div>
 ${lvl >= 1 ? `<div class="box"><div class="between"><h2>Комментарий к результату</h2>${vendorTag}</div><p>${s.comment || `[Комментарий вендора к своим результатам. Подпись: ${s.name}, дата.]`}</p></div>` : ''}`;
-  const f = S.filt;
-  const taskRows = s.res.filter((r) => f === 'all' || (f === 'ok' ? r.s : !r.s)).filter((r) => S.taskArea === -1 || task(r.t).area === S.taskArea).map((r) => {
+  const f = S.filt; const ta = S.taskArea;
+  const inArea = s.res.filter((r) => ta === -1 || task(r.t).area === ta);
+  const cnt = { all: inArea.length, ok: inArea.filter((r) => r.s).length, no: inArea.filter((r) => !r.s).length };
+  const taskRows = inArea.filter((r) => f === 'all' || (f === 'ok' ? r.s : !r.s)).map((r) => {
     const t = task(r.t); const k = id + r.t; const open = S.open[k];
-    return `<tr class="clk" onclick="toggle('${k}')"><td>${t.id}</td><td>${D.short[t.area]}</td><td>${t.title}</td><td class="muted"><a href="#/experts" onclick="event.stopPropagation()">${expert(t.author).name}</a></td><td>${r.s ? 'решена' : 'не решена'}</td><td>${r.p} / ${t.total}</td><td><u>${open ? 'свернуть' : 'раскрыть'}</u></td></tr>` + (open ? `<tr><td colspan="7" class="sub"><div class="grid3"><div class="dash"><p class="b">Задача</p><p class="muted">[фабула и вопрос, полностью]</p><a href="#/task/${t.id}">эта задача у всех сервисов</a></div><div class="dash"><p class="b">Ответ сервиса, дословно</p><p class="muted">[текст ответа сервиса]</p></div><div class="dash"><p class="b">Что должно быть в ответе</p>${Array.from({ length: t.key }, (_, i) => `<p>ключевой ${i + 1} — ${r.s || i < t.key - 1 ? 'да' : 'нет'}</p>`).join('')}<p class="muted">дополнительные критерии: ${Math.max(0, r.p - (r.s ? t.key : t.key - 1))} из ${t.opt}${r.f ? ' · ' + r.f : ''}</p></div></div></td></tr>` : '');
+    return `<div class="trow${open ? ' open' : ''}"><button type="button" class="trow-h" aria-expanded="${!!open}" onclick="toggle('${k}')"><span class="tid">${t.id}</span><span class="ttitle">${t.title}<span class="tmeta">${D.short[t.area]} · автор: ${expert(t.author).name}</span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev" aria-hidden="true"></span></button>${open ? taskDetail(s, t, r, k) : ''}</div>`;
   });
   const tasksBlock = `<h2>По задачам</h2>
-${areaTags(S.taskArea, 'setTaskArea', true)}
-<div class="between" style="align-items:center"><div class="row" style="align-items:center;gap:8px"><span class="muted" style="font-size:12px">показать:</span>${[['all', 'все'], ['ok', 'решённые'], ['no', 'нерешённые']].map(([k, n]) => `<span class="tag sm ${f === k ? 'on' : ''}" onclick="setFilt('${k}')">${n}</span>`).join('')}</div><span class="btn">Скачать таблицу</span></div>
-<table><tr><th>№</th><th>отрасль</th><th>задача</th><th>автор</th><th>итог</th><th>критерии</th><th></th></tr>${taskRows.join('')}</table>`;
+<div class="filters"><label class="fsel"><span class="muted">Отрасль</span><select onchange="setTaskArea(+this.value)"><option value="-1"${ta === -1 ? ' selected' : ''}>Все отрасли</option>${D.areas.map((a, i) => `<option value="${i}"${ta === i ? ' selected' : ''}>${a}</option>`).join('')}</select></label><div class="seg2" aria-label="итог по задаче">${[['all', 'Все'], ['ok', 'Решены'], ['no', 'Не решены']].map(([k, n]) => `<button type="button" class="${f === k ? 'on' : ''}" onclick="setFilt('${k}')">${n}<span>${cnt[k]}</span></button>`).join('')}</div></div>
+<div class="tlist">${taskRows.join('') || '<p class="muted">Нет задач по выбранным фильтрам.</p>'}</div>`;
   return `<p class="crumbs"><a href="#/">Результаты</a> → ${s.name}</p>
 ${sw}
 ${svcHead(s)}
@@ -226,8 +263,7 @@ function taskPage(id) {
   const n = tested.filter((s) => s.res.find((r) => r.t === id).s).length;
   return `<p class="crumbs"><a href="#/method">Методология</a> → ${t.id}</p>
 <div class="col" style="gap:14px"><h1>${t.id}. ${t.title}</h1><p class="muted">${D.areas[t.area]} · автор: <a href="#/experts">${expert(t.author).name}</a> · ${t.total} критериев · решили ${n} сервисов из ${tested.length}</p><div class="row" style="gap:8px">${prev ? `<a class="tag" href="#/task/${prev.id}">← предыдущая</a>` : ''}${next ? `<a class="tag" href="#/task/${next.id}">следующая →</a>` : ''}</div></div>
-<div class="row"><div class="box grow"><h2>Задача</h2><p>[Фабула: стороны, даты, суммы, что произошло.] Дайте правовую оценку сложившейся ситуации и оцените перспективы заявленных требований.</p></div><div class="box" style="width:380px"><h2>Что должно быть в ответе</h2>${Array.from({ length: t.key }, (_, i) => `<p>ключевой критерий ${i + 1}: [суть]</p>`).join('')}<p class="muted clk" onclick="toggle('opt${id}')">дополнительные критерии, ${t.opt} · ${S.open['opt' + id] ? 'свернуть' : 'развернуть'}</p>${S.open['opt' + id] ? Array.from({ length: t.opt }, (_, i) => `<p class="muted">дополнительный ${i + 1}: [суть]</p>`).join('') : ''}</div></div>
-<div class="dash"><h2 class="clk" onclick="toggle('ref${id}')">Эталонный ответ <span class="muted thin">· ${S.open['ref' + id] ? 'свернуть' : 'развернуть'}</span></h2>${S.open['ref' + id] ? '<p class="muted">[Полный ответ составителя с разбором конкурирующих версий.]</p>' : ''}</div>
+<div class="tdetail"><div class="tmain">${clampBlock('tq' + id, 'Задача', richText(t.text || SAMPLE.task))}${clampBlock('tr' + id, 'Эталонный ответ', richText(t.reference || SAMPLE.answer))}</div>${critPanel(t, null)}</div>
 <h2>Как решили ${tested.length} сервисов</h2><table><tr><th>сервис</th><th>итог</th><th>критерии</th><th></th></tr>${rows.join('')}</table>`;
 }
 // Latin-named services first, then Russian alphabetical order.
@@ -238,7 +274,7 @@ function catalog() {
   const secs = D.skills.map((k, i) => { const list = D.services.filter((s) => s.skills.includes(k)).sort(byName); return list.length ? `<div class="col" id="reg${i}" style="gap:14px"><h2 class="cat-h">${k}</h2><div class="grid3">${list.map(card).join('')}</div></div>` : ''; }).join('');
   return `<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверяем навык «Ответ на правовой вопрос»: у этих сервисов есть результат на 50 задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
 <div class="layout">
-<div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" href="#/catalog" onclick="setTimeout(()=>go('reg${i}'),0)">${k}</a>`).join('')}</div>
+<div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" data-sec="reg${i}" href="#/catalog" onclick="setTimeout(()=>go('reg${i}'),0)">${k}</a>`).join('')}</div>
 <div class="content">
 <div class="legend"><span><span class="sdot on"></span>проверен в бенчмарке</span><span><span class="sdot"></span>пока не проверялся</span></div>
 <h2 style="border-top:1px solid var(--line);padding-top:28px">Все сервисы по категориям</h2>
@@ -268,7 +304,7 @@ const taskWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'задача' : [2, 3
 function experts() {
   const cards = D.experts.map((e) => { const ts = D.tasks.filter((t) => t.author === e.id); const per = D.areas.map((a, i) => [a, ts.filter((t) => t.area === i).length]).filter((x) => x[1]); return `<div class="box"><div class="ph" style="height:56px;width:160px">логотип</div><p class="b">${e.name}</p>${per.length ? `<ul class="dlist">${per.map((x) => `<li>${x[0]} (${x[1]} ${taskWord(x[1])})</li>`).join('')}</ul>` : ''}<p><a href="#/method" onclick="setTimeout(()=>{go('m-tasks')},0)">задачи автора</a></p></div>`; });
   const areaSelect = `<label class="fld"><span>Ваша экспертная отрасль</span><select name="area" data-label="Отрасль" required onchange="const o=this.form.querySelector('.fld-other');o.hidden=this.value!=='другая';o.querySelector('input').required=!o.hidden"><option value="">Выберите отрасль</option>${D.areas.map((a) => `<option>${a}</option>`).join('')}<option>другая</option></select></label><label class="fld fld-other" hidden><span>Напишите вашу отрасль</span><input name="areaOther" data-label="Другая отрасль"></label>`;
-  return `<div class="intro"><h1>Эксперты и юрфирмы</h1><p>Задачи для проверки готовили практикующие юристы и юрфирмы, без ИИ: фабулу, вопрос, эталонный ответ и критерии. Ответы сервисов оценивали вслепую: оценщики не знали, чей ответ перед ними. Здесь все участники и отрасли права, в которых они работали.</p></div>
+  return `<div class="intro"><h1>Эксперты и юр. фирмы</h1><p>Задачи для проверки готовили практикующие юристы и юрфирмы, без ИИ: фабулу, вопрос, эталонный ответ и критерии.</p><p>Ответы сервисов оценивали вслепую: оценщики не знали, чей ответ перед ними.</p></div>
 <div class="grid3"><div class="box stat"><span class="num">27</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">50</span><p class="muted">задач по пяти отраслям права</p></div><div class="box stat"><span class="num">50</span><p class="muted">оценщиков</p></div></div>
 <div class="grid3">${cards.join('')}</div>
 ${formBox('Хотите подготовить задачи для следующей проверки? Оставьте свои контакты, мы свяжемся с вами, когда начнём подготовку.', 'Заявка эксперта', field('fio', 'ФИО', 'autocomplete="name"') + field('company', 'Название компании', 'autocomplete="organization"') + areaSelect, 'Отправить заявку')}`;
@@ -280,13 +316,11 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.modal)
 function ansModal() {
   if (!S.modal) return '';
   const s = byId(S.modal.sid); const t = task(S.modal.tid); const r = s.res.find((x) => x.t === t.id);
-  const keys = Array.from({ length: t.key }, (_, i) => { const ok = r.s || i < t.key - 1; return `<p><span class="${ok ? 'y' : 'n'}">${ok ? 'да' : 'нет'}</span><span>ключевой критерий ${i + 1}: [суть]</span></p>`; }).join('');
   return `<div class="modal-bg" onclick="if(event.target===this)closeAns()"><div class="modal" role="dialog" aria-modal="true"><button class="close" onclick="closeAns()" aria-label="закрыть">×</button>
 <p class="crumbs">${t.id} · ${t.title}</p>
 <h2>ответ: ${s.name}</h2>
 <div class="row wrap" style="gap:8px"><span class="tag ${r.s ? 'on' : 'soft'}" style="cursor:default">${r.s ? 'задача решена' : 'задача не решена'}</span><span class="tag soft">критерии: ${r.p} / ${t.total}</span>${r.f ? `<span class="tag claim">${r.f}</span>` : ''}</div>
-<div class="ans"><p class="note">ответ сервиса, дословно</p><p>[Полный текст ответа сервиса на эту задачу так, как он был получен при проверке: правовая оценка ситуации, ссылки на нормы и практику, выводы о перспективах требований.]</p><p>[Второй абзац ответа.]</p></div>
-<div class="col" style="gap:10px"><p class="b">Что должно быть в ответе</p><div class="crit">${keys}</div><p class="muted">дополнительные критерии: ${Math.max(0, r.p - (r.s ? t.key : t.key - 1))} из ${t.opt}</p></div>
+${taskDetail(s, t, r, 'm' + s.id + t.id)}
 <div class="row wrap" style="gap:12px"><a class="btn" href="#/service/${s.id}" onclick="S.modal=null">Страница сервиса</a><span class="btn" onclick="closeAns()">Закрыть</span></div>
 </div></div>`;
 }
@@ -297,6 +331,16 @@ function fixYo() {
     while ((n = w.nextNode())) n.nodeValue = n.nodeValue.replace(/ё/g, 'е').replace(/Ё/g, 'Е');
   });
 }
+// Catalog: highlight the category whose section is under the sticky chips.
+function catalogSpy() {
+  const links = [...document.querySelectorAll('.sidebar .stag[data-sec]')];
+  const sb = document.querySelector('.sidebar');
+  const line = (sb ? sb.getBoundingClientRect().bottom : 60) + 24;
+  let cur = null;
+  links.forEach((l) => { const sec = document.getElementById(l.dataset.sec); if (sec && sec.getBoundingClientRect().top <= line) cur = l; });
+  links.forEach((l) => l.classList.toggle('on', l === cur));
+}
+window.addEventListener('scroll', catalogSpy, { passive: true });
 function render(preserve) {
   const h = location.hash || '#/';
   const p = h.replace(/^#\//, '').split('/');
@@ -311,6 +355,7 @@ function render(preserve) {
   else if (p[0] === 'about') body = about;
   else body = home();
   document.getElementById('app').innerHTML = '<div class="demo-bar">Демоверсия: названия сервисов настоящие, результаты условные. Реальные результаты появятся после проверки.</div>' + nav(cur) + '<div class="wrap">' + body + '</div>' + foot + ansModal();
+  catalogSpy();
   fixYo();
   const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px');
   document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
