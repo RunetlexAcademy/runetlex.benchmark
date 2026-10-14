@@ -174,7 +174,20 @@ function richText(txt) {
   });
   flush(); return out.join('');
 }
-const clampBlock = (k, title, html) => { const open = S.open[k]; return `<section class="tblock"><h3>${title}</h3><div class="rich${open ? '' : ' clamp'}">${html}</div><button type="button" class="more-btn" data-k="${k}" onclick="toggle('${k}')">${open ? 'Свернуть' : 'Показать полностью'}</button></section>`; };
+// «Показать полностью»: the start of the text stays where it was, the rest unfolds downward.
+// «Свернуть»: if the block's start has scrolled off screen, bring it back under the menu.
+window.toggleMore = (k) => {
+  const sel = `[data-sec="${k}"]`; const opening = !S.open[k];
+  const r1 = document.querySelector(sel + ' .rich'); const before = r1 ? r1.getBoundingClientRect().top : null;
+  S.open[k] = opening; render(true);
+  const r2 = document.querySelector(sel + ' .rich'); if (!r2 || before === null) return;
+  if (opening) { window.scrollBy(0, r2.getBoundingClientRect().top - before); return; }
+  const navh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navh')) || 60;
+  const bar = document.querySelector('.filters'); const cover = Math.max(navh, bar ? bar.getBoundingClientRect().bottom : 0) + 16;
+  const top = document.querySelector(sel).getBoundingClientRect().top;
+  if (top < cover) window.scrollBy(0, top - cover);
+};
+const clampBlock = (k, title, html) => { const open = S.open[k]; return `<section class="tblock" data-sec="${k}"><h3>${title}</h3><div class="rich${open ? '' : ' clamp'}">${html}</div><button type="button" class="more-btn" onclick="toggleMore('${k}')">${open ? 'Свернуть' : 'Показать полностью'}</button></section>`; };
 // Per-criterion results come from r.c when loaded; until then statuses are derived from the score.
 function critList(t, r) {
   const crit = t.crit || SAMPLE.crit;
