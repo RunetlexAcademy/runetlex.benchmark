@@ -13,7 +13,7 @@ const TOTAL = D.tasks.reduce((a, t) => a + t.total, 0);
 const AREA_N = D.areas.map((_, i) => D.tasks.filter((t) => t.area === i).length);
 const EMAIL = 'academy@runetlex.ru';
 const BULB = '<svg class="bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg>';
-const hint = (html) => `<div class="hint">${BULB}<p><b>Подсказка:</b> ${html}</p></div>`;
+const hint = (...paras) => `<div class="hint">${BULB}<div class="hint-body">${paras.map((p, i) => `<p>${i ? '' : '<b>Подсказка:</b> '}${p}</p>`).join('')}</div></div>`;
 const METHOD_LINK = '<a href="#/method">Методология</a>';
 
 function stats(s) {
@@ -74,7 +74,7 @@ function home() {
     const st = ST[s.id];
     const solved = a === -1 ? st.solved + ' / ' + D.tasks.length : st.byArea[a] + ' / ' + AREA_N[a];
     const strong = st.byArea.map((v, i) => [v, i]).sort((x, y) => y[0] - x[0]).slice(0, 2).map((x) => D.short[x[1]]).join(', ');
-    return `<tr><td><a class="sname" href="#/service/${s.id}">${s.name}</a></td><td>${solved}</td><td>${st.pts} / ${TOTAL}</td><td>${strong}</td></tr>`;
+    return `<tr class="clk" onclick="location.hash='#/service/${s.id}'"><td><a class="sname" href="#/service/${s.id}">${s.name}</a></td><td>${solved}</td><td>${st.pts} / ${TOTAL}</td><td>${strong}</td></tr>`;
   });
   const chartMax = a === -1 ? D.tasks.length : AREA_N[a];
   const top5 = order.slice(0, 5).map((s, i) => {
@@ -103,11 +103,12 @@ function home() {
 <div class="grid4 noms-row">${NOMS.map((n) => `<a class="box lnk" href="#/service/${n.s.id}"><span class="tag nom">${n.t}</span><p class="b">${n.s.name}</p><p class="muted">${n.d}</p></a>`).join('')}</div>
 <div class="layout">
 <div class="content">
-<div class="between" style="align-items:center"><h2>Результаты${a === -1 ? ' по всем задачам' : ' · ' + D.short[a]}</h2>${areaTags(a, 'setArea')}</div>
+<h2>Результаты${a === -1 ? ' по всем задачам' : ' · ' + D.short[a]}</h2>
+${areaTags(a, 'setArea')}
 <div class="chart">${top5}</div>
-${hint(`«Решено задач» — количество задач, по которым сервис дал правильный ответ по ключевым критериям. Каждый сервис проверялся на 50 задачах. «Полнота ответов» — сколько всего баллов набрал сервис по ключевым и опциональным критериям. «Сильные отрасли» — отрасли, в которых сервис показал наилучшие результаты. Подробности по каждой задаче на странице сервиса и в разделе ${METHOD_LINK}.`)}
+${hint('«Решено задач» — количество задач, по которым сервис дал правильный ответ по ключевым критериям. Каждый сервис проверялся на 50 задачах.', '«Полнота ответов» — сколько всего баллов набрал сервис по ключевым и опциональным критериям.', '«Сильные отрасли» — отрасли, в которых сервис показал наилучшие результаты.', `Подробности по каждой задаче на странице сервиса и в разделе ${METHOD_LINK}.`)}
 <table class="rtable"><tr><th>сервис</th><th>решено задач${a === -1 ? '' : ' · ' + D.short[a]}</th><th>полнота ответов</th><th>сильные отрасли</th></tr>${rows.join('')}</table>
-${hint(`22 сервиса решали одни и те же 50 практических задач по пяти отраслям права. Задачи готовили практикующие юристы юрфирм, ответы оценивала группа оценщиков вслепую. Задачи, эталонные ответы, ответы сервисов и оценки открыты, вы можете изучить всю информацию на странице конкретного сервиса и в разделе ${METHOD_LINK}. Участие бесплатное, место в результатах не продаётся.`)}
+${hint('22 сервиса решали одни и те же 50 практических задач по пяти отраслям права.', 'Задачи готовили практикующие юристы юрфирм, ответы оценивала группа оценщиков вслепую.', `Задачи, эталонные ответы, ответы сервисов и оценки открыты: вы можете изучить всю информацию на странице конкретного сервиса и в разделе ${METHOD_LINK}.`, 'Участие бесплатное, место в результатах не продаётся.')}
 </div></div>
 <div class="row cta-list"><a class="btn dark" href="#/method" onclick="setTimeout(()=>{go('m-report')},0)">Скачать полный отчёт</a><a class="btn" href="#/method" onclick="setTimeout(()=>{go('m-tasks')},0)">Смотреть задачи</a><a class="btn" href="#/method">Изучить методологию</a></div>`;
 }
@@ -174,13 +175,19 @@ ${tasksBlock}`;
 }
 
 // Logos scroll continuously; the set is rendered twice so the loop is seamless.
-const logoCarousel = (n) => { const set = Array.from({ length: n }, (_, i) => `<div class="ph logo-item">логотип ${i + 1}</div>`).join(''); return `<div class="logo-carousel" aria-label="юрфирмы-эксперты"><div class="logo-track">${set}<div class="logo-dup" aria-hidden="true">${set}</div></div></div>`; };
+// Swipe/trackpad gallery; arrows scroll by one viewport of logos.
+window.slideLogos = (btn, dir) => {
+  const g = btn.closest('.gallery').querySelector('.gallery-track'); const from = g.scrollLeft; const dx = dir * g.clientWidth * 0.8;
+  g.scrollBy({ left: dx, behavior: 'smooth' });
+  setTimeout(() => { if (g.scrollLeft === from) g.scrollBy({ left: dx }); }, 450); // browsers without smooth scrolling
+};
+const logoCarousel = (n) => `<div class="gallery" aria-label="юрфирмы-эксперты"><div class="gallery-track">${Array.from({ length: n }, (_, i) => `<div class="ph logo-item">логотип ${i + 1}</div>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div>`;
 function methodology() {
   const a = S.taskArea;
   const list = D.tasks.filter((t) => a === -1 || t.area === a);
   const step = (n, title, text, extra = '') => `<div class="step"><span class="step-n">${n}</span><div class="col" style="gap:10px"><h2>${title}</h2><p>${text}</p>${extra}</div></div>`;
-  return `<div class="intro" id="m-method"><div class="row wrap" style="align-items:baseline;gap:12px"><h1>Методология</h1><span class="updated"><span class="dot"></span>обновлено [месяц год]</span></div><p>Коротко о том, как устроена проверка, все задачи и полный отчёт.</p></div>
-<h2>Как проходила проверка</h2>
+  return `<div class="intro" id="m-method"><div class="row wrap" style="align-items:baseline;gap:12px"><h1>Методология</h1><span class="updated"><span class="dot"></span>обновлено [месяц год]</span></div><p>Коротко о том, как устроена проверка, все задачи и полный отчёт.</p><div class="intro-cta"><a class="btn dark" href="#/method" onclick="setTimeout(()=>go('m-steps'),0)">Изучить методологию</a></div></div>
+<h2 id="m-steps">Как проходила проверка</h2>
 <div class="steps">
 ${step(1, 'Разработали методологию', 'Степан Леонтьев, [должность], разработал методологию бенчмарка: какие сервисы проверяем, как готовим задачи, как оцениваем ответы и считаем результат.', '<div class="step-cta"><a class="btn" href="#">Скачать методологию</a></div>')}
 ${step(2, 'Эксперты подготовили задачи', '27 экспертов составили 50 задач по пяти отраслям права: разрешение споров, договорное право, недвижимость, корпоративное право, интеллектуальная собственность. Задачи писали без ИИ. К каждой задаче автор подготовил эталонный ответ и критерии: ключевые и дополнительные.', `${logoCarousel(8)}<div class="step-cta"><a class="btn" href="#/experts">Об экспертах</a></div>`)}
@@ -229,10 +236,10 @@ const byName = (a, b) => (isLatin(b.name) - isLatin(a.name)) || a.name.localeCom
 function catalog() {
   const card = (s) => `<a class="box lnk hrow" href="#/service/${s.id}"><div class="avatar">${s.name.slice(0, 2).toUpperCase()}</div><div class="col grow" style="gap:2px"><p class="b">${s.name}</p><p class="muted">${s.site}</p></div><span class="sdot${s.tested ? ' on' : ''}" title="${s.tested ? 'проверен в бенчмарке' : 'пока не проверялся'}"></span></a>`;
   const secs = D.skills.map((k, i) => { const list = D.services.filter((s) => s.skills.includes(k)).sort(byName); return list.length ? `<div class="col" id="reg${i}" style="gap:14px"><h2 class="cat-h">${k}</h2><div class="grid3">${list.map(card).join('')}</div></div>` : ''; }).join('');
-  return `<div class="layout">
+  return `<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверяем навык «Ответ на правовой вопрос»: у этих сервисов есть результат на 50 задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
+<div class="layout">
 <div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" href="#/catalog" onclick="setTimeout(()=>go('reg${i}'),0)">${k}</a>`).join('')}</div>
 <div class="content">
-<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверяем навык «Ответ на правовой вопрос»: у этих сервисов есть результат на 50 задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
 <div class="legend"><span><span class="sdot on"></span>проверен в бенчмарке</span><span><span class="sdot"></span>пока не проверялся</span></div>
 <h2 style="border-top:1px solid var(--line);padding-top:28px">Все сервисы по категориям</h2>
 ${secs}
@@ -260,7 +267,7 @@ ${list.length ? `<div class="grid3">${cards}</div>` : '<div class="dash"><p clas
 const taskWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'задача' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'задачи' : 'задач');
 function experts() {
   const cards = D.experts.map((e) => { const ts = D.tasks.filter((t) => t.author === e.id); const per = D.areas.map((a, i) => [a, ts.filter((t) => t.area === i).length]).filter((x) => x[1]); return `<div class="box"><div class="ph" style="height:56px;width:160px">логотип</div><p class="b">${e.name}</p>${per.length ? `<ul class="dlist">${per.map((x) => `<li>${x[0]} (${x[1]} ${taskWord(x[1])})</li>`).join('')}</ul>` : ''}<p><a href="#/method" onclick="setTimeout(()=>{go('m-tasks')},0)">задачи автора</a></p></div>`; });
-  const areaSelect = `<label class="fld"><span>Ваша экспертная отрасль</span><select name="area" data-label="Отрасль" required><option value="">Выберите отрасль</option>${D.areas.map((a) => `<option>${a}</option>`).join('')}<option>другая</option></select></label>`;
+  const areaSelect = `<label class="fld"><span>Ваша экспертная отрасль</span><select name="area" data-label="Отрасль" required onchange="const o=this.form.querySelector('.fld-other');o.hidden=this.value!=='другая';o.querySelector('input').required=!o.hidden"><option value="">Выберите отрасль</option>${D.areas.map((a) => `<option>${a}</option>`).join('')}<option>другая</option></select></label><label class="fld fld-other" hidden><span>Напишите вашу отрасль</span><input name="areaOther" data-label="Другая отрасль"></label>`;
   return `<div class="intro"><h1>Эксперты и юрфирмы</h1><p>Задачи для проверки готовили практикующие юристы и юрфирмы, без ИИ: фабулу, вопрос, эталонный ответ и критерии. Ответы сервисов оценивали вслепую: оценщики не знали, чей ответ перед ними. Здесь все участники и отрасли права, в которых они работали.</p></div>
 <div class="grid3"><div class="box stat"><span class="num">27</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">50</span><p class="muted">задач по пяти отраслям права</p></div><div class="box stat"><span class="num">50</span><p class="muted">оценщиков</p></div></div>
 <div class="grid3">${cards.join('')}</div>
@@ -305,6 +312,7 @@ function render(preserve) {
   else body = home();
   document.getElementById('app').innerHTML = '<div class="demo-bar">Демоверсия: названия сервисов настоящие, результаты условные. Реальные результаты появятся после проверки.</div>' + nav(cur) + '<div class="wrap">' + body + '</div>' + foot + ansModal();
   fixYo();
+  const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px');
   document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
   document.body.style.overflow = S.modal ? 'hidden' : '';
   if (!preserve) window.scrollTo(0, 0);
