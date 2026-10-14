@@ -59,10 +59,28 @@ const formBox = (title, subject, fields, btn) => `<form class="box form" onsubmi
 function areaTags(sel, on, sm) {
   return '<div class="seg" role="tablist" aria-label="отрасль права">' + ['<button class="' + (sel === -1 ? 'on' : '') + '" onclick="' + on + '(-1)">все отрасли</button>'].concat(D.short.map((a, i) => '<button class="' + (sel === i ? 'on' : '') + '" title="' + D.areas[i] + '" onclick="' + on + '(' + i + ')">' + a + '</button>')).join('') + '</div>';
 }
-window.setArea = (i) => { S.area = i; render(true); };
-window.setTaskArea = (i) => { S.taskArea = i; render(true); };
-window.setFilt = (f) => { S.filt = f; render(true); };
-window.toggle = (k) => { S.open[k] = !S.open[k]; render(true); };
+window.setArea = (i) => refilter(() => { S.area = i; render(true); });
+// Re-render without moving the page: the element the user clicked stays at the same place on screen.
+function keepInPlace(sel, fn) {
+  const el = sel && document.querySelector(sel); const top = el ? el.getBoundingClientRect().top : null;
+  fn();
+  const el2 = sel && document.querySelector(sel);
+  if (top !== null && el2) window.scrollBy(0, el2.getBoundingClientRect().top - top);
+}
+// Filters: if the sticky bar is pinned, show the start of the new list right under it; otherwise stay put.
+function refilter(fn) {
+  const bar = document.querySelector('.filters, .content > .seg, .sec > .seg, .wrap > .seg');
+  const navh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navh')) || 60;
+  const pinned = bar && bar.getBoundingClientRect().top <= navh + 1 && bar.nextElementSibling && bar.nextElementSibling.getBoundingClientRect().top < bar.getBoundingClientRect().bottom;
+  const idx = bar ? [...document.querySelectorAll('.filters, .seg')].indexOf(bar) : -1;
+  keepInPlace(null, fn);
+  if (!pinned || idx < 0) return;
+  const bar2 = document.querySelectorAll('.filters, .seg')[idx]; const list = bar2 && bar2.nextElementSibling;
+  if (list) window.scrollTo(0, list.getBoundingClientRect().top + window.scrollY - navh - bar2.offsetHeight);
+}
+window.setTaskArea = (i) => refilter(() => { S.taskArea = i; render(true); });
+window.setFilt = (f) => refilter(() => { S.filt = f; render(true); });
+window.toggle = (k) => keepInPlace(`[data-k="${k}"]`, () => { S.open[k] = !S.open[k]; render(true); });
 window.setView = (id, v) => { S.view[id] = v; render(true); };
 
 function home() {
@@ -156,7 +174,7 @@ function richText(txt) {
   });
   flush(); return out.join('');
 }
-const clampBlock = (k, title, html) => { const open = S.open[k]; return `<section class="tblock"><h3>${title}</h3><div class="rich${open ? '' : ' clamp'}">${html}</div><button type="button" class="more-btn" onclick="toggle('${k}')">${open ? 'Свернуть' : 'Показать полностью'}</button></section>`; };
+const clampBlock = (k, title, html) => { const open = S.open[k]; return `<section class="tblock"><h3>${title}</h3><div class="rich${open ? '' : ' clamp'}">${html}</div><button type="button" class="more-btn" data-k="${k}" onclick="toggle('${k}')">${open ? 'Свернуть' : 'Показать полностью'}</button></section>`; };
 // Per-criterion results come from r.c when loaded; until then statuses are derived from the score.
 function critList(t, r) {
   const crit = t.crit || SAMPLE.crit;
@@ -196,7 +214,7 @@ ${lvl >= 1 ? `<div class="box"><div class="between"><h2>Комментарий �
   const cnt = { all: inArea.length, ok: inArea.filter((r) => r.s).length, no: inArea.filter((r) => !r.s).length };
   const taskRows = inArea.filter((r) => f === 'all' || (f === 'ok' ? r.s : !r.s)).map((r) => {
     const t = task(r.t); const k = id + r.t; const open = S.open[k];
-    return `<div class="trow${open ? ' open' : ''}"><button type="button" class="trow-h" aria-expanded="${!!open}" onclick="toggle('${k}')"><span class="tid">${t.id}</span><span class="ttitle">${t.title}<span class="tmeta">${D.short[t.area]} · автор: ${expert(t.author).name}</span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev" aria-hidden="true"></span></button>${open ? taskDetail(s, t, r, k) : ''}</div>`;
+    return `<div class="trow${open ? ' open' : ''}"><button type="button" class="trow-h" data-k="${k}" aria-expanded="${!!open}" onclick="toggle('${k}')"><span class="tid">${t.id}</span><span class="ttitle">${t.title}<span class="tmeta">${D.short[t.area]} · автор: ${expert(t.author).name}</span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev" aria-hidden="true"></span></button>${open ? taskDetail(s, t, r, k) : ''}</div>`;
   });
   const tasksBlock = `<h2>По задачам</h2>
 <div class="filters"><label class="fsel"><span class="muted">Отрасль</span><select onchange="setTaskArea(+this.value)"><option value="-1"${ta === -1 ? ' selected' : ''}>Все отрасли</option>${D.areas.map((a, i) => `<option value="${i}"${ta === i ? ' selected' : ''}>${a}</option>`).join('')}</select></label><div class="seg2" aria-label="итог по задаче">${[['all', 'Все'], ['ok', 'Решены'], ['no', 'Не решены']].map(([k, n]) => `<button type="button" class="${f === k ? 'on' : ''}" onclick="setFilt('${k}')">${n}<span>${cnt[k]}</span></button>`).join('')}</div></div>
@@ -290,7 +308,7 @@ const CASES = [
   { co: '[Банк Д]', area: 1, svc: 4, title: 'Ответы бизнесу на типовые правовые вопросы', text: 'Первая линия вопросов от подразделений идёт через сервис. Юрист видит черновик ответа с источниками и правит его перед отправкой.', k: '[65%]', kd: 'вопросов закрыто без эскалации' },
   { co: '[Компания Е]', area: 0, svc: 5, title: 'Претензионная работа с поставщиками', text: 'Сервис готовит претензии по шаблону с расчётом неустойки и ссылками на условия договора, юрист проверяет и отправляет.', k: '[−30%]', kd: 'времени на одну претензию' }
 ];
-window.setCaseArea = (i) => { S.caseArea = i; render(true); };
+window.setCaseArea = (i) => refilter(() => { S.caseArea = i; render(true); });
 function cases() {
   const a = S.caseArea === undefined ? -1 : S.caseArea;
   const svcs = tested.length ? tested : D.services;
@@ -342,6 +360,7 @@ function catalogSpy() {
 }
 window.addEventListener('scroll', catalogSpy, { passive: true });
 function render(preserve) {
+  const keepY = window.scrollY;
   const h = location.hash || '#/';
   const p = h.replace(/^#\//, '').split('/');
   let cur = '#/' + (p[0] || ''); let body = '';
@@ -360,7 +379,7 @@ function render(preserve) {
   const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px');
   document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
   document.body.style.overflow = S.modal ? 'hidden' : '';
-  if (!preserve) window.scrollTo(0, 0);
+  if (!preserve) window.scrollTo(0, 0); else if (window.scrollY !== keepY) window.scrollTo(0, keepY);
 }
 window.addEventListener('hashchange', () => { S.modal = null; document.body.classList.remove('menu-open'); render(); });
 render();

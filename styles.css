@@ -764,3 +764,6 @@ select:focus{outline:none;border-color:var(--accent)}
   .sidebar .stag{padding:5px 12px!important;font-size:12px!important}
   .sidebar>p.muted{font-size:12px!important;margin-bottom:0!important}
 }
+select{padding-right:44px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+#app{overflow-anchor:none}
+@media (min-width:641px){.fsel select{min-width:300px}}
