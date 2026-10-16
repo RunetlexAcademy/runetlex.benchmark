@@ -1,5 +1,5 @@
 {
- "generatedAt": "16.10.2026 16:13",
+ "generatedAt": "16.10.2026 16:14",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -47,6 +47,7 @@
    "testedAt": "",
    "name": "Cognevia",
    "site": "cognevia.ru",
+   "line": "Новый сервис для тестирования",
    "skills": [
     "Ответ на правовой вопрос"
    ]
