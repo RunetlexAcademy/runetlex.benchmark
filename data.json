@@ -1,370 +1,370 @@
 {
-   "academyStats" : [
-      {
-         "label" : "учеников курса по нейросетям для юристов за 2025 год",
-         "linkText" : "Курс по нейросетям",
-         "num" : "1 500+",
-         "text" : "Учим применять нейросети в юридической практике: от основ до ИИ-агентов и собственных инструментов.",
-         "url" : "https://runetlex-academy.ru/neuralnetworks"
-      },
-      {
-         "label" : "участников сообщества юристов о нейросетях",
-         "linkText" : "Вступить в сообщество",
-         "num" : "5 500+",
-         "text" : "Крупнейшее сообщество юристов в нише нейросетей: участники работают с ИИ каждый день и делятся опытом.",
-         "url" : "https://t.me/docsllm_channel"
-      },
-      {
-         "label" : "экземпляров книги «Юристы и нейросети: руководство к действию»",
-         "linkText" : "Заказать книгу",
-         "num" : "15 000",
-         "text" : "Книга о применении нейросетей в юридической практике, написана на основе кейсов сообщества. Авторы — спикеры курса и участники сообщества.",
-         "url" : "https://ozon.ru/t/Uyi6Kc6"
-      },
-      {
-         "label" : "участников конференции по нейросетям для юристов",
-         "linkText" : "Записи конференции",
-         "num" : "300",
-         "text" : "Ежегодная офлайн- и онлайн-конференция, где практики рассказывают о реальных кейсах внедрения ИИ в работу.",
-         "url" : "https://runetlex-academy.ru/runetlexaiconf"
-      }
-   ],
-   "areas" : [
-      "разрешение споров",
-      "договорное право",
-      "недвижимость, земля, стройка",
-      "корпоративное право",
-      "интеллектуальная собственность"
-   ],
-   "assessorOrgs" : [],
-   "cases" : [],
-   "experts" : [],
-   "generatedAt" : "16.10.2026",
-   "services" : [
-      {
-         "id" : "S001",
-         "name" : "Cognevia",
-         "pkg" : "free",
-         "site" : "cognevia.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S002",
-         "name" : "Джейхелпер",
-         "pkg" : "free",
-         "site" : "jhelper.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S003",
-         "name" : "CasusLegal",
-         "pkg" : "free",
-         "site" : "casus.legal",
-         "skills" : [
-            "Поиск судебной практики"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S004",
-         "name" : "АйЮрист",
-         "pkg" : "free",
-         "site" : "айюрист.рф",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S005",
-         "name" : "Стриж",
-         "pkg" : "free",
-         "site" : "strizh-legal.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S006",
-         "name" : "Thomas More AI",
-         "pkg" : "free",
-         "site" : "thomasmoreai.com",
-         "skills" : [
-            "Поиск судебной практики"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S007",
-         "name" : "Нейро Защита",
-         "pkg" : "free",
-         "site" : "pro-pravo55.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S008",
-         "name" : "Нейропомощник юриста (Актион Право)",
-         "pkg" : "free",
-         "site" : "ai.action360.ru/jur",
-         "skills" : [
-            "Ответ на правовой вопрос",
-            "Поиск судебной практики",
-            "Работа с договорами",
-            "Конструктор документов"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S009",
-         "name" : "Агата",
-         "pkg" : "free",
-         "site" : "agatha-legal.tech",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S010",
-         "name" : "LawCopilot.ai",
-         "pkg" : "free",
-         "site" : "lawcopilot.ai",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S011",
-         "name" : "Яндекс Нейроюрист",
-         "pkg" : "free",
-         "site" : "neurolegal.ya.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S012",
-         "name" : "ГАРАНТ ИСКРА",
-         "pkg" : "free",
-         "site" : "iskra.garant.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S013",
-         "name" : "КонсультантПлюс",
-         "pkg" : "free",
-         "site" : "consultant.ru",
-         "skills" : [
-            "Ответ на правовой вопрос",
-            "Поиск судебной практики"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S014",
-         "name" : "LawGPT",
-         "pkg" : "free",
-         "site" : "lawgpt.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S015",
-         "name" : "noroots",
-         "pkg" : "free",
-         "site" : "noroots.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S016",
-         "name" : "Doczilla AI",
-         "pkg" : "free",
-         "site" : "doczilla.pro",
-         "skills" : [
-            "Работа с договорами",
-            "Конструктор документов"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S017",
-         "name" : "ПравоКонсультант",
-         "pkg" : "free",
-         "site" : "pravo.tech/product/consultant",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S018",
-         "name" : "AiXpert",
-         "pkg" : "free",
-         "site" : "aixpert.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S019",
-         "name" : "ЮристГуру",
-         "pkg" : "free",
-         "site" : "ИИ-юристы.рф",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S020",
-         "name" : "ExplainLaw",
-         "pkg" : "free",
-         "site" : "explainlaw.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S021",
-         "name" : "legal брейн",
-         "pkg" : "free",
-         "site" : "legal-brain.ru",
-         "skills" : [
-            "Ответ на правовой вопрос"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      },
-      {
-         "id" : "S022",
-         "name" : "Харт",
-         "pkg" : "free",
-         "site" : "hart.legal",
-         "skills" : [
-            "Ответ на правовой вопрос",
-            "Работа с договорами"
-         ],
-         "tested" : true,
-         "testedAt" : ""
-      }
-   ],
-   "settings" : {
-      "check_number" : "1",
-      "collection_period" : "с 16 по 20 октября 2026",
-      "contact_email" : "academy@runetlex.ru",
-      "demo_banner" : "да",
-      "forms_endpoint" : "",
-      "methodology_author_position" : "[должность]",
-      "methodology_pdf" : "",
-      "policy_url" : "https://runetlex-academy.ru/privacy",
-      "report_pages" : "",
-      "report_pdf" : "",
-      "stat_assessors" : "50",
-      "stat_experts" : "27",
-      "stat_nominations" : "8",
-      "stat_services" : "22",
-      "stat_tasks" : "50",
-      "updated" : "октябрь 2026"
-   },
-   "short" : [
-      "споры",
-      "договоры",
-      "недвижимость",
-      "корпоративное",
-      "ИС"
-   ],
-   "skills" : [
-      "Ответ на правовой вопрос",
-      "Поиск судебной практики",
-      "Работа с договорами",
-      "Конструктор документов",
-      "Разное"
-   ],
-   "takeaways" : [
-      "[Лидер] решает больше всего задач из 50 и держит планку во всех пяти отраслях.",
-      "Разброс между сервисами велик: лучший решает в разы больше задач, чем медианный.",
-      "Самая сложная отрасль — [отрасль]: здесь не справляется даже топ-3.",
-      "Полнота ответа и «решена/не решена» расходятся: у части сервисов много баллов, но по ключевым критериям задача не засчитана — почти правильный ответ юрист не может просто взять в работу.",
-      "[Вывод 5]",
-      "[Вывод 6]"
-   ],
-   "team" : [
-      {
-         "name" : "Павел Мищенко",
-         "order" : 1,
-         "photo" : "",
-         "position" : "Партнёр Рунетлекс Академии",
-         "role" : "Координатор проекта, работа с вендорами"
-      },
-      {
-         "name" : "Степан Леонтьев",
-         "order" : 2,
-         "photo" : "",
-         "position" : "[Должность]",
-         "role" : "Автор методологии бенчмарка"
-      },
-      {
-         "name" : "Ксения Даньшина",
-         "order" : 3,
-         "photo" : "",
-         "position" : "Партнёр Рунетлекс Академии",
-         "role" : "Работа с экспертами и оценщиками"
-      },
-      {
-         "name" : "Екатерина Чевычелова",
-         "order" : 4,
-         "photo" : "",
-         "position" : "Партнёр Рунетлекс Академии",
-         "role" : "Работа с вендорами, экспертами и оценщиками"
-      },
-      {
-         "name" : "Валентина Виноградова",
-         "order" : 5,
-         "photo" : "",
-         "position" : "Партнёр Рунетлекс Академии",
-         "role" : "Визуальный стиль, сайт и техническая часть бенчмарка"
-      }
+ "generatedAt": "16.10.2026 16:07",
+ "settings": {
+  "updated": "октябрь 2026",
+  "check_number": "1",
+  "stat_services": "22",
+  "stat_tasks": "50",
+  "stat_experts": "27",
+  "stat_nominations": "8",
+  "stat_assessors": "50",
+  "collection_period": "с 16 по 20 октября 2026",
+  "methodology_author_position": "[должность]",
+  "methodology_pdf": "",
+  "report_pdf": "",
+  "report_pages": "",
+  "policy_url": "https://runetlex-academy.ru/privacy",
+  "contact_email": "academy@runetlex.ru",
+  "demo_banner": "да",
+  "forms_endpoint": ""
+ },
+ "skills": [
+  "Ответ на правовой вопрос",
+  "Поиск судебной практики",
+  "Работа с договорами",
+  "Конструктор документов",
+  "Разное"
+ ],
+ "areas": [
+  "разрешение споров",
+  "договорное право",
+  "недвижимость, земля, стройка",
+  "корпоративное право",
+  "интеллектуальная собственность"
+ ],
+ "short": [
+  "споры",
+  "договоры",
+  "недвижимость",
+  "корпоративное",
+  "ИС"
+ ],
+ "services": [
+  {
+   "id": "S001",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Cognevia",
+   "site": "cognevia.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
    ]
+  },
+  {
+   "id": "S002",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Джейхелпер",
+   "site": "jhelper.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S003",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "CasusLegal",
+   "site": "casus.legal",
+   "skills": [
+    "Поиск судебной практики"
+   ]
+  },
+  {
+   "id": "S004",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "АйЮрист",
+   "site": "айюрист.рф",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S005",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Стриж",
+   "site": "strizh-legal.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S006",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Thomas More AI",
+   "site": "thomasmoreai.com",
+   "skills": [
+    "Поиск судебной практики"
+   ]
+  },
+  {
+   "id": "S007",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Нейро Защита",
+   "site": "pro-pravo55.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S008",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Нейропомощник юриста (Актион Право)",
+   "site": "ai.action360.ru/jur",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики",
+    "Работа с договорами",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S009",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Агата",
+   "site": "agatha-legal.tech",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S010",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "LawCopilot.ai",
+   "site": "lawcopilot.ai",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S011",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Яндекс Нейроюрист",
+   "site": "neurolegal.ya.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S012",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "ГАРАНТ ИСКРА",
+   "site": "iskra.garant.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S013",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "КонсультантПлюс",
+   "site": "consultant.ru",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики"
+   ]
+  },
+  {
+   "id": "S014",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "LawGPT",
+   "site": "lawgpt.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S015",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "noroots",
+   "site": "noroots.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S016",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Doczilla AI",
+   "site": "doczilla.pro",
+   "skills": [
+    "Работа с договорами",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S017",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "ПравоКонсультант",
+   "site": "pravo.tech/product/consultant",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S018",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "AiXpert",
+   "site": "aixpert.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S019",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "ЮристГуру",
+   "site": "ИИ-юристы.рф",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S020",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "ExplainLaw",
+   "site": "explainlaw.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S021",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "legal брейн",
+   "site": "legal-brain.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S022",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Харт",
+   "site": "hart.legal",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Работа с договорами"
+   ]
+  }
+ ],
+ "cases": [],
+ "experts": [],
+ "assessorOrgs": [],
+ "team": [
+  {
+   "order": 1,
+   "name": "Павел Мищенко",
+   "position": "Партнёр Рунетлекс Академии",
+   "role": "Координатор проекта, работа с вендорами",
+   "photo": ""
+  },
+  {
+   "order": 2,
+   "name": "Степан Леонтьев",
+   "position": "[Должность]",
+   "role": "Автор методологии бенчмарка",
+   "photo": ""
+  },
+  {
+   "order": 3,
+   "name": "Ксения Даньшина",
+   "position": "Партнёр Рунетлекс Академии",
+   "role": "Работа с экспертами и оценщиками",
+   "photo": ""
+  },
+  {
+   "order": 4,
+   "name": "Екатерина Чевычелова",
+   "position": "Партнёр Рунетлекс Академии",
+   "role": "Работа с вендорами, экспертами и оценщиками",
+   "photo": ""
+  },
+  {
+   "order": 5,
+   "name": "Валентина Виноградова",
+   "position": "Партнёр Рунетлекс Академии",
+   "role": "Визуальный стиль, сайт и техническая часть бенчмарка",
+   "photo": ""
+  }
+ ],
+ "takeaways": [
+  "[Лидер] решает больше всего задач из 50 и держит планку во всех пяти отраслях.",
+  "Разброс между сервисами велик: лучший решает в разы больше задач, чем медианный.",
+  "Самая сложная отрасль — [отрасль]: здесь не справляется даже топ-3.",
+  "Полнота ответа и «решена/не решена» расходятся: у части сервисов много баллов, но по ключевым критериям задача не засчитана — почти правильный ответ юрист не может просто взять в работу.",
+  "[Вывод 5]",
+  "[Вывод 6]"
+ ],
+ "academyStats": [
+  {
+   "num": "1 500+",
+   "label": "учеников курса по нейросетям для юристов за 2025 год",
+   "text": "Учим применять нейросети в юридической практике: от основ до ИИ-агентов и собственных инструментов.",
+   "linkText": "Курс по нейросетям",
+   "url": "https://runetlex-academy.ru/neuralnetworks"
+  },
+  {
+   "num": "5 500+",
+   "label": "участников сообщества юристов о нейросетях",
+   "text": "Крупнейшее сообщество юристов в нише нейросетей: участники работают с ИИ каждый день и делятся опытом.",
+   "linkText": "Вступить в сообщество",
+   "url": "https://t.me/docsllm_channel"
+  },
+  {
+   "num": "15 000",
+   "label": "экземпляров книги «Юристы и нейросети: руководство к действию»",
+   "text": "Книга о применении нейросетей в юридической практике, написана на основе кейсов сообщества. Авторы — спикеры курса и участники сообщества.",
+   "linkText": "Заказать книгу",
+   "url": "https://ozon.ru/t/Uyi6Kc6"
+  },
+  {
+   "num": "300",
+   "label": "участников конференции по нейросетям для юристов",
+   "text": "Ежегодная офлайн- и онлайн-конференция, где практики рассказывают о реальных кейсах внедрения ИИ в работу.",
+   "linkText": "Записи конференции",
+   "url": "https://runetlex-academy.ru/runetlexaiconf"
+  }
+ ]
 }
