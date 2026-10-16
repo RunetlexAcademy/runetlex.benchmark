@@ -49,8 +49,7 @@ function publishToSite() {
   if (answer !== ui.Button.OK) return;
   const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
   if (!token) { ui.alert('Не задан токен', 'Добавьте свойство скрипта GITHUB_TOKEN: Расширения → Apps Script → Настройки проекта → Свойства скрипта.', ui.ButtonSet.OK); return; }
-  const who = Session.getActiveUser().getEmail() || 'таблица';
-  putFile_(token, FILE, JSON.stringify(data, null, 1), 'Обновление данных из таблицы (' + who + ')');
+  putFile_(token, FILE, JSON.stringify(data, null, 1), 'Обновление данных из таблицы ' + data.generatedAt);
   ui.alert('Готово', 'Данные отправлены. Сайт обновится через 1–2 минуты:\nhttps://runetlexacademy.github.io/runetlex.benchmark/', ui.ButtonSet.OK);
 }
 
