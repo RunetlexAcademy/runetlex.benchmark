@@ -1,5 +1,5 @@
 {
- "generatedAt": "16.10.2026 16:14",
+ "generatedAt": "23.10.2026 12:34",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -328,6 +328,20 @@
    "position": "Партнёр Рунетлекс Академии",
    "role": "Визуальный стиль, сайт и техническая часть бенчмарка",
    "photo": ""
+  },
+  {
+   "order": 6,
+   "name": "Марина Джатэ",
+   "position": "Юрист, руководитель команды Рунетлекс",
+   "role": "Координация работы экспертов и подготовки задач",
+   "photo": "https://lh3.googleusercontent.com/d/1BLSdE7ULT0axbbGkFDCK0BHDMliy1B9s"
+  },
+  {
+   "order": 7,
+   "name": "Евгений Вихров",
+   "position": "Юрист Рунетлекс, энтузиаст нейросетей",
+   "role": "Координация работы экспертов и подготовки задач",
+   "photo": "https://lh3.googleusercontent.com/d/1i0KsWWqHknJGU6ReIw8swm2dVYuWanAt"
   }
  ],
  "takeaways": [
