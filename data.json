@@ -1,5 +1,5 @@
 {
- "generatedAt": "23.10.2026 12:34",
+ "generatedAt": "23.10.2026 13:50",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -16,7 +16,7 @@
   "policy_url": "https://runetlex-academy.ru/privacy",
   "contact_email": "academy@runetlex.ru",
   "demo_banner": "да",
-  "forms_endpoint": ""
+  "forms_endpoint": "https://script.google.com/macros/s/AKfycbwRySGcSbtyyzwRPSrVsEGnoU5iSg-YXkRNcGYcEbNhKZk2qjmIhcIVNxhR8anDNsqY/exec"
  },
  "skills": [
   "Ответ на правовой вопрос",
@@ -45,8 +45,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "Cognevia",
-   "site": "cognevia.ru",
+   "name": "AI Эксперты",
+   "site": "expai.pro",
    "line": "Новый сервис для тестирования",
    "skills": [
     "Ответ на правовой вопрос"
@@ -57,8 +57,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "Джейхелпер",
-   "site": "jhelper.ru",
+   "name": "AI-юрист",
+   "site": "ai-urist.ru",
    "skills": [
     "Ответ на правовой вопрос"
    ]
@@ -68,8 +68,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "CasusLegal",
-   "site": "casus.legal",
+   "name": "AiXpert",
+   "site": "aixpert.ru",
    "skills": [
     "Поиск судебной практики"
    ]
@@ -79,8 +79,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "АйЮрист",
-   "site": "айюрист.рф",
+   "name": "CasusLegal",
+   "site": "www.casus.legal",
    "skills": [
     "Ответ на правовой вопрос"
    ]
@@ -90,8 +90,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "Стриж",
-   "site": "strizh-legal.ru",
+   "name": "Civix",
+   "site": "civix.site",
    "skills": [
     "Ответ на правовой вопрос"
    ]
@@ -101,8 +101,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "Thomas More AI",
-   "site": "thomasmoreai.com",
+   "name": "Cognevia",
+   "site": "cognevia.ru",
    "skills": [
     "Поиск судебной практики"
    ]
@@ -112,8 +112,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "Нейро Защита",
-   "site": "pro-pravo55.ru",
+   "name": "Doczilla AI",
+   "site": "doczilla.pro",
    "skills": [
     "Ответ на правовой вопрос"
    ]
@@ -123,8 +123,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "Нейропомощник юриста (Актион Право)",
-   "site": "ai.action360.ru/jur",
+   "name": "ExplainLaw",
+   "site": "explainlaw.ru",
    "skills": [
     "Ответ на правовой вопрос",
     "Поиск судебной практики",
@@ -137,8 +137,8 @@
    "pkg": "free",
    "tested": true,
    "testedAt": "",
-   "name": "Агата",
-   "site": "agatha-legal.tech",
+   "name": "GPTLegal",
+   "site": "gptlegal.pro",
    "skills": [
     "Ответ на правовой вопрос"
    ]
@@ -149,125 +149,13 @@
    "tested": true,
    "testedAt": "",
    "name": "LawCopilot.ai",
-   "site": "lawcopilot.ai",
+   "site": "LawCopilot.ai",
    "skills": [
     "Ответ на правовой вопрос"
    ]
   },
   {
    "id": "S011",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "Яндекс Нейроюрист",
-   "site": "neurolegal.ya.ru",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S012",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "ГАРАНТ ИСКРА",
-   "site": "iskra.garant.ru",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S013",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "КонсультантПлюс",
-   "site": "consultant.ru",
-   "skills": [
-    "Ответ на правовой вопрос",
-    "Поиск судебной практики"
-   ]
-  },
-  {
-   "id": "S014",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "LawGPT",
-   "site": "lawgpt.ru",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S015",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "noroots",
-   "site": "noroots.ru",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S016",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "Doczilla AI",
-   "site": "doczilla.pro",
-   "skills": [
-    "Работа с договорами",
-    "Конструктор документов"
-   ]
-  },
-  {
-   "id": "S017",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "ПравоКонсультант",
-   "site": "pravo.tech/product/consultant",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S018",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "AiXpert",
-   "site": "aixpert.ru",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S019",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "ЮристГуру",
-   "site": "ИИ-юристы.рф",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S020",
-   "pkg": "free",
-   "tested": true,
-   "testedAt": "",
-   "name": "ExplainLaw",
-   "site": "explainlaw.ru",
-   "skills": [
-    "Ответ на правовой вопрос"
-   ]
-  },
-  {
-   "id": "S021",
    "pkg": "free",
    "tested": true,
    "testedAt": "",
@@ -278,15 +166,263 @@
    ]
   },
   {
+   "id": "S012",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "noroots",
+   "site": "noroots.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S013",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Z.ai",
+   "site": "z.ai",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики"
+   ]
+  },
+  {
+   "id": "S014",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Агата",
+   "site": "agatha-legal.tech",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S015",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "АйЮрист",
+   "site": "айюрист.рф",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S016",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "ГАРАНТ ИСКРА",
+   "site": "garant.ru\nhttps://iskra.garant.ru",
+   "skills": [
+    "Работа с договорами",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S017",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Джейхелпер",
+   "site": "jhelper.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S018",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "ЗаконГПТ",
+   "site": "LawGPT.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S019",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "ИИ-советники",
+   "site": "sovetniki.online",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S020",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "Карманный консультант",
+   "site": "pocket-consultant.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S021",
+   "pkg": "free",
+   "tested": true,
+   "testedAt": "",
+   "name": "КиберПравосудие",
+   "site": "cyberjustice.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
    "id": "S022",
    "pkg": "free",
    "tested": true,
+   "testedAt": "",
+   "name": "КонсультантПлюс",
+   "site": "consultant.ru",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Работа с договорами"
+   ]
+  },
+  {
+   "id": "S023",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "Нейро Защита",
+   "site": "pro-pravo55.ru",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Работа с договорами",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S024",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "Нейропомощник юриста (Актион Право)",
+   "site": "ai.action360.ru/jur",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S025",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "ПравоКонсультант",
+   "site": "pravo.tech/product/consultant",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики"
+   ]
+  },
+  {
+   "id": "S026",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "Промптер",
+   "site": "prompterai.yasnotech.ru",
+   "skills": [
+    "Разное"
+   ]
+  },
+  {
+   "id": "S027",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "СпросиДоу",
+   "site": "askdou.ai",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S028",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "Стриж",
+   "site": "strizh-legal.ru",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики"
+   ]
+  },
+  {
+   "id": "S029",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "СудСистема",
+   "site": "sudsistema.ru",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Работа с договорами",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S030",
+   "pkg": "free",
+   "tested": false,
    "testedAt": "",
    "name": "Харт",
    "site": "hart.legal",
    "skills": [
     "Ответ на правовой вопрос",
-    "Работа с договорами"
+    "Работа с договорами",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S031",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "ЮристГуру",
+   "site": "legalai.guru",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Работа с договорами",
+    "Конструктор документов"
+   ]
+  },
+  {
+   "id": "S032",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "Юстина",
+   "site": "ustina-ai.ru",
+   "skills": [
+    "Ответ на правовой вопрос"
+   ]
+  },
+  {
+   "id": "S033",
+   "pkg": "free",
+   "tested": false,
+   "testedAt": "",
+   "name": "Яндекс Нейроюрист",
+   "site": "neurolegal.ya.ru",
+   "skills": [
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики",
+    "Работа с договорами",
+    "Конструктор документов"
    ]
   }
  ],
