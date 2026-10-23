@@ -56,25 +56,30 @@ const foot = `<footer class="foot">
 <div class="fcol"><p class="fh">Адрес</p><p>Москва,<br>Летниковская, 16</p></div>
 </footer>`;
 
-// Forms post to the Apps Script web app from «Настройки сайта» (forms_endpoint); without it they open a prefilled email.
+// Forms post to the Apps Script web app from «Настройки сайта» (forms_endpoint, tools/forms.gs); without it they open a prefilled email.
 window.sendForm = (ev, subject) => {
   ev.preventDefault();
-  const f = ev.target; const ok = f.querySelector('.form-ok');
-  const fields = [...f.elements].filter((el) => el.name);
+  const f = ev.target; const ok = f.querySelector('.form-ok'); const btn = f.querySelector('button');
+  const fields = [...f.elements].filter((el) => el.name && !(el.closest('[hidden]')));
+  const val = (el) => (el.type === 'checkbox' ? (el.checked ? 'да' : 'нет') : el.value.trim());
   const endpoint = set('forms_endpoint', '');
   if (endpoint) {
     const body = new URLSearchParams({ form: subject, page: location.hash || '#/' });
-    fields.forEach((el) => body.append(el.dataset.label || el.name, el.value.trim()));
-    fetch(endpoint, { method: 'POST', mode: 'no-cors', body }).then(() => { ok.textContent = 'Спасибо! Заявка отправлена.'; ok.hidden = false; f.reset(); })
-      .catch(() => { ok.textContent = `Не получилось отправить. Напишите нам на ${EMAIL}.`; ok.hidden = false; });
+    fields.forEach((el) => body.append(el.name, val(el)));
+    btn.disabled = true;
+    fetch(endpoint, { method: 'POST', mode: 'no-cors', body }).then(() => { ok.textContent = f.dataset.done; ok.hidden = false; f.reset(); })
+      .catch(() => { ok.textContent = `Не получилось отправить. Напишите нам на ${EMAIL}.`; ok.hidden = false; })
+      .finally(() => { btn.disabled = false; });
     return;
   }
-  const lines = fields.map((el) => `${el.dataset.label || el.name}: ${el.value.trim()}`);
+  const lines = fields.filter((el) => el.name !== 'website').map((el) => `${el.dataset.label || el.name}: ${val(el)}`);
   location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
-  ok.hidden = false;
+  ok.textContent = 'Спасибо! Откроется почта с заполненным письмом, отправьте его.'; ok.hidden = false;
 };
 const field = (name, label, attrs = '') => `<label class="fld"><span>${label}</span><input name="${name}" data-label="${label}" required ${attrs}></label>`;
-const formBox = (title, subject, fields, btn) => `<form class="box form" onsubmit="sendForm(event,'${subject}')"><p class="b">${title}</p>${fields}<button class="btn dark" type="submit">${btn}</button><p class="note form-ok" hidden>Спасибо! Откроется почта с заполненным письмом, отправьте его.</p></form>`;
+const consent = () => `<label class="chk"><input type="checkbox" name="consent" data-label="Согласие на обработку ПДн" required><span>Я соглашаюсь на обработку персональных данных в соответствии с <a href="${set('policy_url', '#')}" target="_blank" rel="noopener">политикой</a></span></label>`;
+// The hidden «website» field is a bot trap: people never see it, the form script drops submissions that fill it.
+const formBox = (title, subject, fields, btn, done = 'Спасибо! Заявка отправлена.') => `<form class="box form" onsubmit="sendForm(event,'${subject}')" data-done="${done}"><p class="b">${title}</p>${fields}<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn dark" type="submit">${btn}</button><p class="note form-ok" hidden></p></form>`;
 function areaTags(sel, on, sm) {
   return '<div class="seg" role="tablist" aria-label="отрасль права">' + ['<button class="' + (sel === -1 ? 'on' : '') + '" onclick="' + on + '(-1)">все отрасли</button>'].concat(D.short.map((a, i) => '<button class="' + (sel === i ? 'on' : '') + '" title="' + D.areas[i] + '" onclick="' + on + '(' + i + ')">' + a + '</button>')).join('') + '</div>';
 }
@@ -293,7 +298,7 @@ ${areaTags(a, 'setTaskArea')}
 <table><tr><th>№</th><th>отрасль</th><th>задача</th><th>автор</th><th>критериев</th><th>решили</th></tr>${list.map((t) => { const n = tested.filter((s) => s.res.find((r) => r.t === t.id).s).length; return `<tr class="clk" onclick="location.hash='#/task/${t.id}'"><td>${t.id}</td><td>${D.short[t.area]}</td><td><a href="#/task/${t.id}">${t.title}</a></td><td class="muted">${expert(t.author).name}</td><td>${t.total}</td><td>${n} из ${tested.length}</td></tr>`; }).join('')}</table>
 </div>
 <div class="sec" id="m-report">
-<div class="report"><div class="col" style="gap:16px"><h2>Отчёт</h2><p>Как считали, результаты по отраслям, что сервисы уже умеют и где ошибаются, какой сервис брать под какую задачу.${set('report_pages', '') ? ' PDF, ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('email', 'Рабочая почта', 'type="email" autocomplete="email"'), 'Отправить отчёт')}</div><div class="ph cover">обложка отчёта</div></div>
+<div class="report"><div class="col" style="gap:16px"><h2>Отчёт</h2><p>Как считали, результаты по отраслям, что сервисы уже умеют и где ошибаются, какой сервис брать под какую задачу.${set('report_pages', '') ? ' PDF, ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + consent(), 'Отправить отчёт', 'Спасибо! Отчёт придёт на почту в течение нескольких минут. Если письма нет, проверьте папку «Спам».')}</div><div class="ph cover">обложка отчёта</div></div>
 </div>`;
 }
 // Team photos uploaded to the site; a photo link in the sheet («Команда») takes priority.
@@ -332,7 +337,7 @@ function catalog() {
 <div class="legend"><span><span class="sdot on"></span>проверен в бенчмарке</span><span><span class="sdot"></span>пока не проверялся</span></div>
 <h2 style="border-top:1px solid var(--line);padding-top:28px">Все сервисы по категориям</h2>
 ${secs}
-${formBox('Знаете юридический ИИ-сервис, которого нет в реестре? Напишите нам об этом.', 'Новый сервис для реестра', field('name', 'Название сервиса') + field('url', 'Ссылка на сервис', 'type="url" placeholder="https://"'), 'Отправить')}
+${formBox('Знаете юридический ИИ-сервис, которого нет в реестре? Напишите нам об этом.', 'Новый сервис для реестра', field('name', 'Название сервиса') + field('url', 'Ссылка на сервис', 'type="url" placeholder="https://"'), 'Отправить', 'Спасибо! Мы проверим сервис и добавим его в реестр.')}
 </div></div>`;
 }
 window.setCaseArea = (i) => refilter(() => { S.caseArea = i; render(true); });
@@ -357,7 +362,7 @@ function experts() {
 <div class="grid3"><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">задач по пяти отраслям права</p></div><div class="box stat"><span class="num">${set('stat_assessors', '50')}</span><p class="muted">оценщиков</p></div></div>
 ${list.length ? `<div class="grid3">${cards.join('')}</div>` : '<div class="dash"><p class="muted">Список экспертов появится скоро.</p></div>'}
 ${D.assessorOrgs.length ? `<h2>Оценщики</h2><div class="orgs">${D.assessorOrgs.map((o) => `<div class="box org">${o.logo ? `<img class="elogo" src="${esc(o.logo)}" alt="">` : ''}<p class="b">${esc(o.name)}</p>${o.type ? `<p class="muted">${esc(o.type)}</p>` : ''}</div>`).join('')}</div>` : ''}
-${formBox('Хотите подготовить задачи для следующей проверки? Оставьте свои контакты, мы свяжемся с вами, когда начнём подготовку.', 'Заявка эксперта', field('fio', 'ФИО', 'autocomplete="name"') + field('company', 'Название компании', 'autocomplete="organization"') + areaSelect, 'Отправить заявку')}`;
+${formBox('Хотите подготовить задачи для следующей проверки? Оставьте свои контакты, мы свяжемся с вами, когда начнём подготовку.', 'Заявка эксперта', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + field('company', 'Название компании', 'autocomplete="organization"') + areaSelect + consent(), 'Отправить заявку', 'Спасибо! Мы свяжемся с вами, когда начнём подготовку следующей проверки.')}`;
 }
 
 window.openAns = (sid, tid) => { S.modal = { sid, tid }; render(true); };

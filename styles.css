@@ -777,3 +777,8 @@ select{padding-right:44px;text-overflow:ellipsis;white-space:nowrap;overflow:hid
 .logo-item.logo-img img{max-width:100%;max-height:100%;object-fit:contain}
 @media (max-width:560px){.logo-item.logo-img{width:150px;height:72px}}
 .orgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--mute);cursor:pointer}
+.chk input{width:18px;height:18px;min-width:18px;margin:1px 0 0;padding:0;border-radius:4px;accent-color:var(--accent);cursor:pointer}
+.chk a{color:inherit}
+.form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.form button:disabled{opacity:.6;cursor:wait}

@@ -93,7 +93,7 @@ function buildData_(ss) {
   const svcRows = rows('Сервисы'); dupCheck('Сервисы', svcRows, 'ID сервиса');
   const services = [];
   svcRows.forEach((r) => {
-    if (!yes(r['Публиковать'])) return;
+    if (!yes(r['Публиковать'])) { if (r['Название'] && !r['Публиковать']) warnings.push('Сервисы, строка ' + r._row + ': «' + r['Название'] + '» не попадёт на сайт — в колонке «Публиковать» пусто'); return; }
     const where = 'Сервисы, строка ' + r._row;
     if (!r['ID сервиса']) { errors.push(where + ': нет ID сервиса'); return; }
     if (!r['Название']) errors.push(where + ': нет названия');
@@ -108,6 +108,7 @@ function buildData_(ss) {
       else s[key] = IMAGE_FIELDS.indexOf(key) >= 0 ? img(v) : v;
     });
     s.skills = s.skills || [];
+    if (!s.skills.length) warnings.push(where + ': у «' + (s.name || s.id) + '» не указаны навыки — в реестре сервис не попадёт ни в один раздел');
     s.skills.forEach((k) => { if (skills.indexOf(k) < 0) errors.push(where + ': навыка «' + k + '» нет в «Справочниках»'); });
     if (s.site) s.site = s.site.replace(/^https?:\/\//, '').replace(/\/$/, '');
     services.push(s);
