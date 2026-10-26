@@ -50,7 +50,7 @@ function publishToSite() {
   const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
   if (!token) { ui.alert('Не задан токен', 'Добавьте свойство скрипта GITHUB_TOKEN: Расширения → Apps Script → Настройки проекта → Свойства скрипта.', ui.ButtonSet.OK); return; }
   putFile_(token, FILE, JSON.stringify(data, null, 1), 'Обновление данных из таблицы ' + data.generatedAt);
-  ui.alert('Готово', 'Данные отправлены. Сайт обновится через 1–2 минуты:\nhttps://runetlexacademy.github.io/runetlex.benchmark/', ui.ButtonSet.OK);
+  ui.alert('Готово', 'Данные отправлены. Сайт обновится через 1–2 минуты:\nhttps://benchmark.runetlex-academy.ru/', ui.ButtonSet.OK);
 }
 
 // ---------- сборка data.json ----------
