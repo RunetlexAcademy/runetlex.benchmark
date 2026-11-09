@@ -21,10 +21,18 @@ const N_EXPERTS = set('stat_experts', String(D.experts.filter((e) => !e.hidden).
 const UPDATED = set('updated', '');
 // Team preview of package layouts: add ?preview to the address (e.g. /?preview#/service/S001).
 const PREVIEW = /[?&]preview\b/.test(location.search);
+const one = (n) => n % 10 === 1 && n % 100 !== 11;
 const svcWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'сервис' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'сервиса' : 'сервисов');
 const BULB = '<svg class="bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg>';
 const hint = (...paras) => `<div class="hint">${BULB}<div class="hint-body">${paras.map((p, i) => `<p>${i ? '' : '<b>Подсказка:</b> '}${p}</p>`).join('')}</div></div>`;
 const METHOD_LINK = '<a href="#/method">Методология</a>';
+const PERIOD = set('collection_period', '29.10–02.11.2026');
+// Shown next to every result: the benchmark measures one function, not the whole service.
+const DISCLAIMER = '<div class="disclaimer"><p><b>Важно.</b> Мы проверяли одну функцию сервисов: как они отвечают на практический правовой вопрос. Результат бенчмарка говорит только об этом и не равен оценке сервиса целиком. У многих сервисов есть и другие возможности, например работа с документами или поиск судебной практики, но в этой проверке они не участвовали.</p></div>';
+// Course promo under the hero; texts can be overridden from «Настройки сайта».
+const COURSE_URL = set('course_url', 'https://runetlex-academy.ru/neuralnetworks?utm_source=benchmark&utm_medium=course_block');
+const MOUNTAINS = '<svg class="course-art" viewBox="0 0 320 200" aria-hidden="true"><polygon points="0,200 70,110 120,150 175,60 230,130 270,95 320,140 320,200" fill="#1a56db" opacity=".18"/><polygon points="20,200 110,95 160,140 205,40 260,120 320,200" fill="#1a56db" opacity=".55"/><polygon points="205,40 230,80 214,76 200,100 188,82 175,90" fill="#fff" opacity=".9"/><polygon points="90,200 205,40 320,200" fill="#1a56db"/><path d="M205,40 C215,80 190,100 210,130 C228,158 200,175 215,200" fill="none" stroke="#f62a17" stroke-width="3"/><circle cx="205" cy="40" r="7" fill="#f62a17"/></svg>';
+const courseBlock = () => `<div class="course" id="course"><div class="course-body"><div class="course-pills"><span>${esc(set('course_stream', '8 поток'))}</span><span>${esc(set('course_dates', '16 ноября — 19 декабря 2026'))}</span></div><p class="course-kicker">Курс Рунетлекс Академии</p><h2 class="course-title">${esc(set('course_title', 'Нейросети для юриста: практика и результат'))}</h2><p>${esc(set('course_text', 'Пять недель практики, на которых вы соберёте своих ИИ-помощников для работы с документами, договорами и судебными делами. Успеете начать работать с ними ещё до нового года.'))}</p><p class="course-facts">5 недель · 2 вебинара в неделю · 4 ИИ-агента</p><div class="course-cta"><a class="btn red" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Записаться на курс</a><a class="course-more" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Посмотреть программу</a></div></div>${MOUNTAINS}</div>`;
 
 function stats(s) {
   const solved = s.res.filter((r) => r.s).length;
@@ -129,21 +137,23 @@ function home() {
 <div class="hero">
 <h1 class="hero-title">Рунетлекс<br><em>Бенчмарк</em></h1>
 <p class="hero-sub">// оценка юридических ИИ-сервисов</p>
-${UPDATED ? `<span class="updated"><span class="dot"></span>обновлено ${UPDATED}${set('check_number', '') ? ' · проверка №' + set('check_number', '') : ''}</span>` : ''}
+<span class="updated"><span class="dot"></span>сбор ответов сервисов: ${esc(PERIOD)}</span>
 <div class="cta-hero"><a class="btn dark" href="#/" onclick="setTimeout(()=>go('stats'),0)">Смотреть результаты</a><a class="btn" href="#/catalog">Найти сервис под задачу</a><a class="btn" href="#/method" onclick="setTimeout(()=>{go('m-report')},0)">Скачать отчёт</a></div>
 </div>
-<div class="grid4" id="stats"><div class="box stat"><span class="num">${N_SERVICES}</span><p class="muted">юридических ИИ-${svcWord(+N_SERVICES)}</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">задач по пяти отраслям права</p></div><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">экспертов готовили задачи для оценки</p></div><div class="box stat"><span class="num">${set('stat_nominations', String(NOMS.length))}</span><p class="muted">номинаций</p></div></div>
+${courseBlock()}
+<div class="grid4" id="stats"><div class="box stat"><span class="num">${N_SERVICES}</span><p class="muted">${one(+N_SERVICES) ? "юридический" : "юридических"} ИИ-${svcWord(+N_SERVICES)}</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p></div><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">экспертов готовили задачи для оценки</p></div><div class="box stat"><span class="num">${set('stat_nominations', String(NOMS.length))}</span><p class="muted">номинаций</p></div></div>
 ${D.takeaways.length ? `<div class="takeaways"><h2>Ключевые выводы</h2><ol>${D.takeaways.map((t) => `<li>${esc(t)}</li>`).join('')}</ol></div>` : ''}
 <h2 id="results">Номинации</h2>
 <div class="grid4 noms-row">${NOMS.map((n) => `<a class="box lnk" href="#/service/${n.s.id}"><span class="tag nom">${n.t}</span><p class="b">${n.s.name}</p><p class="muted">${n.d}</p></a>`).join('')}</div>
 <div class="layout">
 <div class="content">
 <h2>Результаты${a === -1 ? ' по всем задачам' : ' · ' + D.short[a]}</h2>
+${DISCLAIMER}
 ${areaTags(a, 'setArea')}
 <div class="chart">${top5}</div>
 ${hint(`«Решено задач» — количество задач, по которым сервис дал правильный ответ по ключевым критериям. Каждый сервис проверялся на ${N_TASKS} задачах.`, '«Полнота ответов» — сколько всего баллов набрал сервис по ключевым и опциональным критериям.', '«Сильные отрасли» — отрасли, в которых сервис показал наилучшие результаты.', `Подробности по каждой задаче на странице сервиса и в разделе ${METHOD_LINK}.`)}
 <table class="rtable"><tr><th>сервис</th><th>решено задач${a === -1 ? '' : ' · ' + D.short[a]}</th><th>полнота ответов</th><th>сильные отрасли</th></tr>${rows.join('')}</table>
-${hint(`${N_SERVICES} ${svcWord(+N_SERVICES)} решали одни и те же ${N_TASKS} практических задач по пяти отраслям права.`, 'Задачи готовили практикующие юристы юрфирм, ответы оценивала группа оценщиков вслепую.', `Задачи, эталонные ответы, ответы сервисов и оценки открыты: вы можете изучить всю информацию на странице конкретного сервиса и в разделе ${METHOD_LINK}.`, 'Участие бесплатное, место в результатах не продаётся.')}
+${hint(`Все сервисы решали одни и те же ${N_TASKS} ${taskWord(+N_TASKS)} по пяти отраслям права.`, 'Задачи готовили практикующие юристы юрфирм, ответы оценивала группа оценщиков вслепую.', `Задачи, эталонные ответы, ответы сервисов и оценки открыты: вы можете изучить всю информацию на странице конкретного сервиса и в разделе ${METHOD_LINK}.`, 'Участие бесплатное, место в результатах не продаётся.')}
 </div></div>
 <div class="row cta-list"><a class="btn dark" href="#/method" onclick="setTimeout(()=>{go('m-report')},0)">Скачать полный отчёт</a><a class="btn" href="#/method" onclick="setTimeout(()=>{go('m-tasks')},0)">Смотреть задачи</a><a class="btn" href="#/method">Изучить методологию</a></div>`;
 }
@@ -249,6 +259,7 @@ function service(id) {
   }
   const st = ST[s.id];
   const resultBlock = `<h2>Результат</h2>
+${DISCLAIMER}
 <div class="grid3"><div class="box stat"><span class="num">${st.solved} / ${D.tasks.length}</span><p class="muted">задач решено</p></div><div class="box stat"><span class="num">${st.pts} / ${TOTAL}</span><p class="muted">полнота ответов</p></div>${areaBars(st)}</div>
 ${lvl >= 1 ? box('Комментарий к результату', vf(s.comment, `[Комментарий вендора к своим результатам. Подпись: ${s.name}, дата.]`) ? `<p class="pre">${vf(s.comment, `[Комментарий вендора к своим результатам. Подпись: ${s.name}, дата.]`)}</p>` : '') : ''}`;
   const f = S.filt; const ta = S.taskArea;
@@ -282,23 +293,34 @@ const logoCarousel = () => { const logos = [...new Map(D.experts.filter((e) => !
 function methodology() {
   const a = S.taskArea;
   const list = D.tasks.filter((t) => a === -1 || t.area === a);
-  const step = (n, title, text, extra = '') => `<div class="step"><span class="step-n">${n}</span><div class="col" style="gap:10px"><h2>${title}</h2><p>${text}</p>${extra}</div></div>`;
-  return `<div class="intro" id="m-method"><div class="row wrap" style="align-items:baseline;gap:12px"><h1>Методология</h1>${UPDATED ? `<span class="updated"><span class="dot"></span>обновлено ${UPDATED}</span>` : ''}</div><p>Коротко о том, как устроена проверка, все задачи и полный отчёт.</p><div class="intro-cta"><a class="btn dark" href="#/method" onclick="setTimeout(()=>go('m-steps'),0)">Изучить методологию</a></div></div>
+  // text: one paragraph or an array of paragraphs.
+  const step = (n, title, text, extra = '') => `<div class="step"><span class="step-n">${n}</span><div class="col" style="gap:10px"><h2>${title}</h2>${[].concat(text).map((p) => `<p>${p}</p>`).join('')}${extra}</div></div>`;
+  const svcGen = +N_SERVICES % 10 === 1 && +N_SERVICES % 100 !== 11 ? 'сервиса' : 'сервисов';
+  // Full methodology text (Yandex Disk link) from «Настройки сайта» → methodology_pdf; the buttons appear once it is filled.
+  const pdf = set('methodology_pdf', '');
+  const pdfBtn = (cls) => (pdf ? `<a class="btn${cls}" href="${esc(pdf)}" target="_blank" rel="noopener">Прочитать полный текст методологии</a>` : '');
+  const crit = `<ul class="step-list">
+<li><b>Ключевые критерии</b> описывают то, без чего ответом нельзя пользоваться в работе. Если ответ не выполнил хотя бы один из них, задача считается нерешённой.</li>
+<li><b>Опциональные критерии</b> отвечают за полноту и точность. Каждый выполненный критерий, ключевой или опциональный, приносит один балл. Баллы только начисляются, штрафов нет.</li>
+<li><b>Общие критерии для всех задач.</b> Ответ должен отвечать на вопрос и опираться только на нормы и судебные акты, которые действительно существуют. Отдельно мы смотрим, верно ли названы ссылки, не противоречат ли выводы друг другу и не придумывает ли ответ факты, которых нет в задаче.</li>
+<li><b>Два результата у каждого сервиса:</b> сколько задач решено и сколько баллов набрано. Они не зависят друг от друга: ответ может быть подробным и всё равно непригодным из-за одной грубой ошибки.</li>
+</ul>`;
+  return `<div class="intro" id="m-method"><div class="row wrap" style="align-items:baseline;gap:12px"><h1>Методология</h1><span class="updated"><span class="dot"></span>сбор ответов сервисов: ${esc(PERIOD)}</span></div><p>Здесь мы рассказываем, как проверяли сервисы: кто придумывал задачи, как оценивали ответы и как считали итог. Ниже собраны все задачи с ответами сервисов и полный отчёт.</p><div class="intro-cta"><a class="btn dark" href="#/method" onclick="setTimeout(()=>go('m-steps'),0)">Изучить методологию</a>${pdfBtn('')}</div></div>
 <h2 id="m-steps">Как проходила проверка</h2>
 <div class="steps">
-${step(1, 'Разработали методологию', `Степан Леонтьев, ${esc(set('methodology_author_position', '[должность]'))}, разработал методологию бенчмарка: какие сервисы проверяем, как готовим задачи, как оцениваем ответы и считаем результат.`, set('methodology_pdf', '') ? `<div class="step-cta"><a class="btn" href="${esc(set('methodology_pdf', ''))}" target="_blank" rel="noopener">Скачать методологию</a></div>` : '')}
-${step(2, 'Эксперты подготовили задачи', `${N_EXPERTS} экспертов составили ${N_TASKS} задач по пяти отраслям права: разрешение споров, договорное право, недвижимость, корпоративное право, интеллектуальная собственность. Задачи писали без ИИ. К каждой задаче автор подготовил эталонный ответ и критерии: ключевые и дополнительные.`, `${logoCarousel()}<div class="step-cta"><a class="btn" href="#/experts">Об экспертах</a></div>`)}
-${step(3, 'Собрали ответы сервисов', `Каждый из ${N_SERVICES} ${+N_SERVICES % 10 === 1 && +N_SERVICES % 100 !== 11 ? 'сервиса' : 'сервисов'} решил все ${N_TASKS} задач. Задачи давали одинаковым текстом, собирали ответы ${esc(set('collection_period', 'с 16 по 20 октября 2026'))}. Ответы сохранили дословно, их можно открыть на странице каждой задачи.`)}
-${step(4, 'Оценили ответы по критериям', 'Оценка проходила вслепую: оценщики не знали, чей ответ перед ними. Задача решена, если выполнены все ключевые критерии: такой ответ юрист может взять в работу. Полнота — сколько критериев выполнено всего, по баллу за каждый.')}
-${step(5, 'Подвели итоги', 'Команда Рунетлекс и Рунетлекс Академии посчитала результаты, определила номинации и опубликовала всё без правок. Номинации считаются из тех же данных по заранее опубликованному правилу. Место в результатах не продаётся.')}
+${step(1, 'Разработали методологию', [`Методологию бенчмарка разработал Степан Леонтьев, ${esc(set('methodology_author_position', '[должность]'))}. Он описал, какими должны быть задачи, как их оценивать и как считать итог.`, 'Главное в методологии — система ключевых и опциональных критериев. Благодаря ей ответ сервиса сравнивают не с чьим-то личным мнением, а с конкретным списком того, что в нём должно быть.'], crit + (pdf ? `<div class="step-cta">${pdfBtn('')}</div>` : ''))}
+${step(2, 'Эксперты подготовили задачи', [`${N_EXPERTS} практикующих юристов составили ${N_TASKS} ${taskWord(+N_TASKS)} по пяти отраслям права: разрешение споров, договорное право, недвижимость, корпоративное право и интеллектуальная собственность.`, 'Это не вопросы из учебника, а ситуации из практики, часто с подвохом, на котором ошибаются и опытные юристы. У каждой задачи один правильный ответ, и он опирается на закон или позицию высших судов.', 'Задачи писали без помощи ИИ. К каждой автор приложил эталонный ответ, ключевые и опциональные критерии.'], `${logoCarousel()}<div class="step-cta"><a class="btn" href="#/experts">Об экспертах</a></div>`)}
+${step(3, 'Собрали ответы сервисов', [`Каждый из ${N_SERVICES} ${svcGen} получил все ${N_TASKS} ${taskWord(+N_TASKS)} в одинаковой формулировке. Ответы мы собирали ${esc(PERIOD)} и сохранили дословно, их можно прочитать на странице каждой задачи.`, 'Мы проверяли только одну функцию сервисов: ответ на практический правовой вопрос.'])}
+${step(4, 'Оценили ответы по критериям', ['Оценщики не знали, чей ответ читают. Каждый критерий они проверяли по существу: если мысль передана верно, критерий засчитывается, даже когда формулировка отличается от эталона или вывод обоснован другой подходящей нормой.', 'Все ссылки на нормы и судебные акты сверяли с первоисточниками. Ошибка в номере статьи стоит одного балла, а выдуманная норма, на которой построен вывод, делает весь ответ непригодным.', 'Если оценщик сомневался в задаче или критерии, он оставлял особое мнение, и такие случаи перепроверяли отдельно.'])}
+${step(5, 'Подвели итоги', ['Задача решена, если ответ выполнил все ключевые критерии, то есть юрист может взять его в работу. Полнота показывает, сколько критериев выполнено всего.', 'Команда Рунетлекс и Рунетлекс Академии посчитала результаты и номинации по заранее объявленным правилам и опубликовала всё как есть. Купить место в результатах нельзя.'])}
 </div>
 <div class="sec">
-<div class="intro" id="m-tasks"><h2>Задачи</h2><p>Все ${N_TASKS} задач, на которых проверяли сервисы. У каждой есть фабула, вопрос, эталонный ответ, критерии и ответы всех ${N_SERVICES} ${+N_SERVICES % 10 === 1 && +N_SERVICES % 100 !== 11 ? 'сервиса' : 'сервисов'} дословно.</p></div>
+<div class="intro" id="m-tasks"><h2>Задачи</h2><p>Здесь все ${N_TASKS} ${taskWord(+N_TASKS)}, на которых мы проверяли сервисы. Откройте любую, и вы увидите фабулу, вопрос, эталонный ответ, критерии и дословные ответы всех ${N_SERVICES} ${svcGen}.</p></div>
 ${areaTags(a, 'setTaskArea')}
 <table><tr><th>№</th><th>отрасль</th><th>задача</th><th>автор</th><th>критериев</th><th>решили</th></tr>${list.map((t) => { const n = tested.filter((s) => s.res.find((r) => r.t === t.id).s).length; return `<tr class="clk" onclick="location.hash='#/task/${t.id}'"><td>${t.id}</td><td>${D.short[t.area]}</td><td><a href="#/task/${t.id}">${t.title}</a></td><td class="muted">${expert(t.author).name}</td><td>${t.total}</td><td>${n} из ${tested.length}</td></tr>`; }).join('')}</table>
 </div>
 <div class="sec" id="m-report">
-<div class="report"><div class="col" style="gap:16px"><h2>Отчёт</h2><p>Как считали, результаты по отраслям, что сервисы уже умеют и где ошибаются, какой сервис брать под какую задачу.${set('report_pages', '') ? ' PDF, ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + consent(), 'Отправить отчёт', 'Спасибо! Отчёт придёт на почту в течение нескольких минут. Если письма нет, проверьте папку «Спам».')}</div><div class="ph cover">обложка отчёта</div></div>
+<div class="report"><div class="col" style="gap:16px"><h2>Отчёт</h2><p>В отчёте мы подробно рассказываем, как считали результаты, как сервисы справились в каждой отрасли, что они уже умеют и где пока ошибаются, а также какой сервис подойдёт под какую задачу.${set('report_pages', '') ? ' PDF, ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + consent(), 'Отправить отчёт', 'Спасибо! Отчёт придёт на почту в течение нескольких минут. Если письма нет, проверьте папку «Спам».')}</div><div class="ph cover">обложка отчёта</div></div>
 </div>`;
 }
 // Team photos uploaded to the site; a photo link in the sheet («Команда») takes priority.
@@ -330,7 +352,7 @@ const byName = (a, b) => (isLatin(b.name) - isLatin(a.name)) || a.name.localeCom
 function catalog() {
   const card = (s) => `<a class="box lnk hrow" href="#/service/${s.id}"><div class="avatar">${s.name.slice(0, 2).toUpperCase()}</div><div class="col grow" style="gap:2px"><p class="b">${s.name}</p><p class="muted">${s.site}</p></div><span class="sdot${s.tested ? ' on' : ''}" title="${s.tested ? 'проверен в бенчмарке' : 'пока не проверялся'}"></span></a>`;
   const secs = D.skills.map((k, i) => { const list = D.services.filter((s) => s.skills.includes(k)).sort(byName); return list.length ? `<div class="col" id="reg${i}" style="gap:14px"><h2 class="cat-h">${k}</h2><div class="grid3">${list.map(card).join('')}</div></div>` : ''; }).join('');
-  return `<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверяем навык «Ответ на правовой вопрос»: у этих сервисов есть результат на 50 задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
+  return `<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверяем навык «Ответ на правовой вопрос»: у этих сервисов есть результат на ${N_TASKS} задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
 <div class="layout">
 <div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" data-sec="reg${i}" href="#/catalog" onclick="setTimeout(()=>go('reg${i}'),0)">${k}</a>`).join('')}</div>
 <div class="content">
@@ -359,7 +381,7 @@ function experts() {
   });
   const areaSelect = `<label class="fld"><span>Ваша экспертная отрасль</span><select name="area" data-label="Отрасль" required onchange="const o=this.form.querySelector('.fld-other');o.hidden=this.value!=='другая';o.querySelector('input').required=!o.hidden"><option value="">Выберите отрасль</option>${D.areas.map((a) => `<option>${a}</option>`).join('')}<option>другая</option></select></label><label class="fld fld-other" hidden><span>Напишите вашу отрасль</span><input name="areaOther" data-label="Другая отрасль"></label>`;
   return `<div class="intro"><h1>Эксперты и юр. фирмы</h1><p>Задачи для проверки готовили практикующие юристы и юрфирмы, без ИИ: фабулу, вопрос, эталонный ответ и критерии.</p><p>Ответы сервисов оценивали вслепую: оценщики не знали, чей ответ перед ними.</p></div>
-<div class="grid3"><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">задач по пяти отраслям права</p></div><div class="box stat"><span class="num">${set('stat_assessors', '50')}</span><p class="muted">оценщиков</p></div></div>
+<div class="grid3"><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p></div><div class="box stat"><span class="num">${set('stat_assessors', '50')}</span><p class="muted">оценщиков</p></div></div>
 ${list.length ? `<div class="grid3">${cards.join('')}</div>` : '<div class="dash"><p class="muted">Список экспертов появится скоро.</p></div>'}
 ${D.assessorOrgs.length ? `<h2>Оценщики</h2><div class="orgs">${D.assessorOrgs.map((o) => `<div class="box org">${o.logo ? `<img class="elogo" src="${esc(o.logo)}" alt="">` : ''}<p class="b">${esc(o.name)}</p>${o.type ? `<p class="muted">${esc(o.type)}</p>` : ''}</div>`).join('')}</div>` : ''}
 ${formBox('Хотите подготовить задачи для следующей проверки? Оставьте свои контакты, мы свяжемся с вами, когда начнём подготовку.', 'Заявка эксперта', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + field('company', 'Название компании', 'autocomplete="organization"') + areaSelect + consent(), 'Отправить заявку', 'Спасибо! Мы свяжемся с вами, когда начнём подготовку следующей проверки.')}`;

@@ -782,3 +782,30 @@ select{padding-right:44px;text-overflow:ellipsis;white-space:nowrap;overflow:hid
 .chk a{color:inherit}
 .form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .form button:disabled{opacity:.6;cursor:wait}
+/* Disclaimer next to results */
+.disclaimer{border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 18px;font-size:14px;line-height:1.55;max-width:900px}
+.disclaimer p{margin:0}.disclaimer b{color:var(--accent);font-weight:600}
+/* Course promo block on the home page, styled after runetlex-academy.ru/neuralnetworks */
+.course{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:end;border:1px solid var(--line);border-radius:24px;padding:36px 40px 0;overflow:hidden;background:var(--bg)}
+.course-body{display:flex;flex-direction:column;gap:14px;padding-bottom:36px}
+.course-pills{display:flex;flex-wrap:wrap;gap:8px}
+.course-pills span{border:1px solid #c9d6f5;color:#1a56db;border-radius:999px;padding:6px 14px;font-size:13px;line-height:1.2}
+.course-kicker{margin:6px 0 0;font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.course-title{font-family:var(--disp);font-weight:400;font-size:clamp(28px,3.6vw,46px);line-height:1.05;text-transform:uppercase;margin:0;max-width:720px}
+.course-body p{margin:0;max-width:620px}
+.course-facts{color:var(--mute);font-size:14px}
+.course-cta{display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin-top:8px}
+.btn.red{background:#f62a17;border-color:#f62a17;color:#fff}
+.btn.red:hover,.btn.red:active{background:#d92212;border-color:#d92212;color:#fff}
+.course-more{font-size:15px;text-decoration:none;border-bottom:1px solid #f62a17;padding-bottom:2px}
+.course-more:hover{color:#f62a17}
+.course-art{display:block;width:100%;height:auto}
+@media (max-width:900px){.course{grid-template-columns:1fr;padding:28px 24px 0;gap:0}.course-art{max-width:320px;margin:0 auto}}
+@media (max-width:560px){.course{border-radius:18px;padding:24px 20px 0}.course-body{padding-bottom:20px}.course-cta{flex-direction:column;align-items:stretch;gap:14px}.course-cta .btn{width:100%}.course-more{align-self:flex-start}}
+/* Key points of the methodology under step 1 */
+.step-list{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;max-width:760px}
+.step-list li{position:relative;padding-left:20px;line-height:1.55}
+.step-list li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.intro-cta{display:flex;flex-wrap:wrap;gap:12px}
+@media (max-width:560px){.intro-cta .btn{width:100%}}
+@media (max-width:560px){.course-art{max-width:220px}}
