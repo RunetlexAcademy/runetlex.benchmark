@@ -1,5 +1,5 @@
 {
- "generatedAt": "10.11.2026 19:53",
+ "generatedAt": "10.11.2026 19:57",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -580,7 +580,206 @@
   }
  ],
  "cases": [],
- "experts": [],
+ "experts": [
+  {
+   "id": "EXP003",
+   "name": "Иван Щербинин",
+   "company": "LegalFirst",
+   "position": "Партнер",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1uTLb5ZUCJHNnFeQkiUJjQSktHyKutL79",
+   "photo": "https://lh3.googleusercontent.com/d/1AEpjT7eFMnhSZouu6vzAyWvxHt4YiV92",
+   "tasks": []
+  },
+  {
+   "id": "EXP004",
+   "name": "Хатефов Мурат Аркадьевич",
+   "company": "Адвокатское бюро г. Москвы K&P.Group",
+   "position": "Юрист",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1nR07INFZw7CiaGU0dy-eg3J7v_SDcbtd",
+   "photo": "https://lh3.googleusercontent.com/d/12HnOssCiu2u9ZkMv5q4QzNCvReTFDzvZ",
+   "tasks": []
+  },
+  {
+   "id": "EXP005",
+   "name": "Владислав Лаптев",
+   "company": "ООО \"ВОА Консалт\"",
+   "position": "Юрист",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1SCfwlcDp0OmsW741aBQao0coLOYcOSP8",
+   "photo": "https://lh3.googleusercontent.com/d/1lMqHg0EiuLi0C-bomMLwfRRO5vr063S3",
+   "tasks": []
+  },
+  {
+   "id": "EXP006",
+   "name": "Мария Великова Георгиевна",
+   "company": "ООО \"Рунетлекс\"",
+   "position": "Руководитель практики корпоративного права",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1k47bWvWO57bKgtJtadP0lEd1ZSC9QcvG",
+   "photo": "https://lh3.googleusercontent.com/d/17r8fH57jI0Ssfl2hgiZKJ8yC_RjNmcmE",
+   "tasks": []
+  },
+  {
+   "id": "EXP007",
+   "name": "Данил Бухарин",
+   "company": "Forward Legal",
+   "position": "Советник, адвокат",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1kSjcPgI41chVjAUAkqSgHJeM-aQKmZDb",
+   "photo": "https://lh3.googleusercontent.com/d/1E2xEIvaHNSTFPoBXH6QDRSMf2W1ISZeb",
+   "tasks": []
+  },
+  {
+   "id": "EXP008",
+   "name": "Лысенко Мария Николаевна",
+   "company": "ООО «АСБ Консалтинг Групп»",
+   "position": "Юрист, судебная практика",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1DWX7KpVHZl2IN3sL1NFiVi4uCBAr21yG",
+   "photo": "https://lh3.googleusercontent.com/d/1r-69zYE4jpzGS-Fppr3jc81ebkGdEyt9",
+   "tasks": []
+  },
+  {
+   "id": "EXP009",
+   "name": "Евгения Короткина",
+   "company": "ООО «Фоксфорд»",
+   "position": "Директор по правовым вопросам",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1ZIrDZ8qSCHkkkj0Ck1oNDnPYgWOy7rWC",
+   "photo": "https://lh3.googleusercontent.com/d/1pkq94eJP8Ix1deplSVmdE-qNZWLPjCJb",
+   "tasks": []
+  },
+  {
+   "id": "EXP011",
+   "name": "Гончарова Варвара",
+   "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
+   "position": "Юрист",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1PL0SVqHV53Pz1aH7Ob9SPgLx-JmEsdzt",
+   "photo": "https://lh3.googleusercontent.com/d/1JJOF-RQ8UTxdkq8nTSZbzzG8452lGYH2",
+   "tasks": []
+  },
+  {
+   "id": "EXP013",
+   "name": "Татьяна Свиридова",
+   "company": "SEAMLESS Legal",
+   "position": "Старший юрист практики разрешения споров",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1ebdZn9bCaGc3TRHc_jxTYbp29DpQZpVv",
+   "photo": "https://lh3.googleusercontent.com/d/1KPHERycR6UZUgxPZhB7CAK6dnPP6FTk0",
+   "tasks": []
+  },
+  {
+   "id": "EXP014",
+   "name": "Вдовин Влад",
+   "company": "Firm.One",
+   "position": "Партнер",
+   "companyLogo": "https://lh3.googleusercontent.com/d/10xVPyuqpV4A0JTSjG02lq0XU4u50QCuJ",
+   "photo": "https://lh3.googleusercontent.com/d/1W6O0ectDTq_8k4lQBOadJDJq8MllDmNA",
+   "tasks": []
+  },
+  {
+   "id": "EXP015",
+   "name": "Дмитрий Буланов",
+   "company": "АО \"Инфотек-Балтика М\"",
+   "position": "Начальник юридического отдела",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1Ig22MRsr9dy8RNTsNjrh9RZIqXwE28fc",
+   "photo": "https://lh3.googleusercontent.com/d/1j1HRPGGv-wG9zOp-L4fjeledz1UNxcNe",
+   "tasks": []
+  },
+  {
+   "id": "EXP016",
+   "name": "Шермет Курбанов",
+   "company": "SL LEGAL",
+   "position": "Соруководитель практики интеллектуальной собственности и цифрового права",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1Xdusv2yZalLzrEZboBBjbPyJGdnznhhF",
+   "photo": "https://lh3.googleusercontent.com/d/1uXoSyAnx1XygUpwolcjMYGJrr2oX81yl",
+   "tasks": []
+  },
+  {
+   "id": "EXP018",
+   "name": "Елена Кириллова",
+   "company": "ООО \"Рунетлекс\"",
+   "position": "Юрист",
+   "companyLogo": "",
+   "photo": "https://lh3.googleusercontent.com/d/1wcnRBUUIJQk2_pqMBdqDEwvvC4DaLbrq",
+   "tasks": []
+  },
+  {
+   "id": "EXP020",
+   "name": "Илья Чамуха",
+   "company": "Sample Legal",
+   "position": "Руководитель юридической фирмы",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1CO6Qxhig_OTIrBiHGVRTqIkOlbgtIAVD",
+   "photo": "https://lh3.googleusercontent.com/d/1NhitTnlG8rKHzvmj9mX7WZc7QZbJ0hSo",
+   "tasks": []
+  },
+  {
+   "id": "EXP022",
+   "name": "Анастасия Викторовна Снопкова",
+   "company": "Коллегия адвокатов города Москвы \"БГП\"",
+   "position": "Старший юрист, адвокат",
+   "companyLogo": "https://lh3.googleusercontent.com/d/11bj-FkyaBQTnSREJvks4p4jfvmudDVzH",
+   "photo": "https://lh3.googleusercontent.com/d/1BV5r7B4JhcOOdmaDoQByxOzIyIqmcSKk",
+   "tasks": []
+  },
+  {
+   "id": "EXP024",
+   "name": "Анна Степанищева",
+   "company": "ООО \"Стройресурс\"",
+   "position": "Руководитель юридического отдела",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1ur65PPrzbMxvmjz6ZB7c-D0byVfdaDdl",
+   "photo": "https://lh3.googleusercontent.com/d/1SKRSQyNzVu6cCBovbx90lT7PH2C_2nEV",
+   "tasks": []
+  },
+  {
+   "id": "EXP025",
+   "name": "Антонов Денис Викторович",
+   "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
+   "position": "Старший партнер, адвокат, Руководитель практики «Судебные споры и банкротство»",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1Zs84rrXtxAUmuVKQfUsxY7hgF08HnEd1",
+   "photo": "https://lh3.googleusercontent.com/d/1W-tzbxotacWbRPnKcdsBxmAgLhrUADHl",
+   "tasks": []
+  },
+  {
+   "id": "EXP026",
+   "name": "Гуцу Константин Георгиевич",
+   "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
+   "position": "Управляющий партнер, адвокат",
+   "companyLogo": "https://lh3.googleusercontent.com/d/19Yyt3QAESEX6XA5hf6FM2uCh6PNSAVzR",
+   "photo": "https://lh3.googleusercontent.com/d/1OEkc-joexl1NkQg5CwedE4ygMeLJ3xzd",
+   "tasks": []
+  },
+  {
+   "id": "EXP027",
+   "name": "Жуковский Роман Владимирович",
+   "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
+   "position": "Управляющий партнер, адвокат, Руководитель практики «Корпоративное право / M&A» и «TMT/ Интеллектуальная собственность»",
+   "companyLogo": "https://lh3.googleusercontent.com/d/16Vxwt__33QKPODuy7hqnrXumh8Hy9cVE",
+   "photo": "https://lh3.googleusercontent.com/d/1gVcCts5Wh9hfojQP_raaNkGQu00NtnTk",
+   "tasks": []
+  },
+  {
+   "id": "EXP028",
+   "name": "Фокин Егор Игоревич",
+   "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
+   "position": "Юрист",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1JjwwKQsvzBoIczvknpBjhZP1sfmMh-iN",
+   "photo": "https://lh3.googleusercontent.com/d/1tfwJzOYI7SqMogrvAZLscEkm-tvgLRe8",
+   "tasks": []
+  },
+  {
+   "id": "EXP029",
+   "name": "Семин Павел Николаевич",
+   "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
+   "position": "Партнер, адвокат",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1E4pF6NNMKcRCkW6LKiIDX-Z2Zyhqte0R",
+   "photo": "https://lh3.googleusercontent.com/d/1vOQLdzrVhk5PBUOeXt9EMdTztGh5u4vx",
+   "tasks": []
+  },
+  {
+   "id": "EXP030",
+   "name": "Заварзин Артем Александрович",
+   "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
+   "position": "Партнер, адвокат",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1r2WxAH-lQ6eQyFz4MG2GH405QTKWlj0V",
+   "photo": "https://lh3.googleusercontent.com/d/1yaoTMvlSKQlsvznoFXY3sMbUPk3ZEAPw",
+   "tasks": []
+  }
+ ],
  "assessorOrgs": [],
  "team": [
   {
