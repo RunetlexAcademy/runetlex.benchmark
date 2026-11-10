@@ -32,6 +32,9 @@ const DISCLAIMER = '<div class="disclaimer"><p><b>Важно.</b> Мы пров�
 // Course promo under the hero; texts can be overridden from «Настройки сайта».
 const COURSE_URL = set('course_url', 'https://runetlex-academy.ru/neuralnetworks?utm_source=benchmark&utm_medium=course_block');
 const MOUNTAINS = '<svg class="course-art" viewBox="0 0 320 200" aria-hidden="true"><polygon points="0,200 70,110 120,150 175,60 230,130 270,95 320,140 320,200" fill="#1a56db" opacity=".18"/><polygon points="20,200 110,95 160,140 205,40 260,120 320,200" fill="#1a56db" opacity=".55"/><polygon points="205,40 230,80 214,76 200,100 188,82 175,90" fill="#fff" opacity=".9"/><polygon points="90,200 205,40 320,200" fill="#1a56db"/><path d="M205,40 C215,80 190,100 210,130 C228,158 200,175 215,200" fill="none" stroke="#f62a17" stroke-width="3"/><circle cx="205" cy="40" r="7" fill="#f62a17"/></svg>';
+// Partners: services with any paid package, highest package first; each logo links to the service site.
+const PKG_RANK = { p3: 3, p2: 2, p1: 1 };
+const partnersBlock = () => { const ps = D.services.filter((s) => PKG_RANK[s.pkg]).sort((x, y) => PKG_RANK[y.pkg] - PKG_RANK[x.pkg] || x.name.localeCompare(y.name, 'ru')); return ps.length ? `<div class="partners" id="partners"><h2>Партнёры Рунетлекс Бенчмарк</h2><div class="gallery"><div class="gallery-track partners-track">${ps.map((s) => `<a class="logo-item logo-img partner${s.logo ? '' : ' logo-txt'}" href="${esc(url(site1(s.site)))}" target="_blank" rel="noopener" title="${esc(s.name)}">${s.logo ? `<img src="${esc(s.logo)}" alt="${esc(s.name)}" loading="lazy">` : `<span>${esc(s.name)}</span>`}</a>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div></div>` : ''; };
 const courseBlock = () => `<div class="course" id="course"><div class="course-body"><div class="course-pills"><span>${esc(set('course_stream', '8 поток'))}</span><span>${esc(set('course_dates', '16 ноября — 19 декабря 2026'))}</span></div><p class="course-kicker">Курс Рунетлекс Академии</p><h2 class="course-title">${esc(set('course_title', 'Нейросети для юриста: практика и результат'))}</h2><p>${esc(set('course_text', 'Пять недель практики, на которых вы соберёте своих ИИ-помощников для работы с документами, договорами и судебными делами. Успеете начать работать с ними ещё до нового года.'))}</p><p class="course-facts">5 недель · 2 вебинара в неделю · 4 ИИ-агента</p><div class="course-cta"><a class="btn red" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Записаться на курс</a><a class="course-more" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Посмотреть программу</a></div></div>${MOUNTAINS}</div>`;
 
 function stats(s) {
@@ -140,6 +143,7 @@ function home() {
 <span class="updated"><span class="dot"></span>сбор ответов сервисов: ${esc(PERIOD)}</span>
 <div class="cta-hero"><a class="btn dark" href="#/" onclick="setTimeout(()=>go('stats'),0)">Смотреть результаты</a><a class="btn" href="#/catalog">Найти сервис под задачу</a><a class="btn" href="#/method" onclick="setTimeout(()=>{go('m-report')},0)">Скачать отчёт</a></div>
 </div>
+${partnersBlock()}
 ${courseBlock()}
 <div class="grid4" id="stats"><div class="box stat"><span class="num">${N_SERVICES}</span><p class="muted">${one(+N_SERVICES) ? "юридический" : "юридических"} ИИ-${svcWord(+N_SERVICES)}</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p></div><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">экспертов готовили задачи для оценки</p></div><div class="box stat"><span class="num">${set('stat_nominations', String(NOMS.length))}</span><p class="muted">номинаций</p></div></div>
 ${D.takeaways.length ? `<div class="takeaways"><h2>Ключевые выводы</h2><ol>${D.takeaways.map((t) => `<li>${esc(t)}</li>`).join('')}</ol></div>` : ''}
@@ -169,9 +173,12 @@ const vendorTag = '<span class="tag pay">материал вендора</span>'
 // A vendor field: the value from the sheet; in team preview an empty field shows a placeholder so the layout is visible.
 const vf = (v, ph) => (v ? esc(v) : PREVIEW ? `<span class="muted">${ph}</span>` : '');
 const url = (u) => (/^https?:\/\//.test(u) ? u : 'https://' + u);
+// A service may list several addresses (one per line); the site shows and links the first one.
+const site1 = (s) => String(s || '').trim().split(/[\s,]+/)[0] || '';
+const siteText = (s) => site1(s).replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '');
 function svcHead(s) {
   const line = vf(s.line, '[Слоган: одна строка о сервисе]');
-  return `<div class="svc-head"><div class="avatar lg">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(s.name.slice(0, 2).toUpperCase())}</div><div class="col" style="gap:8px"><h1>${esc(s.name)}</h1>${line ? `<p class="muted">${line}</p>` : ''}${skillTags(s)}<p><a href="${url(s.site)}" target="_blank" rel="noopener">${esc(s.site)}</a></p></div></div>`;
+  return `<div class="svc-head"><div class="avatar lg">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(s.name.slice(0, 2).toUpperCase())}</div><div class="col" style="gap:8px"><h1>${esc(s.name)}</h1>${line ? `<p class="muted">${line}</p>` : ''}${skillTags(s)}<p class="svc-site"><a href="${url(site1(s.site))}" target="_blank" rel="noopener">${esc(siteText(s.site))}</a></p></div></div>`;
 }
 function areaBars(st) {
   return `<div class="box"><p class="b">По отраслям</p><div class="abars">${D.areas.map((n, i) => { const pct = AREA_N[i] ? Math.round((st.byArea[i] / AREA_N[i]) * 100) : 0; return `<div class="abar"><span>${D.short[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><span class="muted">${st.byArea[i]} / ${AREA_N[i]}</span></div>`; }).join('')}</div></div>`;
@@ -180,7 +187,7 @@ const box = (title, body, tag = true) => (body ? `<div class="box"><div class="b
 function pkgBlocks(s, lvl) {
   if (lvl === 0) return '';
   const desc = lvl >= 2 ? vf(s.full || s.short, '[Полное описание сервиса от вендора: что делает, для кого, чем отличается.]') : vf(s.short, '[Краткое описание сервиса от вендора, два-три предложения.]');
-  const promo = s.promo || PREVIEW ? `<p><a href="${url(s.site)}" target="_blank" rel="noopener">Перейти на сайт</a> · промокод <b>${vf(s.promo, '[XXXX]')}</b></p>` : '';
+  const promo = s.promo || PREVIEW ? `<p><a href="${url(site1(s.site))}" target="_blank" rel="noopener">Перейти на сайт</a> · промокод <b>${vf(s.promo, '[XXXX]')}</b></p>` : '';
   let out = box('Описание', (desc ? `<p class="pre">${desc}</p>` : '') + promo);
   if (lvl >= 2) {
     const how = vf(s.how, '[Развёрнутый текст вендора с примерами решения задач.]');
@@ -311,7 +318,7 @@ function methodology() {
 ${step(1, 'Разработали методологию', [`Методологию бенчмарка разработал Степан Леонтьев, ${esc(set('methodology_author_position', '[должность]'))}. Он описал, какими должны быть задачи, как их оценивать и как считать итог.`, 'Главное в методологии — система ключевых и опциональных критериев. Благодаря ей ответ сервиса сравнивают не с чьим-то личным мнением, а с конкретным списком того, что в нём должно быть.'], crit + (pdf ? `<div class="step-cta">${pdfBtn('')}</div>` : ''))}
 ${step(2, 'Эксперты подготовили задачи', [`${N_EXPERTS} практикующих юристов составили ${N_TASKS} ${taskWord(+N_TASKS)} по пяти отраслям права: разрешение споров, договорное право, недвижимость, корпоративное право и интеллектуальная собственность.`, 'Это не вопросы из учебника, а ситуации из практики, часто с подвохом, на котором ошибаются и опытные юристы. У каждой задачи один правильный ответ, и он опирается на закон или позицию высших судов.', 'Задачи писали без помощи ИИ. К каждой автор приложил эталонный ответ, ключевые и опциональные критерии.'], `${logoCarousel()}<div class="step-cta"><a class="btn" href="#/experts">Об экспертах</a></div>`)}
 ${step(3, 'Собрали ответы сервисов', [`Каждый из ${N_SERVICES} ${svcGen} получил все ${N_TASKS} ${taskWord(+N_TASKS)} в одинаковой формулировке. Ответы мы собирали ${esc(PERIOD)} и сохранили дословно, их можно прочитать на странице каждой задачи.`, 'Мы проверяли только одну функцию сервисов: ответ на практический правовой вопрос.'])}
-${step(4, 'Оценили ответы по критериям', ['Оценщики не знали, чей ответ читают. Каждый критерий они проверяли по существу: если мысль передана верно, критерий засчитывается, даже когда формулировка отличается от эталона или вывод обоснован другой подходящей нормой.', 'Все ссылки на нормы и судебные акты сверяли с первоисточниками. Ошибка в номере статьи стоит одного балла, а выдуманная норма, на которой построен вывод, делает весь ответ непригодным.', 'Если оценщик сомневался в задаче или критерии, он оставлял особое мнение, и такие случаи перепроверяли отдельно.'])}
+${step(4, 'Оценили ответы по критериям', ['Оценщики не знали, чей ответ читают. Каждый критерий они проверяли по существу: если мысль передана верно, критерий засчитывается, даже когда формулировка отличается от эталона или вывод обоснован другой подходящей нормой.', 'Все ссылки на нормы и судебные акты сверяли с первоисточниками. Ошибка в номере статьи стоит одного балла, а выдуманная норма, на которой построен вывод, делает весь ответ непригодным.', 'Если оценщик сомневался в задаче или критерии, он оставлял особое мнение, и такие случаи перепроверяли отдельно.'], `${D.assessorOrgs.length ? orgCarousel() : ''}<div class="step-cta"><a class="btn" href="#/experts" onclick="setTimeout(()=>go('assessors'),0)">Об оценщиках</a></div>`)}
 ${step(5, 'Подвели итоги', ['Задача решена, если ответ выполнил все ключевые критерии, то есть юрист может взять его в работу. Полнота показывает, сколько критериев выполнено всего.', 'Команда Рунетлекс и Рунетлекс Академии посчитала результаты и номинации по заранее объявленным правилам и опубликовала всё как есть. Купить место в результатах нельзя.'])}
 </div>
 <div class="sec">
@@ -350,7 +357,7 @@ function taskPage(id) {
 const isLatin = (n) => /^[A-Za-z]/.test(n);
 const byName = (a, b) => (isLatin(b.name) - isLatin(a.name)) || a.name.localeCompare(b.name, isLatin(a.name) ? 'en' : 'ru', { sensitivity: 'base' });
 function catalog() {
-  const card = (s) => `<a class="box lnk hrow" href="#/service/${s.id}"><div class="avatar">${s.name.slice(0, 2).toUpperCase()}</div><div class="col grow" style="gap:2px"><p class="b">${s.name}</p><p class="muted">${s.site}</p></div><span class="sdot${s.tested ? ' on' : ''}" title="${s.tested ? 'проверен в бенчмарке' : 'пока не проверялся'}"></span></a>`;
+  const card = (s) => `<a class="box lnk hrow" href="#/service/${s.id}"><div class="avatar">${s.name.slice(0, 2).toUpperCase()}</div><div class="col grow" style="gap:2px"><p class="b">${s.name}</p><p class="muted csite">${esc(siteText(s.site))}</p></div><span class="sdot${s.tested ? ' on' : ''}" title="${s.tested ? 'проверен в бенчмарке' : 'пока не проверялся'}"></span></a>`;
   const secs = D.skills.map((k, i) => { const list = D.services.filter((s) => s.skills.includes(k)).sort(byName); return list.length ? `<div class="col" id="reg${i}" style="gap:14px"><h2 class="cat-h">${k}</h2><div class="grid3">${list.map(card).join('')}</div></div>` : ''; }).join('');
   return `<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверяем навык «Ответ на правовой вопрос»: у этих сервисов есть результат на ${N_TASKS} задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
 <div class="layout">
@@ -372,18 +379,35 @@ ${D.cases.length ? areaTags(a, 'setCaseArea') : ''}
 ${list.length ? `<div class="grid3">${cards}</div>` : `<div class="dash"><p class="muted">${D.cases.length ? 'В этой отрасли кейсов пока нет.' : 'Кейсы появятся скоро.'}</p></div>`}`;
 }
 const taskWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'задача' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'задачи' : 'задач');
+// Assessor organisations: a logo tile, or the name when there is no logo.
+const orgTile = (o) => `<div class="logo-item logo-img${o.logo ? '' : ' logo-txt'}">${o.logo ? `<img src="${esc(o.logo)}" alt="${esc(o.name)}" loading="lazy">` : `<span>${esc(o.name)}</span>`}</div>`;
+const orgCarousel = () => `<div class="gallery" aria-label="оценщики"><div class="gallery-track">${D.assessorOrgs.map(orgTile).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div>`;
+// Names in the sheet come both as «Фамилия Имя Отчество» and «Имя Фамилия»; sort by the surname either way.
+const SURNAME_END = /(ов|ова|ев|ева|ёв|ёва|ин|ина|ын|ына|ский|ская|цкий|цкая|ко|ук|юк|их|ых)$/i;
+const PATRONYMIC = /(вна|вич|чна|ична|ьич|ич)$/i;
+const surname = (name) => {
+  const w = String(name).trim().split(/\s+/);
+  if (w.length < 2) return w[0] || '';
+  const p = w.findIndex((x, i) => i > 0 && PATRONYMIC.test(x));
+  if (p === 1) return w[2] || w[0]; // Имя Отчество Фамилия
+  if (p === 2) return /(вна|чна)$/i.test(w[2]) && /(ова|ева|ёва|ина|ына|ская|цкая)$/i.test(w[1]) && !SURNAME_END.test(w[0]) ? w[1] : w[0]; // «Мария Великова Георгиевна»
+  return SURNAME_END.test(w[0]) && !SURNAME_END.test(w[1]) ? w[0] : w[1];
+};
 function experts() {
-  const list = D.experts.filter((e) => !e.hidden);
+  const list = D.experts.filter((e) => !e.hidden).sort((a, b) => surname(a.name).localeCompare(surname(b.name), 'ru') || a.name.localeCompare(b.name, 'ru'));
   const cards = list.map((e) => {
     const ts = D.tasks.filter((t) => t.author === e.id); const per = D.areas.map((a, i) => [a, ts.filter((t) => t.area === i).length]).filter((x) => x[1]);
-    const pic = e.photo ? `<img class="ephoto" src="${esc(e.photo)}" alt="${esc(e.name)}" loading="lazy">` : e.companyLogo ? `<img class="elogo" src="${esc(e.companyLogo)}" alt="${esc(e.company)}" loading="lazy">` : '<div class="ph" style="height:56px;width:160px">логотип</div>';
-    return `<div class="box">${pic}<div class="col" style="gap:2px"><p class="b">${esc(e.name)}</p>${e.position || e.company ? `<p class="muted">${esc([e.position, e.company].filter(Boolean).join(', '))}</p>` : ''}</div>${per.length ? `<ul class="dlist">${per.map((x) => `<li>${x[0]} (${x[1]} ${taskWord(x[1])})</li>`).join('')}</ul>` : ''}</div>`;
+    const pic = e.photo ? `<span class="ephoto"><img src="${esc(e.photo)}" alt="${esc(e.name)}" loading="lazy"></span>` : `<span class="ephoto ph-ini">${esc(initials(e.name))}</span>`;
+    const company = e.company ? `<div class="ecompany">${e.companyLogo ? `<span class="eclogo"><img src="${esc(e.companyLogo)}" alt="" loading="lazy"></span>` : ''}<span>${esc(e.company)}</span></div>` : '';
+    return `<div class="box ecard"><div class="ehead">${pic}<div class="col" style="gap:4px"><p class="b">${esc(e.name)}</p>${e.position ? `<p class="muted">${esc(e.position)}</p>` : ''}</div></div>${per.length ? `<ul class="dlist">${per.map((x) => `<li>${x[0]} (${x[1]} ${taskWord(x[1])})</li>`).join('')}</ul>` : ''}${company}</div>`;
   });
   const areaSelect = `<label class="fld"><span>Ваша экспертная отрасль</span><select name="area" data-label="Отрасль" required onchange="const o=this.form.querySelector('.fld-other');o.hidden=this.value!=='другая';o.querySelector('input').required=!o.hidden"><option value="">Выберите отрасль</option>${D.areas.map((a) => `<option>${a}</option>`).join('')}<option>другая</option></select></label><label class="fld fld-other" hidden><span>Напишите вашу отрасль</span><input name="areaOther" data-label="Другая отрасль"></label>`;
-  return `<div class="intro"><h1>Эксперты и юр. фирмы</h1><p>Задачи для проверки готовили практикующие юристы и юрфирмы, без ИИ: фабулу, вопрос, эталонный ответ и критерии.</p><p>Ответы сервисов оценивали вслепую: оценщики не знали, чей ответ перед ними.</p></div>
+  return `<div class="intro"><h1>Эксперты и оценщики</h1><p>Бенчмарк сделали люди, а не алгоритмы. Практикующие юристы придумали задачи, а оценщики из юрфирм, компаний и университетов проверили, как с ними справились сервисы.</p></div>
 <div class="grid3"><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p></div><div class="box stat"><span class="num">${set('stat_assessors', '50')}</span><p class="muted">оценщиков</p></div></div>
-${list.length ? `<div class="grid3">${cards.join('')}</div>` : '<div class="dash"><p class="muted">Список экспертов появится скоро.</p></div>'}
-${D.assessorOrgs.length ? `<h2>Оценщики</h2><div class="orgs">${D.assessorOrgs.map((o) => `<div class="box org">${o.logo ? `<img class="elogo" src="${esc(o.logo)}" alt="">` : ''}<p class="b">${esc(o.name)}</p>${o.type ? `<p class="muted">${esc(o.type)}</p>` : ''}</div>`).join('')}</div>` : ''}
+<div class="sec" id="experts-list"><div class="intro"><h2>Эксперты</h2><p>Задачи составили практикующие юристы из юрфирм и компаний. Это не вопросы из учебника, а ситуации из практики, часто с подвохом, на котором ошибаются и опытные юристы.</p><p>Задачи писали без помощи ИИ. К каждой автор приложил эталонный ответ, ключевые и опциональные критерии.</p></div>
+${list.length ? `<div class="grid3 ecards">${cards.join('')}</div>` : '<div class="dash"><p class="muted">Список экспертов появится скоро.</p></div>'}</div>
+<div class="sec" id="assessors"><div class="intro"><h2>Оценщики ответов</h2><p>Ответы сервисов оценивали вслепую: оценщики не знали, чей ответ перед ними.</p><p>Каждый критерий они проверяли по существу, а все ссылки на нормы и судебные акты сверяли с первоисточниками. Если оценщик сомневался в задаче или критерии, он оставлял особое мнение, и такие случаи перепроверяли отдельно.</p></div>
+${D.assessorOrgs.length ? `<div class="orgs">${D.assessorOrgs.map((o) => `<div class="box org">${o.logo ? `<span class="org-logo"><img src="${esc(o.logo)}" alt="" loading="lazy"></span>` : ''}<p class="b">${esc(o.name)}</p>${o.type ? `<p class="muted">${esc(o.type)}</p>` : ''}</div>`).join('')}</div>` : '<div class="dash"><p class="muted">Список оценщиков появится скоро.</p></div>'}</div>
 ${formBox('Хотите подготовить задачи для следующей проверки? Оставьте свои контакты, мы свяжемся с вами, когда начнём подготовку.', 'Заявка эксперта', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + field('company', 'Название компании', 'autocomplete="organization"') + areaSelect + consent(), 'Отправить заявку', 'Спасибо! Мы свяжемся с вами, когда начнём подготовку следующей проверки.')}`;
 }
 
@@ -418,6 +442,26 @@ function catalogSpy() {
   links.forEach((l) => l.classList.toggle('on', l === cur));
 }
 window.addEventListener('scroll', catalogSpy, { passive: true });
+// White logos vanish on the white logo plate: measure each logo once and give light ones a dark plate.
+const LOGO_TONE = {};
+function markLightLogos() {
+  document.querySelectorAll('.eclogo img, .org-logo img, .logo-item.logo-img img').forEach((img) => {
+    const plate = img.parentElement;
+    const apply = (light) => plate.classList.toggle('on-dark', light);
+    if (img.src in LOGO_TONE) { apply(LOGO_TONE[img.src]); return; }
+    const probe = new Image(); probe.crossOrigin = 'anonymous'; probe.referrerPolicy = 'no-referrer';
+    probe.onload = () => {
+      try {
+        const c = document.createElement('canvas'); c.width = 48; c.height = 48; const g = c.getContext('2d');
+        g.drawImage(probe, 0, 0, 48, 48); const d = g.getImageData(0, 0, 48, 48).data; let sum = 0, n = 0;
+        for (let k = 0; k < d.length; k += 4) if (d[k + 3] > 128) { sum += (0.2126 * d[k] + 0.7152 * d[k + 1] + 0.0722 * d[k + 2]) / 255; n += 1; }
+        LOGO_TONE[img.src] = n > 20 && sum / n > 0.85 && n < 48 * 48 * 0.9; // mostly light pixels on a transparent background
+      } catch (e) { LOGO_TONE[img.src] = false; }
+      document.querySelectorAll('img').forEach((x) => { if (x.src === img.src && x.parentElement) x.parentElement.classList.toggle('on-dark', LOGO_TONE[img.src]); });
+    };
+    probe.src = img.src;
+  });
+}
 function render(preserve) {
   const keepY = window.scrollY;
   const h = location.hash || '#/';
@@ -435,6 +479,7 @@ function render(preserve) {
   document.getElementById('app').innerHTML = (set('demo_banner', 'да') === 'да' ? '<div class="demo-bar">Демоверсия: названия сервисов настоящие, результаты условные. Реальные результаты появятся после проверки.</div>' : '') + nav(cur) + '<div class="wrap">' + body + '</div>' + foot + ansModal();
   catalogSpy();
   fixYo();
+  markLightLogos();
   const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px');
   document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
   document.body.style.overflow = S.modal ? 'hidden' : '';
