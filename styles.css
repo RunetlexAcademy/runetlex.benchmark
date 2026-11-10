@@ -826,11 +826,14 @@ select{padding-right:44px;text-overflow:ellipsis;white-space:nowrap;overflow:hid
 /* Partners on the home page: wraps on wide screens, swipes on phones */
 .partners{display:flex;flex-direction:column;gap:4px}
 .partners .gallery{margin:16px 0 0}
-.partners-track{flex-wrap:wrap;overflow:visible}
-.partners .gallery-nav{display:none}
-a.logo-item.partner{transition:border-color .12s var(--ease)}
-a.logo-item.partner:hover{border-color:var(--accent)}
-@media (max-width:640px){.partners-track{flex-wrap:nowrap;overflow-x:auto}.partners .gallery-nav{display:flex}}
+.partners-track{gap:56px;align-items:center}
+a.logo-item.partner{width:auto;min-width:160px;height:120px;padding:0;border:0;background:none;scroll-snap-align:start}
+a.logo-item.partner img{max-width:260px;max-height:110px;width:auto;height:auto;transition:opacity .12s var(--ease)}
+a.logo-item.partner:hover img{opacity:.75}
+a.logo-item.partner.logo-txt{color:var(--ink);font-family:var(--disp);font-weight:400;font-size:30px;white-space:nowrap}
+a.logo-item.partner.logo-txt:hover{color:var(--accent)}
+a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-radius:12px}
+@media (max-width:560px){.partners-track{gap:36px}a.logo-item.partner{height:88px;min-width:120px}a.logo-item.partner img{max-width:200px;max-height:80px}a.logo-item.partner.logo-txt{font-size:24px}}
 /* Long service addresses wrap inside their cards */
 .hrow .col{min-width:0}
 .hrow p{overflow-wrap:break-word}
