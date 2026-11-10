@@ -1,5 +1,5 @@
 {
- "generatedAt": "10.11.2026 19:57",
+ "generatedAt": "10.11.2026 20:21",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -694,7 +694,7 @@
    "name": "Елена Кириллова",
    "company": "ООО \"Рунетлекс\"",
    "position": "Юрист",
-   "companyLogo": "",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1k47bWvWO57bKgtJtadP0lEd1ZSC9QcvG",
    "photo": "https://lh3.googleusercontent.com/d/1wcnRBUUIJQk2_pqMBdqDEwvvC4DaLbrq",
    "tasks": []
   },
@@ -780,7 +780,38 @@
    "tasks": []
   }
  ],
- "assessorOrgs": [],
+ "assessorOrgs": [
+  {
+   "id": "ORG05",
+   "name": "Балтийский федеральный университет им. Иммануила Канта",
+   "type": "",
+   "logo": "https://lh3.googleusercontent.com/d/1N9mnxgSl1AH5llWmnWlUAZ-Gy60wXchf"
+  },
+  {
+   "id": "ORG07",
+   "name": "Рунетлекс",
+   "type": "",
+   "logo": "https://lh3.googleusercontent.com/d/1k47bWvWO57bKgtJtadP0lEd1ZSC9QcvG"
+  },
+  {
+   "id": "ORG08",
+   "name": "Юридическая компания i-Legal",
+   "type": "",
+   "logo": "https://lh3.googleusercontent.com/d/1Q7BnH-qdtQL0HWWZlL84UWkWrZuB0t3A"
+  },
+  {
+   "id": "ORG10",
+   "name": "Коллегия адвокатов «Гатауллин и партнеры»",
+   "type": "",
+   "logo": "https://lh3.googleusercontent.com/d/1VZ7afiED9nlXWQsVK_f2nWx8eHQ_QcDp"
+  },
+  {
+   "id": "ORG12",
+   "name": "Билайн Adtech",
+   "type": "",
+   "logo": "https://lh3.googleusercontent.com/d/1eH6cIiq_1GaiKTqvh2xdeMnj8SeoC90F"
+  }
+ ],
  "team": [
   {
    "order": 1,
