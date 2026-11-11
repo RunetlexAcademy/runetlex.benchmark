@@ -892,7 +892,9 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 .csearch{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:0 18px;height:48px;background:var(--bg);transition:border-color .12s var(--ease)}
 .csearch:focus-within{border-color:var(--accent)}
 .csearch svg{width:18px;height:18px;color:var(--mute);flex-shrink:0}
-.csearch input{all:unset;flex:1;min-width:0;font-size:15px;color:var(--ink)}
+.csearch input{-webkit-appearance:none;appearance:none;border:0;border-radius:0;background:transparent;box-shadow:none;outline:none;padding:0;margin:0;height:100%;flex:1;min-width:0;width:100%;font:inherit;font-size:15px;color:var(--ink);-webkit-user-select:text;user-select:text}
+.csearch input:focus{border:0;box-shadow:none}
+.csearch input::-webkit-search-decoration{-webkit-appearance:none}
 .csearch input::placeholder{color:var(--soft)}
 .csearch input::-webkit-search-cancel-button{cursor:pointer}
 .lg-filter{gap:8px}
@@ -976,3 +978,4 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 .ecompany{border-top:0!important;padding-top:4px!important}
 /* iPhone zooms into any field smaller than 16px and keeps the zoom; fields on phones are 16px */
 @media (max-width:900px),(pointer:coarse){input,select,textarea,.csearch input{font-size:16px!important}}
+@media (max-width:640px){.legend.lg-filter{flex-direction:row!important;flex-wrap:wrap;gap:6px!important}.lg-btn{height:30px;padding:0 10px;font-size:12px;gap:6px}.lg-btn .sdot{width:10px;height:10px}}

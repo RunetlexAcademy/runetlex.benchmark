@@ -492,6 +492,17 @@ function matchSvc(keys, q) {
   if (plain.includes(ql) || lat.includes(latin(ql))) return true;
   return skels(q).filter((sq) => sq.length >= 2).some((sq) => tails.split(' ').some((sk) => sk.startsWith(sq) || (sq.length >= 5 && [sq.length - 1, sq.length, sq.length + 1].some((L) => lev(sq, sk.slice(0, L)) <= 1))));
 }
+// Phones: when the search field gets focus, lift it to just under the sticky menu and chips so the results show below it.
+window.searchFocus = (el) => {
+  if (window.innerWidth > 900) return;
+  setTimeout(() => {
+    const box = el.closest('.csearch'); const nv = document.querySelector('.nav'); const sb = document.querySelector('.sidebar');
+    const top = (nv ? nv.offsetHeight : 60) + (sb && getComputedStyle(sb).position === 'sticky' ? sb.offsetHeight : 0) + 12;
+    window.scrollTo({ top: box.getBoundingClientRect().top + window.scrollY - top, behavior: 'smooth' });
+  }, 300); // after the keyboard has opened
+};
+// Enter on the phone keyboard closes it so the results are visible.
+document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.csearch')) { e.preventDefault(); e.target.blur(); } });
 window.setCatFilt = (k) => { S.cfilt = S.cfilt === k ? 'all' : k; document.querySelectorAll('.lg-btn').forEach((b) => { const on = b.dataset.f === S.cfilt; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }); applyCatFilter(); };
 function applyCatFilter() {
   const q = (S.cq || '').trim(); const f = S.cfilt;
@@ -514,7 +525,7 @@ function catalog() {
 <div class="layout">
 <div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" data-sec="reg${i}" href="#/catalog" onclick="event.preventDefault();go('reg${i}')">${k}</a>`).join('')}</div>
 <div class="content">
-<label class="csearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input type="search" placeholder="Найти сервис по названию" aria-label="Поиск сервиса" value="${esc(S.cq || '')}" oninput="S.cq=this.value;applyCatFilter()" autocomplete="off"></label>
+<label class="csearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input type="search" placeholder="Найти сервис по названию" aria-label="Поиск сервиса" value="${esc(S.cq || '')}" oninput="S.cq=this.value;applyCatFilter()" onfocus="searchFocus(this)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"></label>
 <div class="legend lg-filter">${lg('all', '', 'все сервисы', D.services.length)}${lg('on', '<span class="sdot on"></span>', 'проверен в бенчмарке', nOn)}${lg('off', '<span class="sdot"></span>', 'пока не проверялся', D.services.length - nOn)}</div>
 <h2 style="border-top:1px solid var(--line);padding-top:28px">Все сервисы по категориям</h2>
 ${secs}
