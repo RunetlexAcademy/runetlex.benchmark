@@ -17,7 +17,7 @@
       t.author = id;
     });
     const res = r.results || {};
-    const services = (d.services || []).map((s) => ({ ...s, skills: s.skills || [], res: res[s.id] || [], tested: !!s.tested && (res[s.id] || []).length > 0 }));
+    const services = (d.services || []).map((s) => ({ ...s, skills: s.skills || [], res: res[s.id] || [], checked: !!s.tested, tested: !!s.tested && (res[s.id] || []).length > 0 }));
     return {
       areas: d.areas && d.areas.length ? d.areas : r.areas, short: d.short && d.short.length ? d.short : r.short, skills: d.skills || [],
       tasks, services, experts: experts.concat(extra),
@@ -28,6 +28,6 @@
 
   Promise.all([get('data.json'), get('results.json')])
     .then(([d, r]) => { window.DATA = merge(d, r); return load('sample.js'); })
-    .then(() => load('app.js'))
+    .then(() => load('app.js?v=' + Date.now()))
     .catch((e) => { console.error(e); document.getElementById('app').innerHTML = '<p style="padding:40px">Не удалось загрузить данные сайта. Обновите страницу.</p>'; });
 })();

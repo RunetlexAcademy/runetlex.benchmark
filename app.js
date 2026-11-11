@@ -1,7 +1,8 @@
 const D = window.DATA;
 const WM = '<svg class="wm" viewBox="0 0 271.5 32.6" fill="currentColor" aria-hidden="true"> <g> <g> <g> <g> <g> <g> <g> <path  d="M81.4,22.8c-1.4,0-2-0.8-2-2.5V12h6.4V9.5h-6.4V4.1h-2.9v5.4H73V12h3.4v8c0,2.6,1.5,5.2,5.6,5.2h3.7 v-2.5H81.4z"></path> <path  d="M36.8,17.3c0.1-3,1.8-5.8,5.7-5.8c3.1,0,5.1,1.8,5.1,5.6v8.1h2.9v-8.1c0-5.7-3.7-8.4-8.3-8.2 c-2.8,0.1-4.8,1.5-5.9,3V9.5h-2.9v15.7h3.4L36.8,17.3z"></path> <rect x="89.2" y="4.1"  width="3.4" height="21.1"></rect> <polygon  points="129.6,25.2 123.7,17.4 129.6,9.5 126,9.5 121.9,15 117.8,9.5 114.2,9.5 120.1,17.4 114.2,25.2 117.8,25.2 121.9,19.7 126,25.2 "></polygon> <g> <path d="M62.9,23.1c1.1,0,2.1-0.2,3-0.6c0.9-0.4,1.6-1,1.9-1.7h3.1c-0.6,1.5-1.6,2.7-3.2,3.6c-1.5,0.9-3.2,1.4-5,1.4 c-2.5,0-4.6-0.8-6.3-2.4c-1.7-1.6-2.5-3.6-2.5-6.1c0-2.3,0.8-4.3,2.4-6c1.6-1.6,3.7-2.4,6.3-2.4c2.7,0,4.8,0.9,6.4,2.7 c1.6,1.8,2.4,4.1,2.4,6.8H57c0.3,1.4,0.9,2.6,2,3.5C60,22.7,61.3,23.1,62.9,23.1z M62.5,11.5c-1.5,0-2.7,0.4-3.7,1.2 s-1.6,1.9-1.8,3.1h11c-0.3-1.4-0.9-2.4-1.9-3.2C65.2,11.9,64,11.5,62.5,11.5z"></path> </g> <g> <path d="M104.8,23.1c1.1,0,2.1-0.2,3-0.6c0.9-0.4,1.6-1,1.9-1.7h3.1c-0.6,1.5-1.6,2.7-3.2,3.6c-1.5,0.9-3.2,1.4-5,1.4 c-2.5,0-4.6-0.8-6.3-2.4c-1.7-1.6-2.5-3.6-2.5-6.1c0-2.3,0.8-4.3,2.4-6c1.6-1.6,3.7-2.4,6.3-2.4c2.7,0,4.8,0.9,6.4,2.7 c1.6,1.8,2.4,4.1,2.4,6.8H99c0.3,1.4,0.9,2.6,2,3.5C102,22.7,103.3,23.1,104.8,23.1z M104.5,11.5c-1.5,0-2.7,0.4-3.7,1.2 s-1.6,1.9-1.8,3.1h11c-0.3-1.4-0.9-2.4-1.9-3.2C107.1,11.9,105.9,11.5,104.5,11.5z"></path> </g> <path  d="M5.5,12c-1.4,0-2,0.8-2,2.5v10.8H0V9.5h3.4v1.6c0.6-1,1.7-1.6,3.4-1.6h3V12H5.5z"></path> <path  d="M26,17.4c-0.1,3-1.8,5.8-5.7,5.8c-3.1,0-5.1-1.8-5.1-5.6V9.5h-3.4v8.1c0,5.7,3.7,8.4,8.3,8.2 c2.8-0.1,4.8-1.5,5.9-3v2.4h3.4V9.5H26L26,17.4z"></path> </g> <rect x="98.5" y="15.9"  width="13.2" height="2.5"></rect> <rect x="55.9" y="15.9"  width="13.2" height="2.5"></rect> </g> </g> </g> </g> </g> <g> <path d="M137.4,22.4l2.3,0.6l-0.6,2.5c-0.8,0-1.9-0.3-2.5-0.6L137.4,22.4z"></path> <path d="M148.9,10.7l5.4-2.2c2.1,0.4,4.3,1.6,5.6,2.5v12.5L163,24l-0.5,1.4c-1.9-0.2-3.3-0.5-4.5-1.1v-2.6l-4.7,3.8 c-2.3-0.5-4.3-1.4-5.5-2.4l0.4-4.6l9.7-2.6v-4.2c-1.3-0.7-3.1-1.3-4.5-1.6l-4.2,2.3L148.9,10.7z M149.9,22.6 c0.8,0.4,2.4,1,3.8,1.2l4.5-3.3v-3.5l-8.2,2.5V22.6z"></path> <path d="M174.3,11.5c-1-0.5-2.7-1.1-3.8-1.4l-3.1,1.3v10.9c1.2,0.6,3.5,1.4,4.8,1.7l4.2-2.1l0.6,1.4l-5.5,2.2 c-2.2-0.5-4.5-1.6-5.8-2.5V10.9l5.4-2.4c1.4,0.4,2.6,0.8,3.4,1.3l0.5-2.6l1.1,0.4l-0.4,8.9l-1.7-0.3L174.3,11.5z"></path> <path d="M180.4,10.7l5.4-2.2c2.1,0.4,4.3,1.6,5.6,2.5v12.5l3.1,0.5l-0.5,1.4c-1.9-0.2-3.3-0.5-4.5-1.1v-2.6l-4.7,3.8 c-2.3-0.5-4.3-1.4-5.5-2.4l0.4-4.6l9.7-2.6v-4.2c-1.3-0.7-3.1-1.3-4.5-1.6l-4.2,2.3L180.4,10.7z M181.4,22.6 c0.8,0.4,2.4,1,3.8,1.2l4.5-3.3v-3.5l-8.2,2.5V22.6z"></path> <path d="M207.5,1.9l-3.1-0.4L205,0c1.9,0.2,3.3,0.4,4.4,1v22.5l3.1,0.4l-0.5,1.5c-1.9-0.2-3.4-0.4-4.5-1v-2.4l-4.6,3.5 c-1.9-0.2-4.5-1.3-5.9-2.5V11.2l5.8-2.6c1.5,0.2,3.1,0.8,4.6,1.4V1.9z M207.5,11.8c-0.9-0.5-3.5-1.2-5.1-1.5l-3.6,1.4v10.7 c1.2,0.5,3.1,1.2,4.4,1.5l4.3-2.9V11.8z"></path> <path d="M215.2,10.9l5.4-2.4c2.2,0.4,4.5,1.6,6,2.8l-1.5,5.9l-8.1,2.4v2.8c1.3,0.6,3.9,1.3,5.1,1.5l4.6-2l0.5,1.5l-5.8,2.1 c-2.2-0.4-4.7-1.4-6.2-2.3V10.9z M224.5,11.8c-1.4-0.8-3.1-1.4-4.4-1.7l-3.1,1.3v7.1l6.8-2.3L224.5,11.8z"></path> <path d="M234,12l4.3-3.5c1.7,0.4,3.9,1.5,5.5,2.9l4.2-2.9c1.7,0.4,3.9,1.5,5.4,2.8v12.2l3.1,0.4l-0.5,1.5c-2.6-0.2-4.8-0.6-6-1 v-0.1l1.6-0.8V12c-1-0.7-2.7-1.5-3.8-1.7l-4.1,2.5v10.8l3.2,0.4l-0.5,1.5c-2.6-0.2-4.9-0.6-6-1v-0.1l1.5-0.8V12 c-1-0.7-2.6-1.5-3.8-1.7l-4.1,2.9v10.4l3.1,0.4l-0.5,1.5c-2.5-0.2-4.8-0.6-6-1v-0.1l1.6-0.8V10.8l-2.9-0.4l0.5-1.5 c1.8,0.1,3,0.4,4.1,1V12z"></path> <path d="M257.1,9c1.1,0.1,1.9,0.3,2.8,0.8l2.3,12.2c0.7,0.5,2.4,1.2,3.4,1.4l3.9-12.3c-1.5-0.3-3.1-0.5-4.7-0.6l0.6-1.6 c2.3,0.1,4.6,0.6,6.1,1.2l-5,15.1l-1,7.5l-2-0.6l1.6-7c-1.6-0.5-3.6-1.5-4.5-2.3l-2.3-11.9l-1.6-0.2L257.1,9z"></path> </g> </g> </svg>';
-window.go = (id) => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' }); };
-const S = { area: -1, taskArea: -1, filt: 'all', open: {}, view: {} };
+// Smooth scroll to a section, below the menu and (in the catalog on phones) below the sticky category chips.
+window.go = (id) => { const el = document.getElementById(id); if (!el) return; const sb = document.querySelector('.sidebar'); const nv = document.querySelector('.nav'); let off = 90; if (sb && getComputedStyle(sb).position === 'sticky' && window.innerWidth <= 900) off = (nv ? nv.offsetHeight : 60) + sb.offsetHeight + 16; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior: 'smooth' }); };
+const S = { area: -1, taskArea: -1, filt: 'all', cfilt: 'all', cq: '', open: {}, view: {} };
 const $ = (h) => h;
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const byId = (id) => D.services.find((x) => x.id === id);
@@ -34,7 +35,7 @@ const COURSE_URL = set('course_url', 'https://runetlex-academy.ru/neuralnetworks
 const MOUNTAINS = '<svg class="course-art" viewBox="0 0 320 200" aria-hidden="true"><polygon points="0,200 70,110 120,150 175,60 230,130 270,95 320,140 320,200" fill="#1a56db" opacity=".18"/><polygon points="20,200 110,95 160,140 205,40 260,120 320,200" fill="#1a56db" opacity=".55"/><polygon points="205,40 230,80 214,76 200,100 188,82 175,90" fill="#fff" opacity=".9"/><polygon points="90,200 205,40 320,200" fill="#1a56db"/><path d="M205,40 C215,80 190,100 210,130 C228,158 200,175 215,200" fill="none" stroke="#f62a17" stroke-width="3"/><circle cx="205" cy="40" r="7" fill="#f62a17"/></svg>';
 // Partners: services with any paid package, highest package first; each logo links to the service site.
 const PKG_RANK = { p3: 3, p2: 2, p1: 1 };
-const partnersBlock = () => { const ps = D.services.filter((s) => PKG_RANK[s.pkg]).sort((x, y) => PKG_RANK[y.pkg] - PKG_RANK[x.pkg] || x.name.localeCompare(y.name, 'ru')); return ps.length ? `<div class="partners" id="partners"><h2>Партнёры Рунетлекс Бенчмарк</h2><div class="gallery"><div class="gallery-track partners-track">${ps.map((s) => `<a class="logo-item logo-img partner${s.logo ? '' : ' logo-txt'}" href="${esc(url(site1(s.site)))}" target="_blank" rel="noopener" title="${esc(s.name)}">${s.logo ? `<img src="${esc(s.logo)}" alt="${esc(s.name)}" loading="lazy">` : `<span>${esc(s.name)}</span>`}</a>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div></div>` : ''; };
+const partnersBlock = () => { const ps = D.services.filter((s) => PKG_RANK[s.pkg]).sort((x, y) => PKG_RANK[y.pkg] - PKG_RANK[x.pkg] || x.name.localeCompare(y.name, 'ru')); return ps.length ? `<div class="partners" id="partners"><h2>Партнёры Рунетлекс Бенчмарк</h2><div class="gallery"><div class="gallery-track partners-track">${ps.map((s) => `<a class="logo-item logo-img partner${s.logo ? '' : ' logo-txt'}" href="${esc(url(site1(s.site)))}" target="_blank" rel="noopener" title="${esc(s.name)}">${s.logo ? `<img src="${esc(s.logo)}" alt="${esc(s.name)}">` : `<span>${esc(s.name)}</span>`}</a>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div></div>` : ''; };
 const courseBlock = () => `<div class="course" id="course"><div class="course-body"><div class="course-pills"><span>${esc(set('course_stream', '8 поток'))}</span><span>${esc(set('course_dates', '16 ноября — 19 декабря 2026'))}</span></div><p class="course-kicker">Курс Рунетлекс Академии</p><h2 class="course-title">${esc(set('course_title', 'Нейросети для юриста: практика и результат'))}</h2><p>${esc(set('course_text', 'Пять недель практики, на которых вы соберёте своих ИИ-помощников для работы с документами, договорами и судебными делами. Успеете начать работать с ними ещё до нового года.'))}</p><p class="course-facts">5 недель · 2 вебинара в неделю · 4 ИИ-агента</p><div class="course-cta"><a class="btn red" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Записаться на курс</a><a class="course-more" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Посмотреть программу</a></div></div>${MOUNTAINS}</div>`;
 
 function stats(s) {
@@ -162,7 +163,7 @@ ${hint(`Все сервисы решали одни и те же ${N_TASKS} ${ta
 <div class="row cta-list"><a class="btn dark" href="#/method" onclick="setTimeout(()=>{go('m-report')},0)">Скачать полный отчёт</a><a class="btn" href="#/method" onclick="setTimeout(()=>{go('m-tasks')},0)">Смотреть задачи</a><a class="btn" href="#/method">Изучить методологию</a></div>`;
 }
 
-function skillTags(s) { return '<div class="row" style="gap:8px">' + s.skills.map((k) => `<span class="tag soft">${k}</span>`).join('') + '</div>'; }
+function skillTags(s) { return '<div class="row skills" style="gap:8px">' + s.skills.map((k) => `<span class="tag soft">${k}</span>`).join('') + '</div>'; }
 function viewSwitch(id, opts) {
   const v = S.view[id] || opts[0][0];
   return '<div class="switch"><span class="muted">показать как:</span>' + opts.map(([k, n]) => `<span class="tag ${v === k ? 'on' : ''}" onclick="setView('${id}','${k}')">${n}</span>`).join('') + '</div>';
@@ -176,9 +177,46 @@ const url = (u) => (/^https?:\/\//.test(u) ? u : 'https://' + u);
 // A service may list several addresses (one per line); the site shows and links the first one.
 const site1 = (s) => String(s || '').trim().split(/[\s,]+/)[0] || '';
 const siteText = (s) => site1(s).replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '');
+// Demo links from Kinescope, YouTube, Rutube or VK become an embedded player; any other link stays a button.
+const embedUrl = (raw) => {
+  const u = url(String(raw || '').trim()); let m;
+  if ((m = u.match(/kinescope\.io\/(?:embed\/|watch\/)?([A-Za-z0-9]+)/))) return 'https://kinescope.io/embed/' + m[1];
+  if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{6,})/))) return 'https://www.youtube.com/embed/' + m[1];
+  if ((m = u.match(/rutube\.ru\/(?:video|play\/embed)\/([a-f0-9]{20,})/))) return 'https://rutube.ru/play/embed/' + m[1];
+  if ((m = u.match(/vk(?:video)?\.(?:com|ru)\/.*video(-?\d+)_(\d+)/))) return `https://vkvideo.ru/video_ext.php?oid=${m[1]}&id=${m[2]}&hd=2`;
+  return '';
+};
+const gallery = (items, cls, label) => `<div class="gallery" aria-label="${label}"><div class="gallery-track ${cls}">${items}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div>`;
+// Screenshot viewer: opens over the page, arrows / keys / swipe move between screenshots.
+const LB = { list: [], i: 0, name: '' };
+function lbShow() {
+  const el = document.getElementById('lb'); if (!el) return;
+  el.querySelector('img').src = LB.list[LB.i];
+  el.querySelector('.lb-count').textContent = `${LB.i + 1} / ${LB.list.length}`;
+}
+window.openShot = (sid, i) => {
+  const s = byId(sid); if (!s) return;
+  LB.list = s.shots || []; LB.i = i; LB.name = s.name;
+  let el = document.getElementById('lb');
+  if (!el) {
+    el = document.createElement('div'); el.id = 'lb'; el.className = 'lb'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+    el.innerHTML = '<button type="button" class="lb-close" aria-label="закрыть" onclick="closeShot()">×</button><button type="button" class="lb-arr lb-prev" aria-label="предыдущий" onclick="stepShot(-1)">←</button><figure class="lb-fig"><img alt=""><figcaption class="lb-count"></figcaption></figure><button type="button" class="lb-arr lb-next" aria-label="следующий" onclick="stepShot(1)">→</button>';
+    el.addEventListener('click', (e) => { if (e.target === el || e.target.classList.contains('lb-fig')) closeShot(); });
+    let x0 = null;
+    el.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    el.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) stepShot(dx < 0 ? 1 : -1); });
+    document.body.appendChild(el);
+  }
+  el.querySelector('img').alt = 'скриншот ' + LB.name;
+  el.classList.toggle('single', LB.list.length < 2);
+  lbShow(); document.body.style.overflow = 'hidden'; el.hidden = false;
+};
+window.stepShot = (d) => { if (!LB.list.length) return; LB.i = (LB.i + d + LB.list.length) % LB.list.length; lbShow(); };
+window.closeShot = () => { const el = document.getElementById('lb'); if (el) el.hidden = true; document.body.style.overflow = S.modal ? 'hidden' : ''; };
+document.addEventListener('keydown', (e) => { const el = document.getElementById('lb'); if (!el || el.hidden) return; if (e.key === 'Escape') closeShot(); else if (e.key === 'ArrowRight') stepShot(1); else if (e.key === 'ArrowLeft') stepShot(-1); });
 function svcHead(s) {
   const line = vf(s.line, '[Слоган: одна строка о сервисе]');
-  return `<div class="svc-head"><div class="avatar lg">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(s.name.slice(0, 2).toUpperCase())}</div><div class="col" style="gap:8px"><h1>${esc(s.name)}</h1>${line ? `<p class="muted">${line}</p>` : ''}${skillTags(s)}<p class="svc-site"><a href="${url(site1(s.site))}" target="_blank" rel="noopener">${esc(siteText(s.site))}</a></p></div></div>`;
+  return `<div class="svc-head"><div class="svc-logo${s.logo ? '' : ' svc-ini'}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(s.name.slice(0, 2).toUpperCase())}</div><div class="col svc-hcol"><h1>${esc(s.name)}</h1>${line ? `<p class="muted">${line}</p>` : ''}${skillTags(s)}<p class="svc-site"><a href="${url(site1(s.site))}" target="_blank" rel="noopener">${esc(siteText(s.site))}</a></p></div></div>`;
 }
 function areaBars(st) {
   return `<div class="box"><p class="b">По отраслям</p><div class="abars">${D.areas.map((n, i) => { const pct = AREA_N[i] ? Math.round((st.byArea[i] / AREA_N[i]) * 100) : 0; return `<div class="abar"><span>${D.short[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><span class="muted">${st.byArea[i]} / ${AREA_N[i]}</span></div>`; }).join('')}</div></div>`;
@@ -192,9 +230,9 @@ function pkgBlocks(s, lvl) {
   if (lvl >= 2) {
     const how = vf(s.how, '[Развёрнутый текст вендора с примерами решения задач.]');
     out += box('Как сервис решает задачи юриста', how ? `<p class="pre">${how}</p>` : '');
-    const shots = (s.shots || []).map((u) => `<a class="shot" href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="скриншот ${esc(s.name)}" loading="lazy"></a>`).join('');
-    if (shots) out += `<div class="shots">${shots}</div>`; else if (PREVIEW) out += '<div class="grid2"><div class="ph media">скриншоты</div><div class="ph media">демо</div></div>';
-    if (s.demo) out += `<p><a class="btn" href="${esc(url(s.demo))}" target="_blank" rel="noopener">Попробовать демо</a></p>`;
+    const shots = (s.shots || []).map((u, i) => `<button type="button" class="shot" onclick="openShot('${s.id}',${i})" aria-label="открыть скриншот ${i + 1}"><img src="${esc(u)}" alt="скриншот ${esc(s.name)}" loading="lazy"></button>`).join('');
+    if (shots) out += `<div class="box"><div class="between"><h2>Скриншоты</h2>${vendorTag}</div>${gallery(shots, 'shots-track', 'скриншоты')}</div>`; else if (PREVIEW) out += '<div class="grid2"><div class="ph media">скриншоты</div><div class="ph media">демо</div></div>';
+    if (s.demo) { const em = embedUrl(s.demo); out += box('Демо', em ? `<div class="player"><iframe src="${esc(em)}" title="Демо ${esc(s.name)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; clipboard-write" allowfullscreen loading="lazy"></iframe></div><p class="muted player-alt"><a href="${esc(url(s.demo))}" target="_blank" rel="noopener">Посмотреть демо в отдельном окне</a></p>` : `<p><a class="btn" href="${esc(url(s.demo))}" target="_blank" rel="noopener">Посмотреть демо</a></p>`); }
     const contact = vf(s.contact, '[имя, должность, почта или телефон]');
     if (contact) out += `<div class="box"><p class="b">Контакт для закупки</p><p class="pre">${contact}</p></div>`;
   }
@@ -296,7 +334,38 @@ window.slideLogos = (btn, dir) => {
   g.scrollBy({ left: dx, behavior: 'smooth' });
   setTimeout(() => { if (g.scrollLeft === from) g.scrollBy({ left: dx }); }, 450); // browsers without smooth scrolling
 };
+// Phones: carousels get blue dots (one per screen) instead of arrow buttons.
+function initGalleries() {
+  document.querySelectorAll('.gallery').forEach((g) => {
+    const tr = g.querySelector('.gallery-track'); const nav = g.querySelector('.gallery-nav'); if (!tr || !nav) return;
+    let dots = nav.querySelector('.gdots');
+    if (!dots) { dots = document.createElement('div'); dots.className = 'gdots'; nav.appendChild(dots); }
+    const max = () => Math.max(0, tr.scrollWidth - tr.clientWidth);
+    const pages = () => (tr.clientWidth ? Math.max(1, Math.ceil(tr.scrollWidth / tr.clientWidth - 0.05)) : 1);
+    const mark = () => { const n = dots.children.length; const k = n > 1 && max() ? Math.round((tr.scrollLeft / max()) * (n - 1)) : 0; [...dots.children].forEach((d, i) => d.classList.toggle('on', i === k)); };
+    const build = () => {
+      const n = pages();
+      if (dots.children.length !== n) dots.innerHTML = n > 1 ? Array.from({ length: n }, (_, i) => `<button type="button" class="gdot" aria-label="экран ${i + 1}" data-k="${i}"></button>`).join('') : '';
+      g.classList.toggle('one-page', n < 2); mark();
+    };
+    if (!g.dataset.init) {
+      g.dataset.init = '1';
+      dots.addEventListener('click', (e) => { const b = e.target.closest('.gdot'); if (!b) return; const n = dots.children.length; tr.scrollTo({ left: n > 1 ? (max() * +b.dataset.k) / (n - 1) : 0, behavior: 'smooth' }); });
+      tr.addEventListener('scroll', mark, { passive: true });
+      tr.querySelectorAll('img').forEach((im) => { if (!im.complete) im.addEventListener('load', build, { once: true }); });
+      g._build = build;
+    }
+    build();
+  });
+}
+window.addEventListener('resize', () => document.querySelectorAll('.gallery').forEach((g) => g._build && g._build()));
 const logoCarousel = () => { const logos = [...new Map(D.experts.filter((e) => !e.hidden && e.companyLogo).map((e) => [e.companyLogo, e])).values()]; return `<div class="gallery" aria-label="юрфирмы-эксперты"><div class="gallery-track">${logos.length ? logos.map((e) => `<div class="logo-item logo-img"><img src="${esc(e.companyLogo)}" alt="${esc(e.company)}" loading="lazy"></div>`).join('') : Array.from({ length: 8 }, (_, i) => `<div class="ph logo-item">логотип ${i + 1}</div>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div>`; };
+// Stepan's job title: the «Настройки сайта» value if it is filled in, otherwise his position on the «Команда» sheet.
+const authorPos = () => {
+  const v = set('methodology_author_position', ''); if (v && !/^\[/.test(v)) return v;
+  const p = (D.team.find((x) => /Леонтьев/.test(x.name)) || {}).position || '';
+  return p ? p.charAt(0).toLowerCase() + p.slice(1) : 'автор методологии';
+};
 function methodology() {
   const a = S.taskArea;
   const list = D.tasks.filter((t) => a === -1 || t.area === a);
@@ -315,7 +384,7 @@ function methodology() {
   return `<div class="intro" id="m-method"><div class="row wrap" style="align-items:baseline;gap:12px"><h1>Методология</h1><span class="updated"><span class="dot"></span>сбор ответов сервисов: ${esc(PERIOD)}</span></div><p>Здесь мы рассказываем, как проверяли сервисы: кто придумывал задачи, как оценивали ответы и как считали итог. Ниже собраны все задачи с ответами сервисов и полный отчёт.</p><div class="intro-cta"><a class="btn dark" href="#/method" onclick="setTimeout(()=>go('m-steps'),0)">Изучить методологию</a>${pdfBtn('')}</div></div>
 <h2 id="m-steps">Как проходила проверка</h2>
 <div class="steps">
-${step(1, 'Разработали методологию', [`Методологию бенчмарка разработал Степан Леонтьев, ${esc(set('methodology_author_position', '[должность]'))}. Он описал, какими должны быть задачи, как их оценивать и как считать итог.`, 'Главное в методологии — система ключевых и опциональных критериев. Благодаря ей ответ сервиса сравнивают не с чьим-то личным мнением, а с конкретным списком того, что в нём должно быть.'], crit + (pdf ? `<div class="step-cta">${pdfBtn('')}</div>` : ''))}
+${step(1, 'Разработали методологию', [`Методологию бенчмарка разработал Степан Леонтьев, ${esc(authorPos())}. Он описал, какими должны быть задачи, как их оценивать и как считать итог.`, 'Главное в методологии — система ключевых и опциональных критериев. Благодаря ей ответ сервиса сравнивают не с чьим-то личным мнением, а с конкретным списком того, что в нём должно быть.'], crit + (pdf ? `<div class="step-cta">${pdfBtn('')}</div>` : ''))}
 ${step(2, 'Эксперты подготовили задачи', [`${N_EXPERTS} практикующих юристов составили ${N_TASKS} ${taskWord(+N_TASKS)} по пяти отраслям права: разрешение споров, договорное право, недвижимость, корпоративное право и интеллектуальная собственность.`, 'Это не вопросы из учебника, а ситуации из практики, часто с подвохом, на котором ошибаются и опытные юристы. У каждой задачи один правильный ответ, и он опирается на закон или позицию высших судов.', 'Задачи писали без помощи ИИ. К каждой автор приложил эталонный ответ, ключевые и опциональные критерии.'], `${logoCarousel()}<div class="step-cta"><a class="btn" href="#/experts">Об экспертах</a></div>`)}
 ${step(3, 'Собрали ответы сервисов', [`Каждый из ${N_SERVICES} ${svcGen} получил все ${N_TASKS} ${taskWord(+N_TASKS)} в одинаковой формулировке. Ответы мы собирали ${esc(PERIOD)} и сохранили дословно, их можно прочитать на странице каждой задачи.`, 'Мы проверяли только одну функцию сервисов: ответ на практический правовой вопрос.'])}
 ${step(4, 'Оценили ответы по критериям', ['Оценщики не знали, чей ответ читают. Каждый критерий они проверяли по существу: если мысль передана верно, критерий засчитывается, даже когда формулировка отличается от эталона или вывод обоснован другой подходящей нормой.', 'Все ссылки на нормы и судебные акты сверяли с первоисточниками. Ошибка в номере статьи стоит одного балла, а выдуманная норма, на которой построен вывод, делает весь ответ непригодным.', 'Если оценщик сомневался в задаче или критерии, он оставлял особое мнение, и такие случаи перепроверяли отдельно.'], `${D.assessorOrgs.length ? orgCarousel() : ''}<div class="step-cta"><a class="btn" href="#/experts" onclick="setTimeout(()=>go('assessors'),0)">Об оценщиках</a></div>`)}
@@ -331,12 +400,12 @@ ${areaTags(a, 'setTaskArea')}
 </div>`;
 }
 // Team photos uploaded to the site; a photo link in the sheet («Команда») takes priority.
-const TEAM_PHOTOS = { 'Павел Мищенко': 'assets/team/mishchenko.jpg', 'Ксения Даньшина': 'assets/team/danshina.jpg', 'Екатерина Чевычелова': 'assets/team/chevychelova.jpg', 'Валентина Виноградова': 'assets/team/vinogradova.jpg' };
+const TEAM_PHOTOS = { 'Павел Мищенко': 'assets/team/mishchenko.jpg', 'Ксения Даньшина': 'assets/team/danshina.jpg', 'Екатерина Чевычелова': 'assets/team/chevychelova.jpg', 'Валентина Виноградова': 'assets/team/vinogradova.jpg', 'Марина Джатэ': 'assets/team/dzhate.jpg', 'Евгений Вихров': 'assets/team/vikhrov.jpg' };
 const initials = (n) => n.split(' ').map((w) => w[0]).join('').slice(0, 2);
 const ACADEMY = 'https://runetlex-academy.ru';
 const astat = (st) => `<div class="box astat"><span class="num">${esc(st.num).replace(/ /g, '&nbsp;')}</span><p class="b">${esc(st.label)}</p>${st.text ? `<p class="muted">${esc(st.text)}</p>` : ''}${st.url ? `<a class="more" href="${esc(st.url)}" target="_blank" rel="noopener">${esc(st.linkText || 'Подробнее')}</a>` : ''}</div>`;
 function about() {
-  const team = D.team.map((p) => { const ph = p.photo || TEAM_PHOTOS[p.name]; return `<div class="box person">${ph ? `<img class="photo" src="${esc(ph)}" alt="${esc(p.name)}" loading="lazy">` : '<div class="ph photo">фото</div>'}<div class="col" style="gap:4px"><p class="b">${esc(p.name)}</p><p class="muted">${esc(p.position)}</p><p>${esc(p.role)}</p></div></div>`; }).join('');
+  const team = D.team.map((p) => { const ph = TEAM_PHOTOS[p.name] || p.photo; return `<div class="box person">${ph ? `<img class="photo" src="${esc(ph)}" alt="${esc(p.name)}" loading="lazy">` : '<div class="ph photo">фото</div>'}<div class="col" style="gap:4px"><p class="b">${esc(p.name)}</p><p class="muted">${esc(p.position)}</p><p>${esc(p.role)}</p></div></div>`; }).join('');
   return `<div class="intro"><h1>О Рунетлекс Академии</h1><p>Рунетлекс Академия учит юристов работать с нейросетями. Бенчмарк подготовила наша команда.</p></div>
 ${D.academyStats.length ? `<div class="astats">${D.academyStats.map(astat).join('')}</div>` : ''}
 <p>Полезные материалы о нейросетях в юридических задачах собраны в нашей <a href="${ACADEMY}/neuralnetworks/base" target="_blank" rel="noopener">базе знаний</a>. Задачи для бенчмарка готовили и оценивали практикующие юристы и юрфирмы, они на странице <a href="#/experts">«Эксперты»</a>.</p>
@@ -356,16 +425,49 @@ function taskPage(id) {
 // Latin-named services first, then Russian alphabetical order.
 const isLatin = (n) => /^[A-Za-z]/.test(n);
 const byName = (a, b) => (isLatin(b.name) - isLatin(a.name)) || a.name.localeCompare(b.name, isLatin(a.name) ? 'en' : 'ru', { sensitivity: 'base' });
+// Catalog search. Names are compared three ways: as typed, transliterated to Latin, and as a sound skeleton
+// (consonants only, similar sounds merged), so «доксилла», «лав копайлот» or «yandex» find Doczilla, LawCopilot, Яндекс.
+const CYR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'i', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'iu', я: 'ia' };
+const latin = (t) => String(t).toLowerCase().replace(/[а-яё]/g, (c) => (c in CYR ? CYR[c] : c));
+const skel = (t, merge) => latin(t).replace(/[^a-z0-9]/g, '').replace(/ph/g, 'f').replace(/ck/g, 'k').replace(/x/g, 'ks').replace(/qu/g, 'kv').replace(/q/g, 'k').replace(/w/g, 'v').replace(/j/g, 'dzh').replace(/c(?=[eiy])/g, 's').replace(/ts|tz/g, 's').replace(/c/g, 'k').replace(/z/g, 's').replace(/th/g, 't').replace(/[aeiouyv]/g, '').replace(/ks/g, merge ? 's' : 'ks').replace(/(.)\1+/g, '$1');
+// «Doczilla» is read both as «док-зилла» and «до-цзилла»: a second skeleton merges «кс» into «с».
+const skels = (t) => [...new Set([skel(t), skel(t, true)])];
+// Skeletons of the name from each word start («Нейро Защита» → «нейрозащита», «защита»), so a query matches a word beginning, not the middle of a word.
+const wordTails = (t) => { const w = String(t).replace(/([a-zа-яё])([A-ZА-ЯЁ])/g, '$1 $2').split(/[\s\-–—_.()]+/).filter(Boolean); return w.flatMap((_, i) => skels(w.slice(i).join(''))).filter(Boolean); };
+const searchKeys = (name, site) => [String(name).toLowerCase() + ' ' + String(site || '').toLowerCase(), latin(name) + ' ' + latin(site || ''), wordTails(name).concat(wordTails(String(site || '').replace(/\.[a-zа-я]+$/i, ''))).join(' ')].join('\u0001');
+const lev = (a, b) => { let prev = Array.from({ length: b.length + 1 }, (_, j) => j); for (let i = 1; i <= a.length; i++) { const cur = [i]; for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = cur; } return prev[b.length]; };
+function matchSvc(keys, q) {
+  const [plain, lat, tails] = keys.split('\u0001'); const ql = q.toLowerCase().replace(/\s+/g, ' ');
+  if (plain.includes(ql) || lat.includes(latin(ql))) return true;
+  return skels(q).filter((sq) => sq.length >= 2).some((sq) => tails.split(' ').some((sk) => sk.startsWith(sq) || (sq.length >= 5 && [sq.length - 1, sq.length, sq.length + 1].some((L) => lev(sq, sk.slice(0, L)) <= 1))));
+}
+window.setCatFilt = (k) => { S.cfilt = S.cfilt === k ? 'all' : k; document.querySelectorAll('.lg-btn').forEach((b) => { const on = b.dataset.f === S.cfilt; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }); applyCatFilter(); };
+function applyCatFilter() {
+  const q = (S.cq || '').trim(); const f = S.cfilt;
+  let any = false;
+  document.querySelectorAll('.cat-sec').forEach((sec) => {
+    let n = 0;
+    sec.querySelectorAll('.scard').forEach((c) => { const ok = (f === 'all' || (f === 'on') === (c.dataset.on === '1')) && (!q || matchSvc(c.dataset.q, q)); c.hidden = !ok; if (ok) n += 1; });
+    sec.hidden = !n; if (n) any = true;
+    const chip = document.querySelector(`.sidebar .stag[data-sec="${sec.id}"]`); if (chip) chip.classList.toggle('empty', !n);
+  });
+  const e = document.querySelector('.cat-empty'); if (e) e.hidden = any;
+  catalogSpy();
+}
 function catalog() {
-  const card = (s) => `<a class="box lnk hrow" href="#/service/${s.id}"><div class="avatar">${s.name.slice(0, 2).toUpperCase()}</div><div class="col grow" style="gap:2px"><p class="b">${s.name}</p><p class="muted csite">${esc(siteText(s.site))}</p></div><span class="sdot${s.tested ? ' on' : ''}" title="${s.tested ? 'проверен в бенчмарке' : 'пока не проверялся'}"></span></a>`;
-  const secs = D.skills.map((k, i) => { const list = D.services.filter((s) => s.skills.includes(k)).sort(byName); return list.length ? `<div class="col" id="reg${i}" style="gap:14px"><h2 class="cat-h">${k}</h2><div class="grid3">${list.map(card).join('')}</div></div>` : ''; }).join('');
+  const card = (s) => `<a class="box lnk hrow scard" href="#/service/${s.id}" data-on="${s.checked ? 1 : 0}" data-q="${esc(searchKeys(s.name, siteText(s.site)))}"><div class="avatar">${s.name.slice(0, 2).toUpperCase()}</div><div class="col grow" style="gap:2px"><p class="b">${s.name}</p><p class="muted csite">${esc(siteText(s.site))}</p></div><span class="sdot${s.checked ? ' on' : ''}" title="${s.checked ? 'проверен в бенчмарке' : 'пока не проверялся'}"></span></a>`;
+  const secs = D.skills.map((k, i) => { const list = D.services.filter((s) => s.skills.includes(k)).sort(byName); return list.length ? `<div class="col cat-sec" id="reg${i}" style="gap:14px"><h2 class="cat-h">${k}</h2><div class="grid3">${list.map(card).join('')}</div></div>` : ''; }).join('');
+  const nOn = D.services.filter((s) => s.checked).length;
+  const lg = (k, dot, label, n) => `<button type="button" class="lg-btn${S.cfilt === k ? ' on' : ''}" data-f="${k}" aria-pressed="${S.cfilt === k}" onclick="setCatFilt('${k}')">${dot}${label}<span class="lg-n">${n}</span></button>`;
   return `<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверяем навык «Ответ на правовой вопрос»: у этих сервисов есть результат на ${N_TASKS} задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
 <div class="layout">
-<div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" data-sec="reg${i}" href="#/catalog" onclick="setTimeout(()=>go('reg${i}'),0)">${k}</a>`).join('')}</div>
+<div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" data-sec="reg${i}" href="#/catalog" onclick="event.preventDefault();go('reg${i}')">${k}</a>`).join('')}</div>
 <div class="content">
-<div class="legend"><span><span class="sdot on"></span>проверен в бенчмарке</span><span><span class="sdot"></span>пока не проверялся</span></div>
+<label class="csearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input type="search" placeholder="Найти сервис по названию" aria-label="Поиск сервиса" value="${esc(S.cq || '')}" oninput="S.cq=this.value;applyCatFilter()" autocomplete="off"></label>
+<div class="legend lg-filter">${lg('all', '', 'все сервисы', D.services.length)}${lg('on', '<span class="sdot on"></span>', 'проверен в бенчмарке', nOn)}${lg('off', '<span class="sdot"></span>', 'пока не проверялся', D.services.length - nOn)}</div>
 <h2 style="border-top:1px solid var(--line);padding-top:28px">Все сервисы по категориям</h2>
 ${secs}
+<div class="dash cat-empty" hidden><p class="muted">Ничего не нашлось. Попробуйте другое написание или напишите нам о сервисе в форме ниже.</p></div>
 ${formBox('Знаете юридический ИИ-сервис, которого нет в реестре? Напишите нам об этом.', 'Новый сервис для реестра', field('name', 'Название сервиса') + field('url', 'Ссылка на сервис', 'type="url" placeholder="https://"'), 'Отправить', 'Спасибо! Мы проверим сервис и добавим его в реестр.')}
 </div></div>`;
 }
@@ -403,7 +505,7 @@ function experts() {
   });
   const areaSelect = `<label class="fld"><span>Ваша экспертная отрасль</span><select name="area" data-label="Отрасль" required onchange="const o=this.form.querySelector('.fld-other');o.hidden=this.value!=='другая';o.querySelector('input').required=!o.hidden"><option value="">Выберите отрасль</option>${D.areas.map((a) => `<option>${a}</option>`).join('')}<option>другая</option></select></label><label class="fld fld-other" hidden><span>Напишите вашу отрасль</span><input name="areaOther" data-label="Другая отрасль"></label>`;
   return `<div class="intro"><h1>Эксперты и оценщики</h1><p>Бенчмарк сделали люди, а не алгоритмы. Практикующие юристы придумали задачи, а оценщики из юрфирм, компаний и университетов проверили, как с ними справились сервисы.</p></div>
-<div class="grid3"><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p></div><div class="box stat"><span class="num">${set('stat_assessors', '50')}</span><p class="muted">оценщиков</p></div></div>
+<div class="grid2 estats"><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">практикующих юристов-экспертов</p></div><div class="box stat"><span class="num">${set('stat_assessors', '50')}</span><p class="muted">оценщиков</p></div></div>
 <div class="sec" id="experts-list"><div class="intro"><h2>Эксперты</h2><p>Задачи составили практикующие юристы из юрфирм и компаний. Это не вопросы из учебника, а ситуации из практики, часто с подвохом, на котором ошибаются и опытные юристы.</p><p>Задачи писали без помощи ИИ. К каждой автор приложил эталонный ответ, ключевые и опциональные критерии.</p></div>
 ${list.length ? `<div class="grid3 ecards">${cards.join('')}</div>` : '<div class="dash"><p class="muted">Список экспертов появится скоро.</p></div>'}</div>
 <div class="sec" id="assessors"><div class="intro"><h2>Оценщики ответов</h2><p>Ответы сервисов оценивали вслепую: оценщики не знали, чей ответ перед ними.</p><p>Каждый критерий они проверяли по существу, а все ссылки на нормы и судебные акты сверяли с первоисточниками. Если оценщик сомневался в задаче или критерии, он оставлял особое мнение, и такие случаи перепроверяли отдельно.</p></div>
@@ -445,7 +547,7 @@ window.addEventListener('scroll', catalogSpy, { passive: true });
 // White logos vanish on the white logo plate: measure each logo once and give light ones a dark plate.
 const LOGO_TONE = {};
 function markLightLogos() {
-  document.querySelectorAll('.eclogo img, .org-logo img, .logo-item.logo-img img').forEach((img) => {
+  document.querySelectorAll('.eclogo img, .org-logo img, .logo-item.logo-img img, .svc-logo img').forEach((img) => {
     const plate = img.parentElement;
     const apply = (light) => plate.classList.toggle('on-dark', light);
     if (img.src in LOGO_TONE) { apply(LOGO_TONE[img.src]); return; }
@@ -480,10 +582,12 @@ function render(preserve) {
   catalogSpy();
   fixYo();
   markLightLogos();
+  initGalleries();
+  if (p[0] === 'catalog') applyCatFilter();
   const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px');
   document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
   document.body.style.overflow = S.modal ? 'hidden' : '';
   if (!preserve) window.scrollTo(0, 0); else if (window.scrollY !== keepY) window.scrollTo(0, keepY);
 }
-window.addEventListener('hashchange', () => { S.modal = null; document.body.classList.remove('menu-open'); render(); });
+window.addEventListener('hashchange', () => { S.modal = null; closeShot(); document.body.classList.remove('menu-open'); render(); });
 render();
