@@ -56,7 +56,7 @@
         ev.preventDefault(); const key = form.key.value.trim(); if (!key) return;
         btn.disabled = true; btn.textContent = 'Проверяем…'; err.hidden = true;
         call(endpoint, key, 'results').then((r) => {
-          if (r && !r.error) { store.set(key); resolve({ key, r }); return; }
+          if (r && !r.error) { store.set(key); if (document.activeElement) document.activeElement.blur(); resolve({ key, r }); return; }
           err.textContent = r && r.error === 'password' ? 'Неверный пароль.' : 'Данные закрытого просмотра пока не загружены. Попросите обновить их в таблице.'; err.hidden = false;
         }).catch(() => { err.textContent = 'Не удалось связаться с сервером. Попробуйте ещё раз.'; err.hidden = false; })
           .then(() => { btn.disabled = false; btn.textContent = 'Войти'; });
