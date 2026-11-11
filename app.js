@@ -426,7 +426,7 @@ function methodology() {
   const svcGen = +N_SERVICES % 10 === 1 && +N_SERVICES % 100 !== 11 ? 'сервиса' : 'сервисов';
   // Full methodology text (Yandex Disk link) from «Настройки сайта» → methodology_pdf; the buttons appear once it is filled.
   const pdf = set('methodology_pdf', '');
-  const pdfBtn = (cls) => (pdf ? `<a class="btn${cls}" href="${esc(pdf)}" target="_blank" rel="noopener">Прочитать полный текст методологии</a>` : '');
+  const pdfBtn = (cls) => (pdf ? `<a class="btn${cls}" href="${esc(pdf)}" target="_blank" rel="noopener">Скачать полный файл с методологией</a>` : '');
   const crit = `<ul class="step-list">
 <li><b>Ключевые критерии</b> описывают то, без чего ответом нельзя пользоваться в работе. Если ответ не выполнил хотя бы один из них, задача считается нерешённой.</li>
 <li><b>Опциональные критерии</b> отвечают за полноту и точность. Каждый выполненный критерий, ключевой или опциональный, приносит один балл. Баллы только начисляются, штрафов нет.</li>
