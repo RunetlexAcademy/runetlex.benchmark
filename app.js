@@ -359,7 +359,9 @@ function initGalleries() {
   });
 }
 window.addEventListener('resize', () => document.querySelectorAll('.gallery').forEach((g) => g._build && g._build()));
-const logoCarousel = () => { const logos = [...new Map(D.experts.filter((e) => !e.hidden && e.companyLogo).map((e) => [e.companyLogo, e])).values()]; return `<div class="gallery" aria-label="юрфирмы-эксперты"><div class="gallery-track">${logos.length ? logos.map((e) => `<div class="logo-item logo-img"><img src="${esc(e.companyLogo)}" alt="${esc(e.company)}" loading="lazy"></div>`).join('') : Array.from({ length: 8 }, (_, i) => `<div class="ph logo-item">логотип ${i + 1}</div>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div>`; };
+// One logo per company: several experts from one firm upload the same logo as separate files.
+const companyKey = (c) => String(c || '').toLowerCase().replace(/[«»"'“”]/g, '').replace(/,?\s*г\.\s*[^,]+$/, '').replace(/\s+/g, ' ').trim();
+const logoCarousel = () => { const logos = [...new Map(D.experts.filter((e) => !e.hidden && e.companyLogo).map((e) => [companyKey(e.company) || e.companyLogo, e])).values()]; return `<div class="gallery" aria-label="юрфирмы-эксперты"><div class="gallery-track">${logos.length ? logos.map((e) => `<div class="logo-item logo-img"><img src="${esc(e.companyLogo)}" alt="${esc(e.company)}" loading="lazy"></div>`).join('') : Array.from({ length: 8 }, (_, i) => `<div class="ph logo-item">логотип ${i + 1}</div>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div>`; };
 // Stepan's job title: the «Настройки сайта» value if it is filled in, otherwise his position on the «Команда» sheet.
 const authorPos = () => {
   const v = set('methodology_author_position', ''); if (v && !/^\[/.test(v)) return v;
@@ -410,6 +412,7 @@ function about() {
 ${D.academyStats.length ? `<div class="astats">${D.academyStats.map(astat).join('')}</div>` : ''}
 <p>Полезные материалы о нейросетях в юридических задачах собраны в нашей <a href="${ACADEMY}/neuralnetworks/base" target="_blank" rel="noopener">базе знаний</a>. Задачи для бенчмарка готовили и оценивали практикующие юристы и юрфирмы, они на странице <a href="#/experts">«Эксперты»</a>.</p>
 ${team ? `<h2>Команда проекта</h2><div class="grid3 team">${team}</div>` : ''}
+${courseBlock()}
 <div class="box contact"><h2>Связаться с нами</h2><p>Вопросы о бенчмарке, участие в следующей проверке, сотрудничество — пишите на <a href="mailto:${EMAIL}">${EMAIL}</a>.</p><div><a class="btn dark" href="mailto:${EMAIL}">Написать нам</a></div></div>`;
 }
 function taskPage(id) {
@@ -495,11 +498,29 @@ const surname = (name) => {
   if (p === 2) return /(вна|чна)$/i.test(w[2]) && /(ова|ева|ёва|ина|ына|ская|цкая)$/i.test(w[1]) && !SURNAME_END.test(w[0]) ? w[1] : w[0]; // «Мария Великова Георгиевна»
   return SURNAME_END.test(w[0]) && !SURNAME_END.test(w[1]) ? w[0] : w[1];
 };
+// Where the face is on each expert photo: [x, y] as shares of the photo, and how much to zoom into the circle.
+// Photos not listed are framed by shape: tall portraits keep the upper part, where the head is.
+const FACES = { EXP023: [0.48, 0.19, 1.4], EXP015: [0.47, 0.26, 1.4], EXP007: [0.47, 0.27, 1.25], EXP022: [0.52, 0.21, 1.35], EXP004: [0.48, 0.23, 1.4], EXP005: [0.48, 0.37, 1.05], EXP009: [0.45, 0.4, 1.05], EXP018: [0.58, 0.25, 1.7], EXP024: [0.5, 0.38, 1.05], EXP013: [0.53, 0.33, 1.6], EXP016: [0.5, 0.22, 1.5], EXP002: [0.52, 0.27, 1.6] };
+window.frameFace = (img) => {
+  const r = img.naturalHeight / img.naturalWidth; if (!r) return;
+  const [fx, fy, z] = FACES[img.dataset.id] || (r > 1.15 ? [0.5, 0.28, 1.25] : [0.5, 0.5, 1.1]);
+  const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+  // object-fit:cover inside the circle; all sizes in shares of the circle's diameter
+  const W = r < 1 ? 1 / r : 1, H = r > 1 ? r : 1;
+  const px = W > 1 ? clamp((fx * W - 0.5) / (W - 1)) : 0.5, py = H > 1 ? clamp((fy * H - 0.5) / (H - 1)) : 0.5;
+  const x0 = -px * (W - 1), y0 = -py * (H - 1); const ox = x0 + fx * W, oy = y0 + fy * H;
+  // zoom from the centre, then move the face to the centre as far as the photo still covers the circle
+  const shift = (o, a0, len) => clamp(-z * (o - 0.5), 0.5 - z * (a0 + len - 0.5), -0.5 - z * (a0 - 0.5));
+  const tx = shift(ox, x0, W), ty = shift(oy, y0, H);
+  img.style.objectPosition = `${(px * 100).toFixed(1)}% ${(py * 100).toFixed(1)}%`;
+  img.style.transformOrigin = '50% 50%';
+  img.style.transform = `translate(${(tx * 100).toFixed(1)}%, ${(ty * 100).toFixed(1)}%) scale(${z})`;
+};
 function experts() {
   const list = D.experts.filter((e) => !e.hidden).sort((a, b) => surname(a.name).localeCompare(surname(b.name), 'ru') || a.name.localeCompare(b.name, 'ru'));
   const cards = list.map((e) => {
     const ts = D.tasks.filter((t) => t.author === e.id); const per = D.areas.map((a, i) => [a, ts.filter((t) => t.area === i).length]).filter((x) => x[1]);
-    const pic = e.photo ? `<span class="ephoto"><img src="${esc(e.photo)}" alt="${esc(e.name)}" loading="lazy"></span>` : `<span class="ephoto ph-ini">${esc(initials(e.name))}</span>`;
+    const pic = e.photo ? `<span class="ephoto"><img src="${esc(e.photo)}" alt="${esc(e.name)}" loading="lazy" data-id="${esc(e.id)}" onload="frameFace(this)"></span>` : `<span class="ephoto ph-ini">${esc(initials(e.name))}</span>`;
     const company = e.company ? `<div class="ecompany">${e.companyLogo ? `<span class="eclogo"><img src="${esc(e.companyLogo)}" alt="" loading="lazy"></span>` : ''}<span>${esc(e.company)}</span></div>` : '';
     return `<div class="box ecard"><div class="ehead">${pic}<div class="col" style="gap:4px"><p class="b">${esc(e.name)}</p>${e.position ? `<p class="muted">${esc(e.position)}</p>` : ''}</div></div>${per.length ? `<ul class="dlist">${per.map((x) => `<li>${x[0]} (${x[1]} ${taskWord(x[1])})</li>`).join('')}</ul>` : ''}${company}</div>`;
   });
@@ -545,22 +566,47 @@ function catalogSpy() {
 }
 window.addEventListener('scroll', catalogSpy, { passive: true });
 // White logos vanish on the white logo plate: measure each logo once and give light ones a dark plate.
-const LOGO_TONE = {};
+// Logos on plates: measure each logo once.
+// 1) white logos vanish on the white plate, so light ones get a dark plate;
+// 2) many logos come with wide empty margins and look tiny, so the drawn part is found and enlarged to fill the plate.
+const LOGO_TONE = {}; const LOGO_BOX = {};
+function fitLogo(img) {
+  const bb = LOGO_BOX[img.src]; const plate = img.parentElement;
+  if (!bb || !plate || !plate.matches('.logo-item.logo-img:not(.partner), .eclogo')) return;
+  const w = img.offsetWidth, h = img.offsetHeight; if (!w || !h) return;
+  const cs = getComputedStyle(plate);
+  const bw = plate.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const bh = plate.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  const cw = w * (bb[2] - bb[0]), ch = h * (bb[3] - bb[1]);
+  const k = Math.min(3, bw / cw, bh / ch);
+  if (k < 1.12) { img.style.transform = ''; return; }
+  const cx = w * ((bb[0] + bb[2]) / 2 - 0.5), cy = h * ((bb[1] + bb[3]) / 2 - 0.5);
+  img.style.transform = `translate(${(-cx * k).toFixed(1)}px, ${(-cy * k).toFixed(1)}px) scale(${k.toFixed(3)})`;
+}
+function measureLogo(probe, src) {
+  try {
+    const W = 96, H = Math.max(8, Math.round(96 * probe.naturalHeight / probe.naturalWidth)) || 96;
+    const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+    g.drawImage(probe, 0, 0, W, H); const d = g.getImageData(0, 0, W, H).data;
+    let sum = 0, n = 0, x0 = W, y0 = H, x1 = -1, y1 = -1;
+    const lum = (k) => (0.2126 * d[k] + 0.7152 * d[k + 1] + 0.0722 * d[k + 2]) / 255;
+    for (let k = 0; k < d.length; k += 4) if (d[k + 3] > 128) { sum += lum(k); n += 1; }
+    const light = n > 20 && sum / n > 0.85 && n < W * H * 0.9; // mostly light pixels on a transparent background
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const k = (y * W + x) * 4; const ink = d[k + 3] > 40 && (light || d[k + 3] < 250 || lum(k) < 0.93);
+      if (ink) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    LOGO_TONE[src] = light;
+    LOGO_BOX[src] = x1 >= x0 && y1 >= y0 ? [x0 / W, y0 / H, (x1 + 1) / W, (y1 + 1) / H] : null;
+  } catch (e) { LOGO_TONE[src] = false; LOGO_BOX[src] = null; }
+}
 function markLightLogos() {
   document.querySelectorAll('.eclogo img, .org-logo img, .logo-item.logo-img img, .svc-logo img').forEach((img) => {
-    const plate = img.parentElement;
-    const apply = (light) => plate.classList.toggle('on-dark', light);
-    if (img.src in LOGO_TONE) { apply(LOGO_TONE[img.src]); return; }
+    const done = (x) => { if (!x.parentElement) return; x.parentElement.classList.toggle('on-dark', !!LOGO_TONE[x.src]); if (x.complete && x.naturalWidth) fitLogo(x); else x.addEventListener('load', () => fitLogo(x), { once: true }); };
+    if (img.src in LOGO_TONE) { done(img); return; }
     const probe = new Image(); probe.crossOrigin = 'anonymous'; probe.referrerPolicy = 'no-referrer';
-    probe.onload = () => {
-      try {
-        const c = document.createElement('canvas'); c.width = 48; c.height = 48; const g = c.getContext('2d');
-        g.drawImage(probe, 0, 0, 48, 48); const d = g.getImageData(0, 0, 48, 48).data; let sum = 0, n = 0;
-        for (let k = 0; k < d.length; k += 4) if (d[k + 3] > 128) { sum += (0.2126 * d[k] + 0.7152 * d[k + 1] + 0.0722 * d[k + 2]) / 255; n += 1; }
-        LOGO_TONE[img.src] = n > 20 && sum / n > 0.85 && n < 48 * 48 * 0.9; // mostly light pixels on a transparent background
-      } catch (e) { LOGO_TONE[img.src] = false; }
-      document.querySelectorAll('img').forEach((x) => { if (x.src === img.src && x.parentElement) x.parentElement.classList.toggle('on-dark', LOGO_TONE[img.src]); });
-    };
+    probe.onload = () => { measureLogo(probe, img.src); document.querySelectorAll('img').forEach((x) => { if (x.src === img.src) done(x); }); };
+    probe.onerror = () => { LOGO_TONE[img.src] = false; LOGO_BOX[img.src] = null; };
     probe.src = img.src;
   });
 }
