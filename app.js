@@ -15,6 +15,8 @@ const resOf = (s, tid) => s.res.find((r) => r.t === tid);
 const tested = D.services.filter((s) => s.tested);
 const untested = D.services.filter((s) => !s.tested);
 const TOTAL = D.tasks.reduce((a, t) => a + t.total, 0);
+// «Полнота ответов» is shown as the share of all criteria (key and optional) the service met.
+const pct = (pts) => (TOTAL ? Math.round((pts / TOTAL) * 100) : 0) + '%';
 const AREA_N = D.areas.map((_, i) => D.tasks.filter((t) => t.area === i).length);
 // Site settings from the sheet «Настройки сайта»; empty values fall back to what the data says.
 const SET = D.settings || {};
@@ -58,7 +60,7 @@ const NOMS = [];
 const winners = (val) => { const best = Math.max(...tested.map(val)); return [...tested].filter((x) => val(x) === best).sort(byName); };
 const nom = (t, val, d) => { if (!tested.length) return; const w = winners(val); NOMS.push({ t, w, d: d(val(w[0])) }); };
 D.areas.forEach((name, a) => nom('лучший: ' + D.short[a], (x) => ST[x.id].byArea[a], (v) => v + ' из ' + AREA_N[a] + ' задач'));
-nom('самый полный', (x) => ST[x.id].pts, (v) => v + ' баллов из ' + TOTAL);
+nom('самый полный', (x) => ST[x.id].pts, (v) => 'полнота ответов ' + pct(v));
 nom('самый точный по источникам', (x) => ST[x.id].src, (v) => 'ссылки верны в ' + v + ' задачах из ' + (D.tasks.filter((t) => t.srcCode).length || D.tasks.length));
 nom('самый сбалансированный', (x) => ST[x.id].min, (v) => 'не меньше ' + v + ' решённых задач в каждой отрасли');
 const nomsOf = (id) => NOMS.filter((n) => n.w.some((x) => x.id === id));
@@ -137,7 +139,7 @@ function home() {
     const st = ST[s.id];
     const solved = a === -1 ? st.solved + ' / ' + D.tasks.length : st.byArea[a] + ' / ' + AREA_N[a];
     const strong = st.byArea.map((v, i) => [v, i]).sort((x, y) => y[0] - x[0]).slice(0, 2).map((x) => D.short[x[1]]).join(', ');
-    return `<tr class="clk" onclick="location.hash='#/service/${s.id}'"><td><a class="sname" href="#/service/${s.id}">${s.name}</a></td><td>${solved}</td><td>${st.pts} / ${TOTAL}</td><td>${strong}</td></tr>`;
+    return `<tr class="clk" onclick="location.hash='#/service/${s.id}'"><td><a class="sname" href="#/service/${s.id}">${s.name}</a></td><td>${solved}</td><td>${pct(st.pts)}</td><td>${strong}</td></tr>`;
   });
   const chartMax = a === -1 ? D.tasks.length : AREA_N[a];
   const top5 = order.slice(0, 5).map((s, i) => {
@@ -165,7 +167,7 @@ ${D.takeaways.length ? `<div class="takeaways"><h2>Ключевые выводы
 ${DISCLAIMER}
 ${areaTags(a, 'setArea')}
 <div class="chart">${top5}</div>
-${hint(`«Решено задач» — количество задач, по которым сервис дал правильный ответ по ключевым критериям. Каждый сервис проверялся на ${N_TASKS} задачах.`, '«Полнота ответов» — сколько всего баллов набрал сервис по ключевым и опциональным критериям.', '«Сильные отрасли» — отрасли, в которых сервис показал наилучшие результаты.', `Подробности по каждой задаче на странице сервиса и в разделе ${METHOD_LINK}.`)}
+${hint(`«Решено задач» — количество задач, по которым сервис дал правильный ответ по ключевым критериям. Каждый сервис проверялся на ${N_TASKS} задачах.`, '«Полнота ответов» — какую долю всех критериев, ключевых и опциональных, выполнил сервис по всем задачам.', '«Сильные отрасли» — отрасли, в которых сервис показал наилучшие результаты.', `Подробности по каждой задаче на странице сервиса и в разделе ${METHOD_LINK}.`)}
 <table class="rtable"><tr><th>сервис</th><th>решено задач${a === -1 ? '' : ' · ' + D.short[a]}</th><th>полнота ответов</th><th>сильные отрасли</th></tr>${rows.join('')}</table>
 ${hint(`Все сервисы решали одни и те же ${N_TASKS} ${taskWord(+N_TASKS)} по пяти отраслям права.`, 'Задачи готовили практикующие юристы юрфирм, ответы оценивала группа оценщиков вслепую.', `Задачи, эталонные ответы, ответы сервисов и оценки открыты: вы можете изучить всю информацию на странице конкретного сервиса и в разделе ${METHOD_LINK}.`, 'Участие бесплатное, место в результатах не продаётся.')}
 </div></div>
@@ -353,7 +355,7 @@ function service(id) {
   const st = ST[s.id];
   const resultBlock = `<h2>Результат</h2>
 ${DISCLAIMER}
-<div class="grid3"><div class="box stat"><span class="num">${st.solved} / ${D.tasks.length}</span><p class="muted">задач решено</p></div><div class="box stat"><span class="num">${st.pts} / ${TOTAL}</span><p class="muted">полнота ответов</p></div>${areaBars(st)}</div>
+<div class="grid3"><div class="box stat"><span class="num">${st.solved} / ${D.tasks.length}</span><p class="muted">задач решено</p></div><div class="box stat"><span class="num">${pct(st.pts)}</span><p class="muted">полнота ответов</p></div>${areaBars(st)}</div>
 ${lvl >= 1 ? box('Комментарий к результату', vf(s.comment, `[Комментарий вендора к своим результатам. Подпись: ${s.name}, дата.]`) ? `<p class="pre">${vf(s.comment, `[Комментарий вендора к своим результатам. Подпись: ${s.name}, дата.]`)}</p>` : '') : ''}`;
   const f = S.filt; const ta = S.taskArea;
   const inArea = s.res.filter((r) => ta === -1 || task(r.t).area === ta);
@@ -429,7 +431,7 @@ function methodology() {
 <li><b>Ключевые критерии</b> описывают то, без чего ответом нельзя пользоваться в работе. Если ответ не выполнил хотя бы один из них, задача считается нерешённой.</li>
 <li><b>Опциональные критерии</b> отвечают за полноту и точность. Каждый выполненный критерий, ключевой или опциональный, приносит один балл. Баллы только начисляются, штрафов нет.</li>
 <li><b>Общие критерии для всех задач.</b> Ответ должен отвечать на вопрос и опираться только на нормы и судебные акты, которые действительно существуют. Отдельно мы смотрим, верно ли названы ссылки, не противоречат ли выводы друг другу и не придумывает ли ответ факты, которых нет в задаче.</li>
-<li><b>Два результата у каждого сервиса:</b> сколько задач решено и сколько баллов набрано. Они не зависят друг от друга: ответ может быть подробным и всё равно непригодным из-за одной грубой ошибки.</li>
+<li><b>Два результата у каждого сервиса:</b> сколько задач решено и какова полнота ответов, то есть доля выполненных критериев. Они не зависят друг от друга: ответ может быть подробным и всё равно непригодным из-за одной грубой ошибки.</li>
 </ul>`;
   return `<div class="intro" id="m-method"><div class="row wrap" style="align-items:baseline;gap:12px"><h1>Методология</h1><span class="updated"><span class="dot"></span>сбор ответов сервисов: ${esc(PERIOD)}</span></div><p>Здесь мы рассказываем, как проверяли сервисы: кто придумывал задачи, как оценивали ответы и как считали итог. Ниже собраны все задачи с ответами сервисов и полный отчёт.</p><div class="intro-cta"><a class="btn dark" href="#/method" onclick="setTimeout(()=>go('m-steps'),0)">Изучить методологию</a>${pdfBtn('')}</div></div>
 <h2 id="m-steps">Как проходила проверка</h2>
