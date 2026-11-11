@@ -947,3 +947,4 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin{animation:none}}
 @media (max-width:640px){.md-table table{font-size:13px}.md-table th,.md-table td{min-width:150px;padding:7px 8px}}
+.nom-multi .b a{color:inherit}.nom-multi .b a:hover{color:var(--accent)}

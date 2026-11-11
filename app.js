@@ -51,15 +51,20 @@ function stats(s) {
 }
 const ST = {}; tested.forEach((s) => { ST[s.id] = stats(s); });
 const ranked = [...tested].sort((a, b) => ST[b.id].solved - ST[a.id].solved || ST[b.id].pts - ST[a.id].pts);
+const isLatin = (n) => /^[A-Za-z]/.test(n);
+const byName = (a, b) => (isLatin(b.name) - isLatin(a.name)) || a.name.localeCompare(b.name, isLatin(a.name) ? 'en' : 'ru', { sensitivity: 'base' });
+// Nominations. When several services share the best value, all of them win.
 const NOMS = [];
-if (tested.length) D.areas.forEach((name, a) => {
-  const best = [...tested].sort((x, y) => ST[y.id].byArea[a] - ST[x.id].byArea[a])[0];
-  NOMS.push({ t: 'лучший: ' + D.short[a], s: best, d: ST[best.id].byArea[a] + ' из ' + AREA_N[a] + ' задач' });
-});
-if (tested.length) { const b = [...tested].sort((x, y) => ST[y.id].pts - ST[x.id].pts)[0]; NOMS.push({ t: 'самый полный', s: b, d: ST[b.id].pts + ' баллов из ' + TOTAL }); }
-if (tested.length) { const b = [...tested].sort((x, y) => ST[y.id].src - ST[x.id].src)[0]; NOMS.push({ t: 'самый точный по источникам', s: b, d: 'ссылки верны в ' + ST[b.id].src + ' задачах из ' + (D.tasks.filter((t) => t.srcCode).length || D.tasks.length) }); }
-if (tested.length) { const b = [...tested].sort((x, y) => ST[y.id].min - ST[x.id].min || ST[y.id].solved - ST[x.id].solved)[0]; NOMS.push({ t: 'самый сбалансированный', s: b, d: 'не меньше ' + ST[b.id].min + ' решённых задач в каждой отрасли' }); }
-const nomsOf = (id) => NOMS.filter((n) => n.s.id === id);
+const winners = (val) => { const best = Math.max(...tested.map(val)); return [...tested].filter((x) => val(x) === best).sort(byName); };
+const nom = (t, val, d) => { if (!tested.length) return; const w = winners(val); NOMS.push({ t, w, d: d(val(w[0])) }); };
+D.areas.forEach((name, a) => nom('лучший: ' + D.short[a], (x) => ST[x.id].byArea[a], (v) => v + ' из ' + AREA_N[a] + ' задач'));
+nom('самый полный', (x) => ST[x.id].pts, (v) => v + ' баллов из ' + TOTAL);
+nom('самый точный по источникам', (x) => ST[x.id].src, (v) => 'ссылки верны в ' + v + ' задачах из ' + (D.tasks.filter((t) => t.srcCode).length || D.tasks.length));
+nom('самый сбалансированный', (x) => ST[x.id].min, (v) => 'не меньше ' + v + ' решённых задач в каждой отрасли');
+const nomsOf = (id) => NOMS.filter((n) => n.w.some((x) => x.id === id));
+const nomCard = (n) => (n.w.length === 1
+  ? `<a class="box lnk" href="#/service/${n.w[0].id}"><span class="tag nom">${n.t}</span><p class="b">${esc(n.w[0].name)}</p><p class="muted">${n.d}</p></a>`
+  : `<div class="box nom-multi"><span class="tag nom">${n.t}</span><p class="b">${n.w.map((x) => `<a href="#/service/${x.id}">${esc(x.name)}</a>`).join(', ')}</p><p class="muted">${n.d}${n.w.length > 1 ? ' у каждого' : ''}</p></div>`);
 
 const NAV = [['#/', 'Результаты', 'results'], ['#/method', 'Методология', null], ['#/catalog', 'Все ИИ-сервисы', null], ['#/cases', 'Кейсы', null], ['#/experts', 'Эксперты', null], ['#/about', 'О нас', null]];
 function nav(cur) {
@@ -153,7 +158,7 @@ ${courseBlock()}
 <div class="grid4" id="stats"><div class="box stat"><span class="num">${N_SERVICES}</span><p class="muted">${one(+N_SERVICES) ? "юридический" : "юридических"} ИИ-${svcWord(+N_SERVICES)}</p></div><div class="box stat"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p></div><div class="box stat"><span class="num">${N_EXPERTS}</span><p class="muted">экспертов готовили задачи для оценки</p></div><div class="box stat"><span class="num">${set('stat_nominations', String(NOMS.length))}</span><p class="muted">номинаций</p></div></div>
 ${D.takeaways.length ? `<div class="takeaways"><h2>Ключевые выводы</h2><ol>${D.takeaways.map((t) => `<li>${esc(t)}</li>`).join('')}</ol></div>` : ''}
 <h2 id="results">Номинации</h2>
-<div class="grid4 noms-row">${NOMS.map((n) => `<a class="box lnk" href="#/service/${n.s.id}"><span class="tag nom">${n.t}</span><p class="b">${n.s.name}</p><p class="muted">${n.d}</p></a>`).join('')}</div>
+<div class="grid4 noms-row">${NOMS.map(nomCard).join('')}</div>
 <div class="layout">
 <div class="content">
 <h2>Результаты${a === -1 ? ' по всем задачам' : ' · ' + D.short[a]}</h2>
@@ -469,8 +474,6 @@ ${!taskReady(t) ? LOADING : `<div class="tdetail"><div class="tmain">${clampBloc
 <h2>Как решили ${tested.length} сервисов</h2><table><tr><th>сервис</th><th>итог</th><th>критерии</th><th></th></tr>${rows.join('')}</table>`;
 }
 // Latin-named services first, then Russian alphabetical order.
-const isLatin = (n) => /^[A-Za-z]/.test(n);
-const byName = (a, b) => (isLatin(b.name) - isLatin(a.name)) || a.name.localeCompare(b.name, isLatin(a.name) ? 'en' : 'ru', { sensitivity: 'base' });
 // Catalog search. Names are compared three ways: as typed, transliterated to Latin, and as a sound skeleton
 // (consonants only, similar sounds merged), so «доксилла», «лав копайлот» or «yandex» find Doczilla, LawCopilot, Яндекс.
 const CYR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'i', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'iu', я: 'ia' };
