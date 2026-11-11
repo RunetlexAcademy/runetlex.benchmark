@@ -6,7 +6,8 @@
  *
  * Меню «Рунетлекс»:
  *   • Проверить результаты — показывает, что уйдёт на сайт, и ошибки. Ничего не публикует.
- *   • Опубликовать результаты — записывает на сайт одним коммитом:
+ *   • Обновить закрытый просмотр — настоящие результаты видны только по паролю (см. раздел ниже).
+ *   • Опубликовать результаты для всех — записывает на сайт одним коммитом:
  *       results.json      — задачи (название, отрасль, автор, число критериев) и итоги оценок: решена ли задача,
  *                           баллы и какие критерии выполнены. Грузится на каждой странице, поэтому без длинных текстов.
  *       tasks/T001.json … — по файлу на задачу: фабула, эталонный ответ, тексты критериев и ответы всех сервисов.
@@ -53,28 +54,28 @@ function publishResults() {
 function buildResults_() {
   const errors = []; const warnings = [];
   const own = SpreadsheetApp.getActive();
-  const srcId = siteSetting_(own, 'results_sheet_id') || RESULTS_SOURCE_ID;
+  const srcId = resSetting_(own, 'results_sheet_id') || RESULTS_SOURCE_ID;
   let src;
-  try { src = SpreadsheetApp.openById(srcId); } catch (e) { errors.push('Нет доступа к таблице с результатами (' + srcId + '): ' + e.message); return empty_(errors, warnings); }
+  try { src = SpreadsheetApp.openById(srcId); } catch (e) { errors.push('Нет доступа к таблице с результатами (' + srcId + '): ' + e.message); return resEmpty_(errors, warnings); }
 
   const read = (name, cols, required) => {
     const sh = src.getSheetByName(name);
     if (!sh) { errors.push('В таблице результатов нет листа «' + name + '»'); return []; }
-    return readCols_(sh, cols, required, errors);
+    return resCols_(sh, cols, required, errors);
   };
 
   // 1. Сервисы: название в таблице результатов → ID сервиса на сайте (по адресу сайта, затем по названию)
-  const siteSvc = readCols_(own.getSheetByName('Сервисы'), ['ID сервиса', 'Название', 'Сайт'], ['ID сервиса', 'Название'], errors);
+  const siteSvc = resCols_(own.getSheetByName('Сервисы'), ['ID сервиса', 'Название', 'Сайт'], ['ID сервиса', 'Название'], errors);
   const byHost = {}; const byName = {};
   siteSvc.forEach((s) => {
     if (!s['ID сервиса']) return;
-    hosts_(s['Сайт']).forEach((h) => { byHost[h] = s['ID сервиса']; });
-    byName[norm_(s['Название'])] = s['ID сервиса'];
+    resHosts_(s['Сайт']).forEach((h) => { byHost[h] = s['ID сервиса']; });
+    byName[resNorm_(s['Название'])] = s['ID сервиса'];
   });
   const svcId = {};
   read('Сервисы', RES_COLS.services, ['Сервис']).forEach((s) => {
     const name = String(s['Сервис']).trim(); if (!name) return;
-    const id = hosts_(s['Ссылка на сервис']).map((h) => byHost[h]).find(Boolean) || byName[norm_(name)];
+    const id = resHosts_(s['Ссылка на сервис']).map((h) => byHost[h]).find(Boolean) || byName[resNorm_(name)];
     if (id) svcId[name] = id; else errors.push('Сервис «' + name + '» не найден в листе «Сервисы» этой таблицы: проверьте адрес сайта');
   });
 
@@ -91,7 +92,7 @@ function buildResults_() {
     if (!cs.length) errors.push('У задачи ' + id + ' нет критериев на листе «Критерии»');
     if (!String(t['Фабула']).trim()) errors.push('У задачи ' + id + ' пустая фабула');
     if (!String(t['Автор']).trim()) warnings.push('У задачи ' + id + ' не указан автор');
-    const title = String(t['Название задачи'] || '').trim() || titleFromFile_(t['Файл']) || id;
+    const title = String(t['Название задачи'] || '').trim() || resTitle_(t['Файл']) || id;
     // the standard criterion «Ответ опирается на необходимые источники…» feeds the nomination «самый точный по источникам»
     const srcCode = (cs.find((c) => SOURCES_RE.test(c.text)) || {}).code || '';
     tasks.push({ id, title, srcCode, areaName: String(t['Отрасль']).trim(), authorName: String(t['Автор']).trim(), total: cs.length, key: cs.filter((c) => c.type === 'key').length, opt: cs.filter((c) => c.type === 'opt').length });
@@ -101,7 +102,7 @@ function buildResults_() {
 
   // 3. Оценки: только сданные; колонки K1…/O1… — выполнен ли критерий
   const gradeSheet = src.getSheetByName('Оценки');
-  const grades = gradeSheet ? readCols_(gradeSheet, RES_COLS.grades.concat(critCols_(gradeSheet)), ['ID ответа', 'ID задачи', 'Сервис', 'Статус'], errors) : [];
+  const grades = gradeSheet ? resCols_(gradeSheet, RES_COLS.grades.concat(resCritCols_(gradeSheet)), ['ID ответа', 'ID задачи', 'Сервис', 'Статус'], errors) : [];
   if (!gradeSheet) errors.push('В таблице результатов нет листа «Оценки»');
   const byAnswer = {};
   grades.forEach((g) => {
@@ -135,25 +136,25 @@ function buildResults_() {
   Object.keys(results).forEach((sid) => results[sid].sort((a, b) => (a.t < b.t ? -1 : 1)));
 
   const out = { generatedAt: Utilities.formatDate(new Date(), 'Europe/Moscow', 'dd.MM.yyyy HH:mm'), tasks, results };
-  return { results: out, taskFiles, errors, warnings: dedupe_(warnings) };
+  return { results: out, taskFiles, errors, warnings: resDedupe_(warnings) };
 }
 
-function empty_(errors, warnings) { return { results: { tasks: [], results: {} }, taskFiles: {}, errors, warnings }; }
+function resEmpty_(errors, warnings) { return { results: { tasks: [], results: {} }, taskFiles: {}, errors, warnings }; }
 
 // Columns read by header name only; anything not listed is never read.
-function readCols_(sheet, cols, required, errors) {
+function resCols_(sheet, cols, required, errors) {
   const vals = sheet.getDataRange().getDisplayValues(); if (!vals.length) return [];
   const head = vals[0].map((h) => String(h).trim()); const idx = {};
   cols.forEach((c) => { const i = head.indexOf(c); if (i >= 0) idx[c] = i; });
   (required || []).forEach((c) => { if (!(c in idx)) errors.push('На листе «' + sheet.getName() + '» нет колонки «' + c + '»'); });
   return vals.slice(1).map((row) => { const o = {}; Object.keys(idx).forEach((c) => { o[c] = row[idx[c]]; }); return o; });
 }
-function critCols_(sheet) { return sheet.getRange(1, 1, 1, sheet.getLastColumn()).getDisplayValues()[0].map((h) => String(h).trim()).filter((h) => /^[KO]\d+$/.test(h)); }
-function hosts_(s) { return String(s || '').split(/[\s,]+/).filter(Boolean).map((u) => u.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split(/[/?#]/)[0]).filter(Boolean); }
-function norm_(s) { return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]/g, ''); }
-function titleFromFile_(f) { const s = String(f || '').replace(/\.docx?$/i, '').replace(/^LB-[^-]+-[^-]+-/, '').trim(); return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
-function dedupe_(a) { return a.filter((x, i) => a.indexOf(x) === i); }
-function siteSetting_(ss, key) {
+function resCritCols_(sheet) { return sheet.getRange(1, 1, 1, sheet.getLastColumn()).getDisplayValues()[0].map((h) => String(h).trim()).filter((h) => /^[KO]\d+$/.test(h)); }
+function resHosts_(s) { return String(s || '').split(/[\s,]+/).filter(Boolean).map((u) => u.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split(/[/?#]/)[0]).filter(Boolean); }
+function resNorm_(s) { return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]/g, ''); }
+function resTitle_(f) { const s = String(f || '').replace(/\.docx?$/i, '').replace(/^LB-[^-]+-[^-]+-/, '').trim(); return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+function resDedupe_(a) { return a.filter((x, i) => a.indexOf(x) === i); }
+function resSetting_(ss, key) {
   const sh = ss.getSheetByName('Настройки сайта'); if (!sh) return '';
   const row = sh.getDataRange().getDisplayValues().find((r) => String(r[0]).trim() === key);
   return row ? String(row[1]).trim() : '';
@@ -208,4 +209,51 @@ function resultsReport_(title, r) {
   if (r.warnings.length) text += '\n\nПредупреждения:\n• ' + r.warnings.slice(0, 30).join('\n• ') + (r.warnings.length > 30 ? '\n… и ещё ' + (r.warnings.length - 30) : '');
   if (!r.errors.length && !r.warnings.length) text += '\n\nОшибок нет, можно публиковать.';
   SpreadsheetApp.getUi().alert(title, text, SpreadsheetApp.getUi().ButtonSet.OK);
+}
+
+// ---------- закрытый просмотр (до запуска) ----------
+//
+// «Обновить закрытый просмотр» собирает те же файлы, но кладёт их не на сайт, а в закрытую папку на Google Диске
+// владельца скрипта. Сайт, открытый по ссылке https://benchmark.runetlex-academy.ru/?private, спрашивает пароль
+// и получает данные через веб-приложение этого проекта (doPost ниже). Без пароля веб-приложение ничего не отдаёт.
+//
+// Настройка один раз: Настройки проекта → Свойства скрипта → PREVIEW_PASSWORD = пароль для коллег.
+// Адрес веб-приложения записывается в «Настройки сайта» строкой preview_endpoint.
+// При запуске: «Опубликовать результаты для всех», а строку preview_endpoint можно удалить.
+
+const PREVIEW_FOLDER_NAME = 'Бенчмарк — закрытый просмотр (доступ не открывать)';
+
+function updatePreview() {
+  const ui = SpreadsheetApp.getUi(); const props = PropertiesService.getScriptProperties();
+  if (!props.getProperty('PREVIEW_PASSWORD')) { ui.alert('Не задан пароль', 'Добавьте свойство скрипта PREVIEW_PASSWORD: Расширения → Apps Script → Настройки проекта → Свойства скрипта.', ui.ButtonSet.OK); return; }
+  const r = buildResults_();
+  if (r.errors.length) { resultsReport_('Закрытый просмотр не обновлён', r); return; }
+  const folder = previewFolder_();
+  const put = (name, text) => { const it = folder.getFilesByName(name); if (it.hasNext()) it.next().setContent(text); else folder.createFile(name, text, MimeType.PLAIN_TEXT); };
+  put('results.json', JSON.stringify(r.results));
+  Object.keys(r.taskFiles).forEach((id) => put(id + '.json', JSON.stringify(r.taskFiles[id])));
+  ui.alert('Закрытый просмотр обновлён', resultsSummary_(r) + '\n\nСмотреть: https://benchmark.runetlex-academy.ru/?private\nДля всех остальных сайт не изменился.', ui.ButtonSet.OK);
+}
+
+function previewFolder_() {
+  const props = PropertiesService.getScriptProperties(); const id = props.getProperty('PREVIEW_FOLDER_ID');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (e) { /* folder deleted: create again */ } }
+  const f = DriveApp.createFolder(PREVIEW_FOLDER_NAME);
+  props.setProperty('PREVIEW_FOLDER_ID', f.getId());
+  return f;
+}
+
+// Веб-приложение отвечает на POST {kind:'preview', key, file} файлом из закрытой папки. GET по-прежнему открывает анкету.
+function doPost(e) {
+  const out = (o) => ContentService.createTextOutput(typeof o === 'string' ? o : JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+  let req = {}; try { req = JSON.parse((e && e.postData && e.postData.contents) || '{}'); } catch (x) { return out({ error: 'bad_request' }); }
+  if (req.kind !== 'preview') return out({ error: 'unknown' });
+  const props = PropertiesService.getScriptProperties(); const pass = props.getProperty('PREVIEW_PASSWORD');
+  if (!pass || String(req.key || '') !== pass) { Utilities.sleep(1000); return out({ error: 'password' }); }
+  const file = String(req.file || '');
+  const name = file === 'results' ? 'results.json' : /^[A-Za-z0-9_-]{1,40}$/.test(file) ? file + '.json' : '';
+  const id = props.getProperty('PREVIEW_FOLDER_ID');
+  if (!name || !id) return out({ error: 'not_found' });
+  const it = DriveApp.getFolderById(id).getFilesByName(name);
+  return it.hasNext() ? out(it.next().getBlob().getDataAsString('UTF-8')) : out({ error: 'not_found' });
 }
