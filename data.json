@@ -16,7 +16,8 @@
   "policy_url": "https://runetlex-academy.ru/privacy",
   "contact_email": "academy@runetlex.ru",
   "demo_banner": "да",
-  "forms_endpoint": "https://script.google.com/macros/s/AKfycbwRySGcSbtyyzwRPSrVsEGnoU5iSg-YXkRNcGYcEbNhKZk2qjmIhcIVNxhR8anDNsqY/exec"
+  "forms_endpoint": "https://script.google.com/macros/s/AKfycbwRySGcSbtyyzwRPSrVsEGnoU5iSg-YXkRNcGYcEbNhKZk2qjmIhcIVNxhR8anDNsqY/exec",
+  "preview_endpoint": "https://script.google.com/macros/s/AKfycbxXNhJZoq_H2c1b0jVZDLw8o094bTDDy9REB8fQaXEuzmY62-PDvetZPXRdBJd-w-U/exec"
  },
  "skills": [
   "Ответ на правовой вопрос",
@@ -604,7 +605,9 @@
    "logo": "https://avatars.mds.yandex.net/get-lpc/17495851/ca394301-a518-4e3e-a9de-00181bf9f260/orig"
   }
  ],
- "cases": [],
+ "cases": [
+
+ ],
  "experts": [
   {
    "id": "EXP002",
@@ -613,7 +616,9 @@
    "position": "Автор, M&A юрист",
    "companyLogo": "",
    "photo": "https://lh3.googleusercontent.com/d/1UuFpmLEzKkwMWJ83KYA891cVzWWStGcN",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP003",
@@ -622,7 +627,9 @@
    "position": "Партнер",
    "companyLogo": "https://lh3.googleusercontent.com/d/1uTLb5ZUCJHNnFeQkiUJjQSktHyKutL79",
    "photo": "https://lh3.googleusercontent.com/d/1AEpjT7eFMnhSZouu6vzAyWvxHt4YiV92",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP004",
@@ -631,7 +638,9 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1nR07INFZw7CiaGU0dy-eg3J7v_SDcbtd",
    "photo": "https://lh3.googleusercontent.com/d/12HnOssCiu2u9ZkMv5q4QzNCvReTFDzvZ",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP005",
@@ -640,7 +649,9 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1SCfwlcDp0OmsW741aBQao0coLOYcOSP8",
    "photo": "https://lh3.googleusercontent.com/d/1lMqHg0EiuLi0C-bomMLwfRRO5vr063S3",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP006",
@@ -649,7 +660,9 @@
    "position": "Руководитель практики корпоративного права",
    "companyLogo": "https://lh3.googleusercontent.com/d/1k47bWvWO57bKgtJtadP0lEd1ZSC9QcvG",
    "photo": "https://lh3.googleusercontent.com/d/17r8fH57jI0Ssfl2hgiZKJ8yC_RjNmcmE",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP007",
@@ -658,7 +671,9 @@
    "position": "Советник, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/1kSjcPgI41chVjAUAkqSgHJeM-aQKmZDb",
    "photo": "https://lh3.googleusercontent.com/d/1E2xEIvaHNSTFPoBXH6QDRSMf2W1ISZeb",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP008",
@@ -667,7 +682,9 @@
    "position": "Юрист, судебная практика",
    "companyLogo": "https://lh3.googleusercontent.com/d/1DWX7KpVHZl2IN3sL1NFiVi4uCBAr21yG",
    "photo": "https://lh3.googleusercontent.com/d/1r-69zYE4jpzGS-Fppr3jc81ebkGdEyt9",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP009",
@@ -676,7 +693,9 @@
    "position": "Директор по правовым вопросам",
    "companyLogo": "https://lh3.googleusercontent.com/d/1ZIrDZ8qSCHkkkj0Ck1oNDnPYgWOy7rWC",
    "photo": "https://lh3.googleusercontent.com/d/1pkq94eJP8Ix1deplSVmdE-qNZWLPjCJb",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP010",
@@ -685,7 +704,9 @@
    "position": "Помощник юриста",
    "companyLogo": "https://lh3.googleusercontent.com/d/1w0v0tnUPZjPUv8XN-VmS-n8XV9xoniyB",
    "photo": "https://lh3.googleusercontent.com/d/1wG2JzxuIUu8z_3nMKwMby5PaTxaStUVI",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP011",
@@ -694,7 +715,9 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1PL0SVqHV53Pz1aH7Ob9SPgLx-JmEsdzt",
    "photo": "https://lh3.googleusercontent.com/d/1JJOF-RQ8UTxdkq8nTSZbzzG8452lGYH2",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP012",
@@ -703,7 +726,9 @@
    "position": "Партнер",
    "companyLogo": "https://lh3.googleusercontent.com/d/1hCNk4oQlGEor8wvFbLorrWHHtmr40SU7",
    "photo": "https://lh3.googleusercontent.com/d/13Bm37frAgIraQz1aarmQGCmEgrmeT2Pd",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP013",
@@ -712,7 +737,9 @@
    "position": "Старший юрист практики разрешения споров",
    "companyLogo": "https://lh3.googleusercontent.com/d/1ebdZn9bCaGc3TRHc_jxTYbp29DpQZpVv",
    "photo": "https://lh3.googleusercontent.com/d/1KPHERycR6UZUgxPZhB7CAK6dnPP6FTk0",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP014",
@@ -721,7 +748,9 @@
    "position": "Партнер",
    "companyLogo": "https://lh3.googleusercontent.com/d/10xVPyuqpV4A0JTSjG02lq0XU4u50QCuJ",
    "photo": "https://lh3.googleusercontent.com/d/1W6O0ectDTq_8k4lQBOadJDJq8MllDmNA",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP015",
@@ -730,7 +759,9 @@
    "position": "Начальник юридического отдела",
    "companyLogo": "https://lh3.googleusercontent.com/d/1Ig22MRsr9dy8RNTsNjrh9RZIqXwE28fc",
    "photo": "https://lh3.googleusercontent.com/d/1j1HRPGGv-wG9zOp-L4fjeledz1UNxcNe",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP016",
@@ -739,7 +770,9 @@
    "position": "Соруководитель практики интеллектуальной собственности и цифрового права",
    "companyLogo": "https://lh3.googleusercontent.com/d/1Xdusv2yZalLzrEZboBBjbPyJGdnznhhF",
    "photo": "https://lh3.googleusercontent.com/d/1uXoSyAnx1XygUpwolcjMYGJrr2oX81yl",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP017",
@@ -748,7 +781,9 @@
    "position": "Управляющий партнер",
    "companyLogo": "",
    "photo": "",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP018",
@@ -757,7 +792,9 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1k47bWvWO57bKgtJtadP0lEd1ZSC9QcvG",
    "photo": "https://lh3.googleusercontent.com/d/1wcnRBUUIJQk2_pqMBdqDEwvvC4DaLbrq",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP020",
@@ -766,7 +803,9 @@
    "position": "Руководитель юридической фирмы",
    "companyLogo": "https://lh3.googleusercontent.com/d/1CO6Qxhig_OTIrBiHGVRTqIkOlbgtIAVD",
    "photo": "https://lh3.googleusercontent.com/d/1NhitTnlG8rKHzvmj9mX7WZc7QZbJ0hSo",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP022",
@@ -775,7 +814,9 @@
    "position": "Старший юрист, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/11bj-FkyaBQTnSREJvks4p4jfvmudDVzH",
    "photo": "https://lh3.googleusercontent.com/d/1BV5r7B4JhcOOdmaDoQByxOzIyIqmcSKk",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP023",
@@ -784,7 +825,9 @@
    "position": "Партнер, руководитель практики интеллектуальной собственности",
    "companyLogo": "https://lh3.googleusercontent.com/d/1O2VtZq1Gpb_gpTnTimJ4sdeecIcynW54",
    "photo": "https://lh3.googleusercontent.com/d/1YaPXMxV3Tt-dG284usQRNxebsVJ4EBIP",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP024",
@@ -793,7 +836,9 @@
    "position": "Руководитель юридического отдела",
    "companyLogo": "https://lh3.googleusercontent.com/d/1ur65PPrzbMxvmjz6ZB7c-D0byVfdaDdl",
    "photo": "https://lh3.googleusercontent.com/d/1SKRSQyNzVu6cCBovbx90lT7PH2C_2nEV",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP025",
@@ -802,7 +847,9 @@
    "position": "Старший партнер, адвокат, Руководитель практики «Судебные споры и банкротство»",
    "companyLogo": "https://lh3.googleusercontent.com/d/1Zs84rrXtxAUmuVKQfUsxY7hgF08HnEd1",
    "photo": "https://lh3.googleusercontent.com/d/1W-tzbxotacWbRPnKcdsBxmAgLhrUADHl",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP026",
@@ -811,7 +858,9 @@
    "position": "Управляющий партнер, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/19Yyt3QAESEX6XA5hf6FM2uCh6PNSAVzR",
    "photo": "https://lh3.googleusercontent.com/d/1OEkc-joexl1NkQg5CwedE4ygMeLJ3xzd",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP027",
@@ -820,7 +869,9 @@
    "position": "Управляющий партнер, адвокат, Руководитель практики «Корпоративное право / M&A» и «TMT/ Интеллектуальная собственность»",
    "companyLogo": "https://lh3.googleusercontent.com/d/16Vxwt__33QKPODuy7hqnrXumh8Hy9cVE",
    "photo": "https://lh3.googleusercontent.com/d/1gVcCts5Wh9hfojQP_raaNkGQu00NtnTk",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP028",
@@ -829,7 +880,9 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1JjwwKQsvzBoIczvknpBjhZP1sfmMh-iN",
    "photo": "https://lh3.googleusercontent.com/d/1tfwJzOYI7SqMogrvAZLscEkm-tvgLRe8",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP029",
@@ -838,7 +891,9 @@
    "position": "Партнер, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/1E4pF6NNMKcRCkW6LKiIDX-Z2Zyhqte0R",
    "photo": "https://lh3.googleusercontent.com/d/1vOQLdzrVhk5PBUOeXt9EMdTztGh5u4vx",
-   "tasks": []
+   "tasks": [
+
+   ]
   },
   {
    "id": "EXP030",
@@ -847,7 +902,9 @@
    "position": "Партнер, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/1r2WxAH-lQ6eQyFz4MG2GH405QTKWlj0V",
    "photo": "https://lh3.googleusercontent.com/d/1yaoTMvlSKQlsvznoFXY3sMbUPk3ZEAPw",
-   "tasks": []
+   "tasks": [
+
+   ]
   }
  ],
  "assessorOrgs": [

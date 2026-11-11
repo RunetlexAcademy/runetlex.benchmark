@@ -308,8 +308,8 @@ const TASKFILE = {};
 function loadTask(id) {
   if (TASKFILE[id]) return; TASKFILE[id] = 'loading';
   const t = task(id);
-  fetch('tasks/' + encodeURIComponent(id) + '.json?v=' + encodeURIComponent(D.resultsAt || ''))
-    .then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
+  (window.fetchTaskFile ? window.fetchTaskFile(id) : fetch('tasks/' + encodeURIComponent(id) + '.json?v=' + encodeURIComponent(D.resultsAt || ''))
+    .then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status)))))
     .then((f) => {
       t.text = f.text; t.reference = f.reference; if (f.crit && f.crit.length) t.crit = f.crit;
       D.services.forEach((sv) => { const r = resOf(sv, id); if (r && f.answers && f.answers[sv.id] !== undefined) r.answer = f.answers[sv.id]; });
@@ -670,7 +670,7 @@ function render(preserve) {
   else if (p[0] === 'method') body = methodology();
   else if (p[0] === 'about') body = about();
   else body = home();
-  document.getElementById('app').innerHTML = (set('demo_banner', 'да') === 'да' ? '<div class="demo-bar">Демоверсия: названия сервисов настоящие, результаты условные. Реальные результаты появятся после проверки.</div>' : '') + nav(cur) + '<div class="wrap">' + body + '</div>' + foot + ansModal();
+  document.getElementById('app').innerHTML = (window.PRIVATE ? `<div class="demo-bar private-bar">Закрытый просмотр: настоящие результаты${D.resultsAt ? ' от ' + esc(D.resultsAt) : ''}. Видны только по паролю. <button type="button" onclick="PRIVATE.exit()">Выйти</button></div>` : set('demo_banner', 'да') === 'да' ? '<div class="demo-bar">Демоверсия: названия сервисов настоящие, результаты условные. Реальные результаты появятся после проверки.</div>' : '') + nav(cur) + '<div class="wrap">' + body + '</div>' + foot + ansModal();
   catalogSpy();
   fixYo();
   markLightLogos();

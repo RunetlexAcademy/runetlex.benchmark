@@ -38,8 +38,46 @@
     };
   }
 
-  Promise.all([get('data.json'), get('results.json')])
-    .then(([d, r]) => { window.DATA = merge(d, r); return load('sample.js'); })
+  // Closed preview: the address /?private asks for a password and loads the real results from the Google web app
+  // (address in «Настройки сайта» → preview_endpoint). Without ?private everyone gets the public files.
+  const KEY = 'bench_private_key';
+  const store = {
+    get: () => { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } },
+    set: (v) => { try { if (v) localStorage.setItem(KEY, v); else localStorage.removeItem(KEY); } catch (e) { /* private mode */ } },
+  };
+  const wantPrivate = /[?&]private\b/.test(location.search);
+  const call = (endpoint, key, file) => fetch(endpoint, { method: 'POST', body: JSON.stringify({ kind: 'preview', key, file }) }).then((r) => r.json());
+  const app = () => document.getElementById('app');
+  function askPassword(endpoint, note) {
+    return new Promise((resolve) => {
+      app().innerHTML = `<div class="gate"><form class="box form gate-box"><p class="gate-kicker">Рунетлекс Бенчмарк</p><h1 class="gate-title">Закрытый просмотр</h1><p class="muted">Настоящие результаты до публикации. Введите пароль, который вам передала команда.</p><label class="fld"><span>Пароль</span><input type="password" name="key" autocomplete="current-password" required autofocus></label><p class="gate-err" ${note ? '' : 'hidden'}>${note || ''}</p><button class="btn dark" type="submit">Войти</button><a class="gate-out" href="./">Открыть обычную версию сайта</a></form></div>`;
+      const form = app().querySelector('form'); const err = form.querySelector('.gate-err'); const btn = form.querySelector('button');
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault(); const key = form.key.value.trim(); if (!key) return;
+        btn.disabled = true; btn.textContent = 'Проверяем…'; err.hidden = true;
+        call(endpoint, key, 'results').then((r) => {
+          if (r && !r.error) { store.set(key); resolve({ key, r }); return; }
+          err.textContent = r && r.error === 'password' ? 'Неверный пароль.' : 'Данные закрытого просмотра пока не загружены. Попросите обновить их в таблице.'; err.hidden = false;
+        }).catch(() => { err.textContent = 'Не удалось связаться с сервером. Попробуйте ещё раз.'; err.hidden = false; })
+          .then(() => { btn.disabled = false; btn.textContent = 'Войти'; });
+      });
+    });
+  }
+  function privateResults(d) {
+    const endpoint = (d.settings || {}).preview_endpoint;
+    if (!endpoint) return get('results.json');
+    const key = store.get();
+    const start = key ? call(endpoint, key, 'results').then((r) => (r && !r.error ? { key, r } : askPassword(endpoint, r && r.error === 'password' ? '' : 'Данные закрытого просмотра пока не загружены.'))).catch(() => askPassword(endpoint, 'Не удалось связаться с сервером. Попробуйте ещё раз.')) : askPassword(endpoint);
+    return start.then(({ key: k, r }) => {
+      app().innerHTML = '<p style="padding:40px">Загружаем результаты…</p>';
+      window.PRIVATE = { exit: () => { store.set(''); location.href = location.pathname; } };
+      window.fetchTaskFile = (id) => call(endpoint, k, id).then((f) => (f && !f.error ? f : Promise.reject(new Error(f && f.error))));
+      return r;
+    });
+  }
+
+  get('data.json')
+    .then((d) => (wantPrivate ? privateResults(d) : get('results.json')).then((r) => { window.DATA = merge(d, r); return load('sample.js'); }))
     .then(() => load('app.js?v=' + Date.now()))
-    .catch((e) => { console.error(e); document.getElementById('app').innerHTML = '<p style="padding:40px">Не удалось загрузить данные сайта. Обновите страницу.</p>'; });
+    .catch((e) => { console.error(e); app().innerHTML = '<p style="padding:40px">Не удалось загрузить данные сайта. Обновите страницу.</p>'; });
 })();

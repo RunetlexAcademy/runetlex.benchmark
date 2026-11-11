@@ -948,3 +948,14 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 @media (prefers-reduced-motion:reduce){.spin{animation:none}}
 @media (max-width:640px){.md-table table{font-size:13px}.md-table th,.md-table td{min-width:150px;padding:7px 8px}}
 .nom-multi .b a{color:inherit}.nom-multi .b a:hover{color:var(--accent)}
+
+/* closed preview: password screen and top bar */
+.gate{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:var(--sub)}
+.gate-box{width:100%;max-width:420px;gap:14px;border-radius:20px;padding:32px}
+.gate-kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0}
+.gate-title{font-size:34px;margin:0}
+.gate-err{color:#c42b1c;font-size:14px;margin:0}
+.gate-out{font-size:13px;color:var(--mute);align-self:center}
+.private-bar{background:#07141D}
+.private-bar button{all:unset;cursor:pointer;text-decoration:underline;margin-left:6px}
+.private-bar button:focus-visible{outline:2px solid #fff;outline-offset:2px}
