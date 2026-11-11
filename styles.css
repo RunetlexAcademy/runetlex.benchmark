@@ -928,3 +928,5 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 /* course promo code */
 .course-promo{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 14px;border-radius:12px;background:#fff1ef;color:#07141D;font-size:14px;border:1px dashed #f62a17}
 .course-promo b{color:#f62a17;letter-spacing:.04em;font-weight:700}
+.course-promo{display:block;white-space:nowrap;max-width:100%}
+@media (max-width:400px){.course-promo{font-size:13px;padding:8px 12px}}
