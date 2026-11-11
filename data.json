@@ -1,5 +1,5 @@
 {
- "generatedAt": "11.11.2026 13:59",
+ "generatedAt": "11.11.2026 14:00",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -607,6 +607,15 @@
  "cases": [],
  "experts": [
   {
+   "id": "EXP002",
+   "name": "Софья Смирнова",
+   "company": "TG-канал \"Дамасские чернила | AI и M&A\"",
+   "position": "Автор, M&A юрист",
+   "companyLogo": "",
+   "photo": "https://lh3.googleusercontent.com/d/1UuFpmLEzKkwMWJ83KYA891cVzWWStGcN",
+   "tasks": []
+  },
+  {
    "id": "EXP003",
    "name": "Иван Щербинин",
    "company": "LegalFirst",
@@ -670,12 +679,30 @@
    "tasks": []
   },
   {
+   "id": "EXP010",
+   "name": "Соболев Савва Алексеевич",
+   "company": "NOVATOR Legal Group",
+   "position": "Помощник юриста",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1w0v0tnUPZjPUv8XN-VmS-n8XV9xoniyB",
+   "photo": "https://lh3.googleusercontent.com/d/1wG2JzxuIUu8z_3nMKwMby5PaTxaStUVI",
+   "tasks": []
+  },
+  {
    "id": "EXP011",
    "name": "Гончарова Варвара",
    "company": "Адвокатское бюро \"Гуцу, Жуковский и Партнеры\", г. Санкт-Петербург",
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1PL0SVqHV53Pz1aH7Ob9SPgLx-JmEsdzt",
    "photo": "https://lh3.googleusercontent.com/d/1JJOF-RQ8UTxdkq8nTSZbzzG8452lGYH2",
+   "tasks": []
+  },
+  {
+   "id": "EXP012",
+   "name": "Павел Лазутченко",
+   "company": "Юридическая компания \"Лазутченко, Паймухин, Городнов\"",
+   "position": "Партнер",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1hCNk4oQlGEor8wvFbLorrWHHtmr40SU7",
+   "photo": "https://lh3.googleusercontent.com/d/13Bm37frAgIraQz1aarmQGCmEgrmeT2Pd",
    "tasks": []
   },
   {
@@ -715,6 +742,15 @@
    "tasks": []
   },
   {
+   "id": "EXP017",
+   "name": "Алексей Башук",
+   "company": "Башук Чичканов, юридическая фирма",
+   "position": "Управляющий партнер",
+   "companyLogo": "",
+   "photo": "",
+   "tasks": []
+  },
+  {
    "id": "EXP018",
    "name": "Елена Кириллова",
    "company": "ООО \"Рунетлекс\"",
@@ -739,6 +775,15 @@
    "position": "Старший юрист, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/11bj-FkyaBQTnSREJvks4p4jfvmudDVzH",
    "photo": "https://lh3.googleusercontent.com/d/1BV5r7B4JhcOOdmaDoQByxOzIyIqmcSKk",
+   "tasks": []
+  },
+  {
+   "id": "EXP023",
+   "name": "Максим Али",
+   "company": "Comply (ООО \"Комплай\")",
+   "position": "Партнер, руководитель практики интеллектуальной собственности",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1O2VtZq1Gpb_gpTnTimJ4sdeecIcynW54",
+   "photo": "https://lh3.googleusercontent.com/d/1YaPXMxV3Tt-dG284usQRNxebsVJ4EBIP",
    "tasks": []
   },
   {
