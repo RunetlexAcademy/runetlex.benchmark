@@ -930,3 +930,20 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 .course-promo b{color:#f62a17;letter-spacing:.04em;font-weight:700}
 .course-promo{display:block;white-space:nowrap;max-width:100%}
 @media (max-width:400px){.course-promo{font-size:13px;padding:8px 12px}}
+
+/* task texts and answers: Markdown from the results sheet */
+.rich h4{font-size:16px;font-weight:700;margin:20px 0 8px;line-height:1.35}
+.rich h4:first-child{margin-top:0}
+.rich ol{margin:0 0 12px;padding-left:22px}
+.rich blockquote{margin:0 0 12px;padding:10px 14px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+.rich blockquote p{margin:0 0 6px}.rich blockquote p:last-child{margin:0}
+.rich hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.md-table{overflow-x:auto;margin:0 0 14px;-webkit-overflow-scrolling:touch}
+.md-table table{border-collapse:collapse;font-size:14px;min-width:100%}
+.md-table th,.md-table td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.md-table th{background:var(--sub);font-weight:600}
+.tloading{display:flex;align-items:center;gap:12px;padding:24px 4px;color:var(--mute);font-size:14px}
+.spin{width:18px;height:18px;border:2px solid var(--accent-soft);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+@media (max-width:640px){.md-table table{font-size:13px}.md-table th,.md-table td{min-width:150px;padding:7px 8px}}

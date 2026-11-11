@@ -8,6 +8,10 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const byId = (id) => D.services.find((x) => x.id === id);
 const task = (id) => D.tasks.find((t) => t.id === id);
 const expert = (id) => D.experts.find((e) => e.id === id);
+const authorIds = (t) => t.authors || [t.author];
+const authorNames = (t) => authorIds(t).map((id) => (expert(id) || {}).name).filter(Boolean).join(', ') || '—';
+const authorLabel = (t) => (authorIds(t).length > 1 ? 'авторы' : 'автор');
+const resOf = (s, tid) => s.res.find((r) => r.t === tid);
 const tested = D.services.filter((s) => s.tested);
 const untested = D.services.filter((s) => !s.tested);
 const TOTAL = D.tasks.reduce((a, t) => a + t.total, 0);
@@ -53,7 +57,7 @@ if (tested.length) D.areas.forEach((name, a) => {
   NOMS.push({ t: 'лучший: ' + D.short[a], s: best, d: ST[best.id].byArea[a] + ' из ' + AREA_N[a] + ' задач' });
 });
 if (tested.length) { const b = [...tested].sort((x, y) => ST[y.id].pts - ST[x.id].pts)[0]; NOMS.push({ t: 'самый полный', s: b, d: ST[b.id].pts + ' баллов из ' + TOTAL }); }
-if (tested.length) { const b = [...tested].sort((x, y) => ST[y.id].src - ST[x.id].src)[0]; NOMS.push({ t: 'самый точный по источникам', s: b, d: 'ссылки верны в ' + ST[b.id].src + ' задачах из ' + D.tasks.length }); }
+if (tested.length) { const b = [...tested].sort((x, y) => ST[y.id].src - ST[x.id].src)[0]; NOMS.push({ t: 'самый точный по источникам', s: b, d: 'ссылки верны в ' + ST[b.id].src + ' задачах из ' + (D.tasks.filter((t) => t.srcCode).length || D.tasks.length) }); }
 if (tested.length) { const b = [...tested].sort((x, y) => ST[y.id].min - ST[x.id].min || ST[y.id].solved - ST[x.id].solved)[0]; NOMS.push({ t: 'самый сбалансированный', s: b, d: 'не меньше ' + ST[b.id].min + ' решённых задач в каждой отрасли' }); }
 const nomsOf = (id) => NOMS.filter((n) => n.s.id === id);
 
@@ -246,17 +250,38 @@ function pkgBlocks(s, lvl) {
   return out ? `<h2>О сервисе</h2>${out}` : '';
 }
 
-// Long texts: paragraphs, «•» lines become a list, a short lead phrase («Вопрос.», «Основа успеха.») is bolded.
+// Task texts and answers come as light Markdown: ### headings, **bold**, lists, > quotes, | tables |.
+// Everything is escaped first, so a text can never inject HTML.
+const inlineMd = (s) => esc(s).replace(/\*\*([^*]+?)\*\*/g, '<b>$1</b>').replace(/__([^_]+?)__/g, '<b>$1</b>').replace(/(^|[\s(«])\*([^*\s][^*]*?)\*(?=[\s).,;:!?»]|$)/g, '$1<i>$2</i>');
 function richText(txt) {
-  const out = []; let list = [];
-  const flush = () => { if (list.length) { out.push(`<ul>${list.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>`); list = []; } };
-  txt.split(/\n+/).map((l) => l.trim()).filter(Boolean).forEach((l) => {
-    if (/^[•–-]\s*/.test(l)) { list.push(l.replace(/^[•–-]\s*/, '')); return; }
-    flush();
-    const m = l.match(/^([А-ЯЁA-Z][^.!?:\d]{3,38}[.:])(?:\s+(.*))?$/);
-    out.push(m ? `<p><b>${esc(m[1])}</b>${m[2] ? ' ' + esc(m[2]) : ''}</p>` : `<p>${esc(l)}</p>`);
-  });
-  flush(); return out.join('');
+  const lines = String(txt || '').replace(/\r/g, '').split('\n').map((l) => l.trim());
+  const out = []; let i = 0;
+  const isTable = (l) => /^\|.*\|$/.test(l);
+  const isSep = (l) => /^\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?$/.test(l);
+  const cells = (l) => l.replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
+  while (i < lines.length) {
+    const l = lines[i];
+    if (!l) { i += 1; continue; }
+    let m;
+    if ((m = l.match(/^#{1,6}\s+(.*)$/))) { out.push(`<h4>${inlineMd(m[1].replace(/\s*#+$/, ''))}</h4>`); i += 1; continue; }
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(l)) { out.push('<hr>'); i += 1; continue; }
+    if (isTable(l)) {
+      const rows = []; while (i < lines.length && isTable(lines[i])) { rows.push(lines[i]); i += 1; }
+      const head = rows.length > 1 && isSep(rows[1]) ? cells(rows[0]) : null; const body = rows.slice(head ? 2 : 0).filter((r) => !isSep(r)).map(cells);
+      out.push(`<div class="md-table"><table>${head ? `<thead><tr>${head.map((c) => `<th>${inlineMd(c)}</th>`).join('')}</tr></thead>` : ''}<tbody>${body.map((r) => `<tr>${r.map((c) => `<td>${inlineMd(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`);
+      continue;
+    }
+    if (/^>/.test(l)) { const q = []; while (i < lines.length && /^>/.test(lines[i])) { q.push(lines[i].replace(/^>\s?/, '')); i += 1; } out.push(`<blockquote>${q.filter(Boolean).map((x) => `<p>${inlineMd(x)}</p>`).join('')}</blockquote>`); continue; }
+    if (/^([-*•–]|\d+[.)])\s+/.test(l)) {
+      const ordered = /^\d+[.)]\s+/.test(l); const items = [];
+      while (i < lines.length && (/^([-*•–]|\d+[.)])\s+/.test(lines[i]) || (!lines[i] && i + 1 < lines.length && /^([-*•–]|\d+[.)])\s+/.test(lines[i + 1])))) {
+        if (lines[i]) items.push(lines[i].replace(/^([-*•–]|\d+[.)])\s+/, '')); i += 1;
+      }
+      const tag = ordered ? 'ol' : 'ul'; out.push(`<${tag}>${items.map((x) => `<li>${inlineMd(x)}</li>`).join('')}</${tag}>`); continue;
+    }
+    out.push(`<p>${inlineMd(l)}</p>`); i += 1;
+  }
+  return out.join('');
 }
 // «Показать полностью»: the start of the text stays where it was, the rest unfolds downward.
 // «Свернуть»: if the block's start has scrolled off screen, bring it back under the menu.
@@ -272,6 +297,23 @@ window.toggleMore = (k) => {
   if (top < cover) window.scrollBy(0, top - cover);
 };
 const clampBlock = (k, title, html) => { const open = S.open[k]; return `<section class="tblock" data-sec="${k}"><h3>${title}</h3><div class="rich${open ? '' : ' clamp'}">${html}</div><button type="button" class="more-btn" onclick="toggleMore('${k}')">${open ? 'Свернуть' : 'Показать полностью'}</button></section>`; };
+// Task texts, criteria and all services' answers live in tasks/<id>.json and are fetched when a task is opened.
+const LOADING = '<div class="tloading"><span class="spin" aria-hidden="true"></span>Загружаем текст задачи и ответы…</div>';
+const TASKFILE = {};
+function loadTask(id) {
+  if (TASKFILE[id]) return; TASKFILE[id] = 'loading';
+  const t = task(id);
+  fetch('tasks/' + encodeURIComponent(id) + '.json?v=' + encodeURIComponent(D.resultsAt || ''))
+    .then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
+    .then((f) => {
+      t.text = f.text; t.reference = f.reference; if (f.crit && f.crit.length) t.crit = f.crit;
+      D.services.forEach((sv) => { const r = resOf(sv, id); if (r && f.answers && f.answers[sv.id] !== undefined) r.answer = f.answers[sv.id]; });
+      t.loaded = true; TASKFILE[id] = 'ok';
+    })
+    .catch(() => { t.loaded = 'none'; TASKFILE[id] = 'none'; }) // demo data without task files: sample texts are shown
+    .then(() => render(true));
+}
+const taskReady = (t) => { if (t.loaded) return true; loadTask(t.id); return false; };
 // Per-criterion results come from r.c when loaded; until then statuses are derived from the score.
 function critList(t, r) {
   const crit = t.crit || SAMPLE.crit;
@@ -292,7 +334,8 @@ function critPanel(t, r) {
   return `<aside class="crit-panel">${grp(true, 'Ключевые критерии')}${grp(false, 'Опциональные критерии')}</aside>`;
 }
 function taskDetail(s, t, r, k) {
-  return `<div class="tdetail"><div class="tmain">${clampBlock(k + 'q', 'Задача', richText(t.text || SAMPLE.task))}${clampBlock(k + 'a', `Ответ сервиса ${esc(s.name)}, дословно`, richText(r.answer || SAMPLE.answer))}<a class="tlink" href="#/task/${t.id}">Эта задача у всех сервисов →</a></div>${critPanel(t, r)}</div>`;
+  if (!taskReady(t)) return LOADING;
+  return `<div class="tdetail"><div class="tmain">${clampBlock(k + 'q', 'Задача', richText(t.text || SAMPLE.task))}${clampBlock(k + 'a', `Ответ сервиса ${esc(s.name)}, дословно`, richText(r.answer || (t.loaded === true ? 'Текст ответа не найден.' : SAMPLE.answer)))}<a class="tlink" href="#/task/${t.id}">Эта задача у всех сервисов →</a></div>${critPanel(t, r)}</div>`;
 }
 
 function service(id) {
@@ -312,7 +355,7 @@ ${lvl >= 1 ? box('Комментарий к результату', vf(s.comment,
   const cnt = { all: inArea.length, ok: inArea.filter((r) => r.s).length, no: inArea.filter((r) => !r.s).length };
   const taskRows = inArea.filter((r) => f === 'all' || (f === 'ok' ? r.s : !r.s)).map((r) => {
     const t = task(r.t); const k = id + r.t; const open = S.open[k];
-    return `<div class="trow${open ? ' open' : ''}"><button type="button" class="trow-h" data-k="${k}" aria-expanded="${!!open}" onclick="toggle('${k}')"><span class="tid">${t.id}</span><span class="ttitle">${t.title}<span class="tmeta">${D.short[t.area]} · автор: ${expert(t.author).name}</span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev" aria-hidden="true"></span></button>${open ? taskDetail(s, t, r, k) : ''}</div>`;
+    return `<div class="trow${open ? ' open' : ''}"><button type="button" class="trow-h" data-k="${k}" aria-expanded="${!!open}" onclick="toggle('${k}')"><span class="tid">${t.id}</span><span class="ttitle">${t.title}<span class="tmeta">${D.short[t.area]} · ${authorLabel(t)}: ${esc(authorNames(t))}</span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev" aria-hidden="true"></span></button>${open ? taskDetail(s, t, r, k) : ''}</div>`;
   });
   const tasksBlock = `<h2>По задачам</h2>
 <div class="filters"><label class="fsel"><span class="muted">Отрасль</span><select onchange="setTaskArea(+this.value)"><option value="-1"${ta === -1 ? ' selected' : ''}>Все отрасли</option>${D.areas.map((a, i) => `<option value="${i}"${ta === i ? ' selected' : ''}>${a}</option>`).join('')}</select></label><div class="seg2" aria-label="итог по задаче">${[['all', 'Все'], ['ok', 'Решены'], ['no', 'Не решены']].map(([k, n]) => `<button type="button" class="${f === k ? 'on' : ''}" onclick="setFilt('${k}')">${n}<span>${cnt[k]}</span></button>`).join('')}</div></div>
@@ -395,7 +438,7 @@ ${step(5, 'Подвели итоги', ['Задача решена, если о�
 <div class="sec">
 <div class="intro" id="m-tasks"><h2>Задачи</h2><p>Здесь все ${N_TASKS} ${taskWord(+N_TASKS)}, на которых мы проверяли сервисы. Откройте любую, и вы увидите фабулу, вопрос, эталонный ответ, критерии и дословные ответы всех ${N_SERVICES} ${svcGen}.</p></div>
 ${areaTags(a, 'setTaskArea')}
-<table><tr><th>№</th><th>отрасль</th><th>задача</th><th>автор</th><th>критериев</th><th>решили</th></tr>${list.map((t) => { const n = tested.filter((s) => s.res.find((r) => r.t === t.id).s).length; return `<tr class="clk" onclick="location.hash='#/task/${t.id}'"><td>${t.id}</td><td>${D.short[t.area]}</td><td><a href="#/task/${t.id}">${t.title}</a></td><td class="muted">${expert(t.author).name}</td><td>${t.total}</td><td>${n} из ${tested.length}</td></tr>`; }).join('')}</table>
+<table><tr><th>№</th><th>отрасль</th><th>задача</th><th>автор</th><th>критериев</th><th>решили</th></tr>${list.map((t) => { const n = tested.filter((s) => (resOf(s, t.id) || {}).s).length; return `<tr class="clk" onclick="location.hash='#/task/${t.id}'"><td>${t.id}</td><td>${D.short[t.area]}</td><td><a href="#/task/${t.id}">${t.title}</a></td><td class="muted">${esc(authorNames(t))}</td><td>${t.total}</td><td>${n} из ${tested.length}</td></tr>`; }).join('')}</table>
 </div>
 <div class="sec" id="m-report">
 <div class="report"><div class="col" style="gap:16px"><h2>Отчёт</h2><p>В отчёте мы подробно рассказываем, как считали результаты, как сервисы справились в каждой отрасли, что они уже умеют и где пока ошибаются, а также какой сервис подойдёт под какую задачу.${set('report_pages', '') ? ' PDF, ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + consent(), 'Отправить отчёт', 'Спасибо! Отчёт придёт на почту в течение нескольких минут. Если письма нет, проверьте папку «Спам».')}</div><div class="ph cover">обложка отчёта</div></div>
@@ -418,11 +461,11 @@ ${courseBlock()}
 function taskPage(id) {
   const t = task(id); if (!t) return '<p>Нет такой задачи</p>';
   const i = D.tasks.indexOf(t); const prev = D.tasks[i - 1]; const next = D.tasks[i + 1];
-  const rows = [...tested].map((s) => ({ s, r: s.res.find((r) => r.t === id) })).sort((x, y) => (y.r.s - x.r.s) || (y.r.p - x.r.p)).map(({ s, r }) => `<tr><td><a href="#/service/${s.id}">${s.name}</a></td><td>${r.s ? 'решена' : 'не решена'}</td><td>${r.p} / ${t.total}</td><td><a href="javascript:void 0" onclick="openAns('${s.id}','${id}')">ответ сервиса</a></td></tr>`);
-  const n = tested.filter((s) => s.res.find((r) => r.t === id).s).length;
+  const rows = [...tested].map((s) => ({ s, r: resOf(s, id) })).filter((x) => x.r).sort((x, y) => (y.r.s - x.r.s) || (y.r.p - x.r.p)).map(({ s, r }) => `<tr><td><a href="#/service/${s.id}">${s.name}</a></td><td>${r.s ? 'решена' : 'не решена'}</td><td>${r.p} / ${t.total}</td><td><a href="javascript:void 0" onclick="openAns('${s.id}','${id}')">ответ сервиса</a></td></tr>`);
+  const n = tested.filter((s) => (resOf(s, id) || {}).s).length;
   return `<p class="crumbs"><a href="#/method">Методология</a> → ${t.id}</p>
-<div class="col" style="gap:14px"><h1>${t.id}. ${t.title}</h1><p class="muted">${D.areas[t.area]} · автор: <a href="#/experts">${expert(t.author).name}</a> · ${t.total} критериев · решили ${n} сервисов из ${tested.length}</p><div class="row" style="gap:8px">${prev ? `<a class="tag" href="#/task/${prev.id}">← предыдущая</a>` : ''}${next ? `<a class="tag" href="#/task/${next.id}">следующая →</a>` : ''}</div></div>
-<div class="tdetail"><div class="tmain">${clampBlock('tq' + id, 'Задача', richText(t.text || SAMPLE.task))}${clampBlock('tr' + id, 'Эталонный ответ', richText(t.reference || SAMPLE.answer))}</div>${critPanel(t, null)}</div>
+<div class="col" style="gap:14px"><h1>${t.id}. ${t.title}</h1><p class="muted">${D.areas[t.area]} · ${authorLabel(t)}: <a href="#/experts">${esc(authorNames(t))}</a> · ${t.total} критериев · решили ${n} сервисов из ${tested.length}</p><div class="row" style="gap:8px">${prev ? `<a class="tag" href="#/task/${prev.id}">← предыдущая</a>` : ''}${next ? `<a class="tag" href="#/task/${next.id}">следующая →</a>` : ''}</div></div>
+${!taskReady(t) ? LOADING : `<div class="tdetail"><div class="tmain">${clampBlock('tq' + id, 'Задача', richText(t.text || SAMPLE.task))}${clampBlock('tr' + id, 'Эталонный ответ', richText(t.reference || SAMPLE.answer))}</div>${critPanel(t, null)}</div>`}
 <h2>Как решили ${tested.length} сервисов</h2><table><tr><th>сервис</th><th>итог</th><th>критерии</th><th></th></tr>${rows.join('')}</table>`;
 }
 // Latin-named services first, then Russian alphabetical order.
@@ -519,7 +562,7 @@ window.frameFace = (img) => {
 function experts() {
   const list = D.experts.filter((e) => !e.hidden).sort((a, b) => surname(a.name).localeCompare(surname(b.name), 'ru') || a.name.localeCompare(b.name, 'ru'));
   const cards = list.map((e) => {
-    const ts = D.tasks.filter((t) => t.author === e.id); const per = D.areas.map((a, i) => [a, ts.filter((t) => t.area === i).length]).filter((x) => x[1]);
+    const ts = D.tasks.filter((t) => authorIds(t).includes(e.id)); const per = D.areas.map((a, i) => [a, ts.filter((t) => t.area === i).length]).filter((x) => x[1]);
     const pic = e.photo ? `<span class="ephoto"><img src="${esc(e.photo)}" alt="${esc(e.name)}" loading="lazy" data-id="${esc(e.id)}" onload="frameFace(this)"></span>` : `<span class="ephoto ph-ini">${esc(initials(e.name))}</span>`;
     const company = e.company ? `<div class="ecompany">${e.companyLogo ? `<span class="eclogo"><img src="${esc(e.companyLogo)}" alt="" loading="lazy"></span>` : ''}<span>${esc(e.company)}</span></div>` : '';
     return `<div class="box ecard"><div class="ehead">${pic}<div class="col" style="gap:4px"><p class="b">${esc(e.name)}</p>${e.position ? `<p class="muted">${esc(e.position)}</p>` : ''}</div></div>${per.length ? `<ul class="dlist">${per.map((x) => `<li>${x[0]} (${x[1]} ${taskWord(x[1])})</li>`).join('')}</ul>` : ''}${company}</div>`;
@@ -631,7 +674,7 @@ function render(preserve) {
   initGalleries();
   if (p[0] === 'catalog') applyCatFilter();
   const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px');
-  document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
+  document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll') && !t.parentElement.classList.contains('md-table')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
   document.body.style.overflow = S.modal ? 'hidden' : '';
   if (!preserve) window.scrollTo(0, 0); else if (window.scrollY !== keepY) window.scrollTo(0, keepY);
 }
