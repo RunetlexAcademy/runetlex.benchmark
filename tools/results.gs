@@ -257,3 +257,8 @@ function doPost(e) {
   const it = DriveApp.getFolderById(id).getFilesByName(name);
   return it.hasNext() ? out(it.next().getBlob().getDataAsString('UTF-8')) : out({ error: 'not_found' });
 }
+
+// Запустить один раз из редактора (Run), чтобы Google спросил разрешение читать таблицу с результатами.
+function authorizeResults() {
+  Logger.log('Доступ есть: ' + SpreadsheetApp.openById(RESULTS_SOURCE_ID).getName());
+}
