@@ -32,6 +32,8 @@ const one = (n) => n % 10 === 1 && n % 100 !== 11;
 const svcWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'сервис' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'сервиса' : 'сервисов');
 const BULB = '<svg class="bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg>';
 const hint = (...paras) => `<div class="hint">${BULB}<div class="hint-body">${paras.map((p, i) => `<p>${i ? '' : '<b>Подсказка:</b> '}${p}</p>`).join('')}</div></div>`;
+// Collapsible hint: only the title line is shown until the reader opens it.
+const hintMore = (title, ...paras) => `<details class="hint hint-more"><summary>${BULB}<span>${title}</span><span class="hint-chev" aria-hidden="true"></span></summary><div class="hint-body">${paras.map((p) => `<p>${p}</p>`).join('')}</div></details>`;
 const METHOD_LINK = '<a href="#/method">Методология</a>';
 const PERIOD = set('collection_period', '29.10–02.11.2026');
 // Shown next to every result: the benchmark measures one function, not the whole service.
@@ -167,7 +169,7 @@ ${D.takeaways.length ? `<div class="takeaways"><h2>Ключевые выводы
 ${DISCLAIMER}
 ${areaTags(a, 'setArea')}
 <div class="chart">${top5}</div>
-${hint(`«Решено задач» — количество задач, по которым сервис дал правильный ответ по ключевым критериям. Каждый сервис проверялся на ${N_TASKS} задачах.`, '«Полнота ответов» — какую долю всех критериев, ключевых и опциональных, выполнил сервис по всем задачам.', '«Сильные отрасли» — отрасли, в которых сервис показал наилучшие результаты.', `Подробности по каждой задаче на странице сервиса и в разделе ${METHOD_LINK}.`)}
+${hintMore('Как читать таблицу', `У каждого сервиса два показателя. <b>Решено задач</b> — сколько ответов можно использовать в работе: в них выполнены все ключевые критерии. <b>Полнота ответов</b> — доля всех критериев, ключевых и опциональных, которые сервис выполнил по всем ${N_TASKS} задачам.`, `Например, «${Math.round(+N_TASKS / 2)} из ${N_TASKS}» и «65%» означают, что половина ответов пригодна для работы, а в целом ответы содержат почти две трети того, что ожидали эксперты.`, 'Показатели не зависят друг от друга. Подробный ответ не засчитывается, если не выполнен хотя бы один ключевой критерий, а засчитанный ответ может быть коротким.', `<b>Сильные отрасли</b> — отрасли, в которых сервис решил больше всего задач. Задачи, ответы и оценки — на странице сервиса и в разделе ${METHOD_LINK}.`)}
 <table class="rtable"><tr><th>сервис</th><th>решено задач${a === -1 ? '' : ' · ' + D.short[a]}</th><th>полнота ответов</th><th>сильные отрасли</th></tr>${rows.join('')}</table>
 ${hint(`Все сервисы решали одни и те же ${N_TASKS} ${taskWord(+N_TASKS)} по пяти отраслям права.`, 'Задачи готовили практикующие юристы юрфирм, ответы оценивала группа оценщиков вслепую.', `Задачи, эталонные ответы, ответы сервисов и оценки открыты: вы можете изучить всю информацию на странице конкретного сервиса и в разделе ${METHOD_LINK}.`, 'Участие бесплатное, место в результатах не продаётся.')}
 </div></div>
