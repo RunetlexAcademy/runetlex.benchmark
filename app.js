@@ -527,7 +527,7 @@ function taskPage(id) {
 ${!taskReady(t) ? LOADING : `<div class="tdetail"><div class="tmain">${clampBlock('tq' + id, 'Задача', richText(t.text || SAMPLE.task))}${clampBlock('tr' + id, 'Эталонный ответ', richText(t.reference || SAMPLE.answer))}</div>${critPanel(t, null)}</div>`}
 <h2 id="t-svc">Как решили ${tested.length} ${svcWord(tested.length)}</h2>
 <div class="seg2" aria-label="итог по задаче">${[['all', 'Все'], ['ok', 'Решили'], ['no', 'Не решили']].map(([k, nm]) => `<button type="button" class="${tf === k ? 'on' : ''}" onclick="refilter(()=>{S.tf='${k}';render(true)})">${nm}<span>${cntT[k]}</span></button>`).join('')}</div>
-<table><tr><th>сервис</th><th>итог</th><th>критерии</th><th></th></tr>${rows.join('') || '<tr><td colspan="4" class="muted">Нет сервисов по этому фильтру.</td></tr>'}</table>`;
+<table class="tsvc"><tr><th>сервис</th><th>итог</th><th>критерии</th><th></th></tr>${rows.join('') || '<tr><td colspan="4" class="muted">Нет сервисов по этому фильтру.</td></tr>'}</table>`;
 }
 // Latin-named services first, then Russian alphabetical order.
 // Catalog search. Names are compared three ways: as typed, transliterated to Latin, and as a sound skeleton
