@@ -1227,3 +1227,4 @@ html{scroll-behavior:smooth}
 .box>.more{color:var(--accent);font-size:14px;text-decoration:none;align-self:flex-start}
 .logo .prod{transform:translateY(3px)!important}
 .foot .logo .prod{transform:translateY(2px)!important}
+@media (max-width:560px){.intro-cta.cta-list{flex-direction:column;gap:0!important}.intro-cta.cta-list .btn{width:100%}.intro-cta.cta-list .btn:not(.dark){height:56px;min-height:0;padding:0 4px;text-align:left}}
