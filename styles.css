@@ -1110,3 +1110,42 @@ html{scroll-behavior:smooth}
 .steps .step:last-child{border-bottom:0}
 #results{border-top:0!important}
 .report-list{margin:0}
+
+/* 19.11 (4) */
+/* catalog: the «nothing found» note shows only when a search finds nothing */
+.cat-empty[hidden]{display:none!important}
+/* home and service page: the «Важно» note spans the full width of the results */
+.disclaimer{max-width:none}
+/* experts page: the two counters jump to their sections */
+.estats .stat.lnk{color:inherit;cursor:pointer}
+.stat-go{font-size:13px;color:var(--accent);margin-top:auto;padding-top:6px}
+/* about: contact block in blue, like the purchase contact on a service page */
+.box.contact{background:var(--accent);border-color:var(--accent);color:#fff;border-radius:16px}
+.box.contact h2,.box.contact p{color:#fff}
+.box.contact a:not(.btn){color:#fff;text-decoration:underline}
+.box.contact .btn.dark{background:#fff;color:var(--accent);border-color:#fff}
+.box.contact .btn.dark:hover{background:rgba(255,255,255,.88)}
+/* methodology: report block */
+.rep{background:var(--accent-soft);padding:44px 48px;display:flex;flex-direction:column;gap:28px}
+.rep-main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;align-items:center}
+.rep-intro{display:flex;flex-direction:column;gap:14px;max-width:620px}
+.rep-k,.rep-h{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:600}
+.rep-lead{font-size:18px;line-height:1.5;margin:0}
+.rep .form{background:var(--bg);margin-top:8px}
+.rep-cover{aspect-ratio:3/4;background:var(--accent);color:#fff;padding:26px 24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 24px 48px -20px rgba(7,20,29,.45);transform:rotate(2deg);transition:transform .3s var(--ease)}
+.rep-cover:hover{transform:rotate(0)}
+.rep-cover-wm .wm{width:130px;height:auto;display:block}
+.rep-cover-t{font-family:var(--disp);font-size:40px;line-height:1.02;text-transform:uppercase;margin-top:auto}
+.rep-cover-s{font-size:14px;line-height:1.4;opacity:.85;text-transform:lowercase}
+.rep-cover-n{font-size:14px;line-height:1.5;border-top:1px solid rgba(255,255,255,.35);padding-top:12px}
+.rep-cover-n b{font-family:var(--disp);font-weight:400;font-size:20px}
+.rep-h{padding-top:4px}
+.rep-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:r}
+.rep-list li{counter-increment:r;background:var(--bg);padding:20px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.5}
+.rep-list li::before{content:counter(r,decimal-leading-zero);font-family:var(--disp);color:var(--accent);font-size:22px;line-height:1}
+.rep-list b{font-weight:600}
+.rep-list span{color:var(--mute)}
+@media (max-width:900px){.rep{padding:28px 22px}.rep-main{grid-template-columns:1fr;gap:28px}.rep-cover{max-width:240px;order:-1;transform:rotate(-2deg)}.rep-list{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.rep{padding:24px 16px;margin:0 -16px}.rep-list{grid-template-columns:1fr}.rep-cover{max-width:200px}.rep-cover-t{font-size:32px}}
+.rep-cover-wm{color:#fff}.rep-cover-wm .wm,.rep-cover-wm .wm *{fill:#fff!important;opacity:1!important}
+@media (max-width:560px){.rep-cover{max-width:210px;padding:20px 18px}.rep-cover-t{font-size:26px}.rep-cover-wm .wm{width:110px}}
