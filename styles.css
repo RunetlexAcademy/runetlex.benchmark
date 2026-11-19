@@ -1225,3 +1225,5 @@ html{scroll-behavior:smooth}
 .case-more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .cases-track .case h2{font-size:21px!important}
 .box>.more{color:var(--accent);font-size:14px;text-decoration:none;align-self:flex-start}
+.logo .prod{transform:translateY(3px)!important}
+.foot .logo .prod{transform:translateY(2px)!important}
