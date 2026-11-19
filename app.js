@@ -302,8 +302,8 @@ function pkgBlocks(s, lvl) {
   }
   if (lvl >= 3) {
     const cs = D.cases.filter((c) => c.service === s.id);
-    out += cs.map((c) => box('Кейс с клиентом', `<p class="b">${esc(c.title)}</p><p class="muted">${esc(c.client)}</p><p class="pre">${esc(c.text)}</p>${c.k ? `<p><b>${esc(c.k)}</b> ${esc(c.kd)}</p>` : ''}<a href="#/cases">Все кейсы</a>`)).join('')
-      || (PREVIEW ? box('Кейс с клиентом', '<p class="muted">[Кейс появится, когда вендор заполнит его на листе «Кейсы».]</p>') : '');
+    out += cs.length ? `<div class="box"><div class="between"><h2>${cs.length > 1 ? 'Кейсы с клиентами' : 'Кейс с клиентом'}</h2>${vendorTag}</div>${gallery(cs.map((c) => caseCard(c, true)).join(''), 'cases-track', 'кейсы с клиентами')}<a class="more" href="#/cases">Все кейсы</a></div>`
+      : (PREVIEW ? box('Кейс с клиентом', '<p class="muted">[Кейс появится, когда вендор заполнит его на листе «Кейсы».]</p>') : '');
     if (s.video) out += box('Видеообзор интерфейса', `<p class="muted">Обзор от Павла Мищенко, 20 минут</p><p><a class="btn" href="${esc(url(s.video))}" target="_blank" rel="noopener">Смотреть обзор</a></p>`, false);
     else if (PREVIEW) out += box('Видеообзор интерфейса', '<p class="muted">Обзор от Павла Мищенко, 20 минут</p><div class="ph media wide">видео</div>', false);
   }
@@ -597,11 +597,16 @@ ${formBox('Знаете юридический ИИ-сервис, которог
 </div></div>`;
 }
 window.setCaseArea = (i) => refilter(() => { S.caseArea = i; render(true); });
+// A client case card: the same on the «Кейсы» page and in the carousel on a service page (onSvc: text folds, no service line).
+const areasOf = (c) => (c.areas && c.areas.length ? c.areas : [c.area]);
+function caseCard(c, onSvc) {
+  const s = byId(c.service);
+  return `<div class="box case">${c.clientLogo ? `<span class="clogo-plate"><img class="clogo" src="${esc(c.clientLogo)}" alt="" loading="lazy"></span>` : ''}<p class="b case-client">${esc(c.client)}</p><div class="case-tags">${areasOf(c).map((i) => (D.areas[i] ? `<span class="tag soft">${esc(D.areas[i])}</span>` : '')).join('')}</div><h2>${esc(c.title)}</h2>${onSvc ? `<p class="muted pre case-text">${esc(c.text)}</p><button type="button" class="case-more" onclick="this.closest('.case').classList.toggle('open');this.textContent=this.closest('.case').classList.contains('open')?'Свернуть':'Читать полностью'">Читать полностью</button>` : `<p class="muted pre">${esc(c.text)}</p>`}${c.k ? `<div class="res"><span class="k">${esc(c.k)}</span><span class="muted" style="font-size:13px">${esc(c.kd)}</span></div>` : ''}${onSvc ? '' : `<div class="svc"><span class="muted">сервис: ${s ? `<a href="#/service/${s.id}">${esc(s.name)}</a>` : esc(c.service)}</span>${vendorTag}</div>`}</div>`;
+}
 function cases() {
   const a = S.caseArea === undefined ? -1 : S.caseArea;
-  const areasOf = (c) => (c.areas && c.areas.length ? c.areas : [c.area]);
   const list = D.cases.filter((c) => a === -1 || areasOf(c).includes(a));
-  const cards = list.map((c) => { const s = byId(c.service); return `<div class="box case">${c.clientLogo ? `<span class="clogo-plate"><img class="clogo" src="${esc(c.clientLogo)}" alt="" loading="lazy"></span>` : ''}<p class="b case-client">${esc(c.client)}</p><div class="case-tags">${areasOf(c).map((i) => (D.areas[i] ? `<span class="tag soft">${esc(D.areas[i])}</span>` : '')).join('')}</div><h2>${esc(c.title)}</h2><p class="muted pre">${esc(c.text)}</p>${c.k ? `<div class="res"><span class="k">${esc(c.k)}</span><span class="muted" style="font-size:13px">${esc(c.kd)}</span></div>` : ''}<div class="svc"><span class="muted">сервис: ${s ? `<a href="#/service/${s.id}">${esc(s.name)}</a>` : esc(c.service)}</span>${vendorTag}</div></div>`; }).join('');
+  const cards = list.map((c) => caseCard(c)).join('');
   return `<div class="intro"><h1>Кейсы</h1><p>Как юристы применяют ИИ-сервисы в работе.</p></div>
 <div class="blk">${D.cases.length ? areaFilter(a, 'setCaseArea') : ''}
 ${list.length ? `<div class="grid3">${cards}</div>` : `<div class="dash"><p class="muted">${D.cases.length ? 'В этой отрасли кейсов пока нет.' : 'Кейсы появятся скоро.'}</p></div>`}</div>`;

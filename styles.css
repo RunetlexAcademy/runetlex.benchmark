@@ -1216,3 +1216,12 @@ html{scroll-behavior:smooth}
 .tread{color:var(--accent)}
 .trow-h[role=button]{cursor:pointer}
 .tfacts a{border-bottom:0!important;text-decoration:none;color:inherit}.tfacts a:hover{color:var(--accent)}
+/* service page: client cases as a carousel */
+.cases-track{gap:16px;align-items:stretch}
+.cases-track .case{flex:0 0 min(420px,86%);scroll-snap-align:start;background:var(--bg)}
+.case-text{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;margin:0}
+.case.open .case-text{display:block;-webkit-line-clamp:unset}
+.case-more{all:unset;cursor:pointer;color:var(--accent);font-size:14px;align-self:flex-start}
+.case-more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cases-track .case h2{font-size:21px!important}
+.box>.more{color:var(--accent);font-size:14px;text-decoration:none;align-self:flex-start}
