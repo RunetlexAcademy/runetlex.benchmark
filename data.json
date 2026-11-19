@@ -1,5 +1,5 @@
 {
- "generatedAt": "11.11.2026 15:03",
+ "generatedAt": "19.11.2026 18:45",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -163,10 +163,31 @@
    "tested": true,
    "testedAt": "",
    "name": "Doczilla AI",
-   "site": "doczilla.pro",
+   "site": "doczilla.pro/rmu",
+   "line": "ИИ-рабочее место юриста: правовые вопросы, договоры, судебная практика, топ-модели без VPN",
    "skills": [
-    "Ответ на правовой вопрос"
-   ]
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики",
+    "Работа с договорами",
+    "Конструктор документов",
+    "Разное"
+   ],
+   "logo": "https://lh3.googleusercontent.com/d/1_lUPHdraGHYdjtglqMbRZJo_UtEI9YAr",
+   "short": "Doczilla AI — рабочее место юриста: единая платформа для подготовки ответов на правовые вопросы, проверки договоров, поиска по 300+ млн судебных актов, подготовки документов и управления задачами команды. Юристы работают быстрее, бизнес получает ответы вовремя. Работа с лучшими мировыми ИИ-моделями",
+   "full": "Юрист тратит большую часть дня не на юридическую работу: ищет норму и практику в разных вкладках, вручную вычитывает договоры, анализирует документы, сравнивает версии и пересылает документы по почте. Doczilla AI берёт этот слой работы на себя. \n\nDoczilla полезна для частнопрактикующего юриста, консультанта из юрфирмы, адвоката, юриста из крупной компании, судей и их помощников, арбитражных управляющих, студентов юрфаков.\n\nВ одной подписке — 20+ языковых моделей (GPT, Claude, Gemini, YandexGPT и др.) без VPN, иностранных карт и риска блокировки аккаунта. \n\nДля персональных данных — локальные модели (например, DeepSeek и Qwen 3) на серверах в РФ: данные не покидают страну. Встроенный анонимайзер обезличивает чувствительные данные перед отправкой в модель. \nDoczilla не дообучает модели на данных клиентов. Платформа работает в облаке или в закрытом контуре компании (on-prem).\n\nВ какой работе полезна Doczilla?\n\nОтветить на правовой вопрос.\nИИ отвечает с кликабельными ссылками на нормы в «Гаранте» и опирается на судебную практику, а также 12 томов комментариев к ГК РФ под ред. Карапетова (Glossa AI). Каждый ответ можно проверить по первоисточнику.\n\nНайти судебную практику. \nПоиск по базе из 300+ млн судебных актов и корпусу практики высших судов (Casus Legal) — прямо в чате, со ссылкой на каждое решение.\n\nПроверить договор и не пропустить риск. \nИИ проверяет договор по 20+ готовым чек-листам или по чек-листу вашей компании — его настраивают за несколько минут обычным текстом. Каждому риску присваивается уровень (красный, жёлтый, зелёный), ИИ объясняет последствия, предлагает формулировку и сам вносит правку в текст.\n\nПодготовить документ не с чистого листа. \nИИ пишет черновик по инструкции юриста или подбирает шаблон из библиотеки 150+ шаблонов и сам заполняет его данными из загруженных файлов (PDF, сканы, Excel). Реквизиты контрагента подтягиваются из ЕГРЮЛ.\n\nСогласовать без потери версий. \nБизнес и контрагент работают в одном документе: рецензирование, комментарии, история версий. Контрагенту — гостевой доступ без лицензии. ИИ готовит сопроводительное письмо с выжимкой ключевых условий.\n\nВидеть работу команды. \nРуководитель юрдепа видит загрузку юристов, сроки и статусы задач в одном окне — без созвонов и ручного сбора данных.\n\nПринимать задачи с полным контекстом. \nИИ-агент сам ведёт диалог с бизнесом: уточняет суть запроса, срок, тип сделки, запрашивает недостающие документы — и передаёт юристу готовую карточку задачи.",
+   "shots": [
+    "https://lh3.googleusercontent.com/d/1QQmYrYp86KOMossOrzhovM_k7-rR-AKj",
+    "https://lh3.googleusercontent.com/d/16vffKn3bTSw-Vpq_ZUCQ-5LKxkWw9gug",
+    "https://lh3.googleusercontent.com/d/1LOkgogag3WPisAhdGr64vEMvaZrd6eOP",
+    "https://lh3.googleusercontent.com/d/162c1TijeHTT2d3qptcFyCAg5yatpwuvY",
+    "https://lh3.googleusercontent.com/d/1-FyytXpcmZpZTIDLYsxC6gmrDgf_CTFL",
+    "https://lh3.googleusercontent.com/d/1Axar7d1vklLETwU6Fy7m-7lCjmOGDdGA",
+    "https://lh3.googleusercontent.com/d/1rE-KVAMvB_9aOAUrmeGIyvPiRSk8jSFO",
+    "https://lh3.googleusercontent.com/d/1CyfjRx8baVf1c7ax20Trw1efWPGzXkM7"
+   ],
+   "demo": "https://kinescope.io/iZpXCmrYZRehiQUNNFSrGi",
+   "contact": "@antrsv",
+   "how": "Задача 1. Найти судебную практику за минуты\n\nПрактику обычно ищут в нескольких системах и вручную отбирают релевантные решения. В Doczilla AI поиск идёт прямо в чате: по 300+ млн судебных актов и корпусу практики высших судов (Casus Legal). ИИ отбирает решения под вопрос юриста, кратко излагает позицию суда и даёт ссылку на каждый акт.\n\nЗадача 2. Получить ответ на правовой вопрос и проверить его по первоисточнику\n\nПоиск в интернете или в Консультант Плюс / Гарант не даёт быстрого ответа, а Chat GPT или Claude без доступа к российским правовым базам может сослаться на несуществующую норму. Doczilla AI отвечает с кликабельными ссылками на нормы в «Гаранте» и опирается на судебную практику, а также на 12 томов комментариев к ГК РФ под ред. Карапетова (Glossa AI). \nДля узких вопросов есть готовые ассистенты по отраслям права — гражданское, трудовое, налоговое, персональные данные и другие. Каждый ответ можно проверить по первоисточнику.\n\nЗадача 3. Подготовить договор или процессуальный документ за минуты\n\nПодготовка иска, жалобы, претензии или договора отнимают часы. C Doczilla юристу достаточно загрузить материалы по своему проекту и свой образец (если есть) и ИИ подготовит проект документа. Можно опереться на пример из библиотеки из 150+ шаблонов: ИИ заполнит его данными из загруженных вами файлов (PDF, сканы, Excel), реквизиты контрагента подтянутся из ЕГРЮЛ. \nПрямо в документе ИИ проверит и улучшит текст, сократит, поправит стиль и найдет внутренние противоречия. \n\nЗадача 4. Проверить договор и не пропустить критичный риск\n\nК концу дня ручная вычитка становится ненадёжной: глаз замыливается, а пропущенное условие может дорого стоить. ИИ проверяет договор по 20+ готовым чек-листам или по вашим правилам. Каждому риску присваивается уровень (красный, жёлтый, зелёный), ИИ объясняет последствия, предлагает формулировку и сам вносит правку в текст. Результат проверки сохраняется и виден коллегам.\n\nЗадача 5. Работать с лучшими ИИ-моделями без VPN, без риска утечки данных и блокировки аккаунта\n\nЗарубежные модели требуют VPN и иностранной карты, аккаунт могут заблокировать, а загружать данные клиента в публичный чат-бот нельзя. В Doczilla AI в одной подписке 20+ языковых моделей (GPT, Claude, Gemini, YandexGPT и др.) — без VPN и иностранных карт; модель можно сменить в том же окне. Для персональных данных — локальные модели DeepSeek и Qwen 3 на серверах в РФ: данные не покидают страну. Встроенный анонимайзер обезличивает персональные данные, реквизиты и суммы перед отправкой в модель. Doczilla не дообучает модели на данных клиентов. Для компаний с жёсткими требованиями ИБ платформа разворачивается в закрытом контуре (on-prem): вся обработка идёт на серверах клиента.\n\nЗадача 6. Согласовать договор без хаоса версий\n\nВерсии гуляют по почте и мессенджерам, контрагент правит свою копию, изменения теряются. В Doczilla бизнес и контрагент работают в одном документе: рецензирование, комментарии, история версий. У контрагентов есть  гостевой доступ без лицензии. ИИ анализирует правки контрагента с подсветкой и оценкой рисков, предлагает и вносит правки прямо в документ в режиме рецензирования.\n\nЗадача 7. Руководителю юрдепа: знать всё про загрузку своей команды\n\nО загрузке юристов руководитель часто узнаёт со слов или когда срок уже сорван – по жалобам. В Doczilla все задачи ведутся в одном списке со статусами, исполнителями и дедлайнами. Уведомления о приближении срока и просрочках приходят автоматически. Маршруты согласования настраиваются без программистов: задача проходит проверку старшего юриста там, где это нужно, и уходит бизнесу в финальном виде.\n\nЗадача 8. Руководителю юрдепа: принять задачу от бизнеса — с полным контекстом с первого раза\n\nБизнес ставит задачу без срока, необходимых документов и описания ситуации, и юрист тратит время на уточнения. ИИ-агент сам ведёт диалог с бизнесом: задаёт уточняющие вопросы, запрашивает недостающие документы, сам отвечает на типовые вопросы и ставит юристу те задачи, с которыми не может справиться сам."
   },
   {
    "id": "S008",
@@ -315,8 +336,15 @@
    "name": "Джейхелпер",
    "site": "jhelper.ru",
    "skills": [
-    "Ответ на правовой вопрос"
-   ]
+    "Ответ на правовой вопрос",
+    "Поиск судебной практики",
+    "Работа с договорами",
+    "Конструктор документов",
+    "Разное"
+   ],
+   "logo": "https://lh3.googleusercontent.com/d/1y8Wxnp_IAxIkfWURT3i5TuIMPbZThxKu",
+   "short": "Jhelper - от материалов дела к правовой позиции и документу. ИИ-помощник для юридических фирм, адвокатов и юротделов компаний: анализирует материалы дела, находит нормы права и судебную практику со ссылками на первоисточники на сайтах судов, помогает готовить процессуальные документы в Word.",
+   "promo": "LAW-2WDS-4DSN - +14 дополнительных дней на тестовый период со всем функционалом"
   },
   {
    "id": "S018",
@@ -606,7 +634,39 @@
   }
  ],
  "cases": [
-
+  {
+   "id": "C002",
+   "service": "S007",
+   "client": "Александр Зотов, адвокат коллегии «Монастырский, Зюба, Степанов и Партнеры»",
+   "clientLogo": "https://lh3.googleusercontent.com/d/1jKdwpIHUMiY33UkPTebih-F2OvGG7Ubr",
+   "area": 0,
+   "title": "250 документов по спору на миллиарды: как ИИ помог найти главное",
+   "text": "Александр Зотов, адвокат коллегии «Монастырский, Зюба, Степанов и Партнеры», использовал Doczilla для анализа документов по судебному спору на несколько миллиардов рублей.\n\nК иску прилагались 250 объемных документов. Ручной анализ этих материалов занял у главного инженера клиента две недели.\n\n С помощью Doczilla адвокат выполнил анализ значительно быстрее и установил, что большинство приложений не относится к предмету спора.\n\nРезультат: ускорение анализа большого массива документов и выявление материалов, действительно значимых для дела.",
+   "k": "2 недели → несколько часов",
+   "kd": "сэкономили на анализе 250 объёмных документов по делу"
+  },
+  {
+   "id": "C003",
+   "service": "S007",
+   "client": "Елена, частнопрактикующий юрист",
+   "clientLogo": "",
+   "area": 0,
+   "title": "С 12 до 4 часов: как юрист сократила рабочий день с помощью ИИ",
+   "text": "Елена, частнопрактикующий юрист, использует Doczilla для подготовки судебных документов, анализа договоров и поиска судебной практики.\n\nРаньше Елена работала по 12 часов в день, включая выходные, и привлекала помощников, работу которых приходилось постоянно перепроверять. С Doczilla она отказалась от помощников и стала самостоятельно справляться с клиентскими задачами.\n\nНапример, кассационную жалобу на 10 страниц по материалам дела за несколько лет Елена подготовила за 30 минут вместо 5 часов. Анализ договора, который раньше занимал 3 часа, теперь выполняет за 15 минут.\n\nРезультат: рабочий день сократился с 12 до 4 часов без потери продуктивности. Елена перестала работать на износ, освободила время для личной жизни и отдыха. А главное — смогла начать обучение на адвоката, на которое раньше не хватало ресурсов, чтобы выйти на новый профессиональный уровень.",
+   "k": "4 часа",
+   "kd": "рабочий день сократился с 12 до 4 часов без потери продуктивности"
+  },
+  {
+   "id": "C004",
+   "service": "S007",
+   "client": "«АСТОН Крахмало-Продукты»",
+   "clientLogo": "https://lh3.googleusercontent.com/d/1voKQe-eQa39MnXmsuos3fEzAJm14HUvs",
+   "area": 0,
+   "title": "На 70% быстрее: как ИИ ускорил подготовку претензий",
+   "text": "«АСТОН Крахмало-Продукты», производственное предприятие полного цикла, использует ИИ-ассистента Doczilla для подготовки юридических документов и анализа договоров.\n\nРаньше юристы тратили много времени на подготовку претензий, уведомлений, писем о расторжении и проверку договорных условий. Теперь ИИ создает проекты документов на основе уже согласованных договоров, выявляет риски, предлагает корректировки формулировок и помогает исследовать незнакомые области права.\n\nРезультат: подготовка претензий ускорилась на 70%. Юристы тратят меньше времени на рутинную работу с текстами и могут сосредоточиться на сложных юридических и стратегических задачах.",
+   "k": "70%",
+   "kd": "ускорение подготовки претензий на 70%"
+  }
  ],
  "experts": [
   {
@@ -616,9 +676,7 @@
    "position": "Автор, M&A юрист",
    "companyLogo": "",
    "photo": "https://lh3.googleusercontent.com/d/1UuFpmLEzKkwMWJ83KYA891cVzWWStGcN",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP003",
@@ -627,9 +685,7 @@
    "position": "Партнер",
    "companyLogo": "https://lh3.googleusercontent.com/d/1uTLb5ZUCJHNnFeQkiUJjQSktHyKutL79",
    "photo": "https://lh3.googleusercontent.com/d/1AEpjT7eFMnhSZouu6vzAyWvxHt4YiV92",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP004",
@@ -638,9 +694,7 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1nR07INFZw7CiaGU0dy-eg3J7v_SDcbtd",
    "photo": "https://lh3.googleusercontent.com/d/12HnOssCiu2u9ZkMv5q4QzNCvReTFDzvZ",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP005",
@@ -649,9 +703,7 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1SCfwlcDp0OmsW741aBQao0coLOYcOSP8",
    "photo": "https://lh3.googleusercontent.com/d/1lMqHg0EiuLi0C-bomMLwfRRO5vr063S3",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP006",
@@ -660,9 +712,7 @@
    "position": "Руководитель практики корпоративного права",
    "companyLogo": "https://lh3.googleusercontent.com/d/1k47bWvWO57bKgtJtadP0lEd1ZSC9QcvG",
    "photo": "https://lh3.googleusercontent.com/d/17r8fH57jI0Ssfl2hgiZKJ8yC_RjNmcmE",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP007",
@@ -671,9 +721,7 @@
    "position": "Советник, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/1kSjcPgI41chVjAUAkqSgHJeM-aQKmZDb",
    "photo": "https://lh3.googleusercontent.com/d/1E2xEIvaHNSTFPoBXH6QDRSMf2W1ISZeb",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP008",
@@ -682,9 +730,7 @@
    "position": "Юрист, судебная практика",
    "companyLogo": "https://lh3.googleusercontent.com/d/1DWX7KpVHZl2IN3sL1NFiVi4uCBAr21yG",
    "photo": "https://lh3.googleusercontent.com/d/1r-69zYE4jpzGS-Fppr3jc81ebkGdEyt9",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP009",
@@ -693,9 +739,7 @@
    "position": "Директор по правовым вопросам",
    "companyLogo": "https://lh3.googleusercontent.com/d/1ZIrDZ8qSCHkkkj0Ck1oNDnPYgWOy7rWC",
    "photo": "https://lh3.googleusercontent.com/d/1pkq94eJP8Ix1deplSVmdE-qNZWLPjCJb",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP010",
@@ -704,9 +748,7 @@
    "position": "Помощник юриста",
    "companyLogo": "https://lh3.googleusercontent.com/d/1w0v0tnUPZjPUv8XN-VmS-n8XV9xoniyB",
    "photo": "https://lh3.googleusercontent.com/d/1wG2JzxuIUu8z_3nMKwMby5PaTxaStUVI",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP011",
@@ -715,9 +757,7 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1PL0SVqHV53Pz1aH7Ob9SPgLx-JmEsdzt",
    "photo": "https://lh3.googleusercontent.com/d/1JJOF-RQ8UTxdkq8nTSZbzzG8452lGYH2",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP012",
@@ -726,9 +766,7 @@
    "position": "Партнер",
    "companyLogo": "https://lh3.googleusercontent.com/d/1hCNk4oQlGEor8wvFbLorrWHHtmr40SU7",
    "photo": "https://lh3.googleusercontent.com/d/13Bm37frAgIraQz1aarmQGCmEgrmeT2Pd",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP013",
@@ -737,9 +775,7 @@
    "position": "Старший юрист практики разрешения споров",
    "companyLogo": "https://lh3.googleusercontent.com/d/1ebdZn9bCaGc3TRHc_jxTYbp29DpQZpVv",
    "photo": "https://lh3.googleusercontent.com/d/1KPHERycR6UZUgxPZhB7CAK6dnPP6FTk0",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP014",
@@ -748,9 +784,7 @@
    "position": "Партнер",
    "companyLogo": "https://lh3.googleusercontent.com/d/10xVPyuqpV4A0JTSjG02lq0XU4u50QCuJ",
    "photo": "https://lh3.googleusercontent.com/d/1W6O0ectDTq_8k4lQBOadJDJq8MllDmNA",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP015",
@@ -759,9 +793,7 @@
    "position": "Начальник юридического отдела",
    "companyLogo": "https://lh3.googleusercontent.com/d/1Ig22MRsr9dy8RNTsNjrh9RZIqXwE28fc",
    "photo": "https://lh3.googleusercontent.com/d/1j1HRPGGv-wG9zOp-L4fjeledz1UNxcNe",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP016",
@@ -770,9 +802,7 @@
    "position": "Соруководитель практики интеллектуальной собственности и цифрового права",
    "companyLogo": "https://lh3.googleusercontent.com/d/1Xdusv2yZalLzrEZboBBjbPyJGdnznhhF",
    "photo": "https://lh3.googleusercontent.com/d/1uXoSyAnx1XygUpwolcjMYGJrr2oX81yl",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP017",
@@ -781,9 +811,7 @@
    "position": "Управляющий партнер",
    "companyLogo": "",
    "photo": "",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP018",
@@ -792,9 +820,16 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1k47bWvWO57bKgtJtadP0lEd1ZSC9QcvG",
    "photo": "https://lh3.googleusercontent.com/d/1wcnRBUUIJQk2_pqMBdqDEwvvC4DaLbrq",
-   "tasks": [
-
-   ]
+   "tasks": []
+  },
+  {
+   "id": "EXP019",
+   "name": "Екатерина Тиллинг",
+   "company": "Юридическая фирма BIRCH",
+   "position": "Партнер, руководитель IP&IT практики",
+   "companyLogo": "https://lh3.googleusercontent.com/d/1rG9Or8hEnAn0j1f90JJ0FBhxRBGoZw7v",
+   "photo": "https://lh3.googleusercontent.com/d/1l83DttIveaQY-xxz3AAPncuVlLWc0qL4",
+   "tasks": []
   },
   {
    "id": "EXP020",
@@ -803,9 +838,7 @@
    "position": "Руководитель юридической фирмы",
    "companyLogo": "https://lh3.googleusercontent.com/d/1CO6Qxhig_OTIrBiHGVRTqIkOlbgtIAVD",
    "photo": "https://lh3.googleusercontent.com/d/1NhitTnlG8rKHzvmj9mX7WZc7QZbJ0hSo",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP022",
@@ -814,9 +847,7 @@
    "position": "Старший юрист, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/11bj-FkyaBQTnSREJvks4p4jfvmudDVzH",
    "photo": "https://lh3.googleusercontent.com/d/1BV5r7B4JhcOOdmaDoQByxOzIyIqmcSKk",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP023",
@@ -825,9 +856,7 @@
    "position": "Партнер, руководитель практики интеллектуальной собственности",
    "companyLogo": "https://lh3.googleusercontent.com/d/1O2VtZq1Gpb_gpTnTimJ4sdeecIcynW54",
    "photo": "https://lh3.googleusercontent.com/d/1YaPXMxV3Tt-dG284usQRNxebsVJ4EBIP",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP024",
@@ -836,9 +865,7 @@
    "position": "Руководитель юридического отдела",
    "companyLogo": "https://lh3.googleusercontent.com/d/1ur65PPrzbMxvmjz6ZB7c-D0byVfdaDdl",
    "photo": "https://lh3.googleusercontent.com/d/1SKRSQyNzVu6cCBovbx90lT7PH2C_2nEV",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP025",
@@ -847,9 +874,7 @@
    "position": "Старший партнер, адвокат, Руководитель практики «Судебные споры и банкротство»",
    "companyLogo": "https://lh3.googleusercontent.com/d/1Zs84rrXtxAUmuVKQfUsxY7hgF08HnEd1",
    "photo": "https://lh3.googleusercontent.com/d/1W-tzbxotacWbRPnKcdsBxmAgLhrUADHl",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP026",
@@ -858,9 +883,7 @@
    "position": "Управляющий партнер, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/19Yyt3QAESEX6XA5hf6FM2uCh6PNSAVzR",
    "photo": "https://lh3.googleusercontent.com/d/1OEkc-joexl1NkQg5CwedE4ygMeLJ3xzd",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP027",
@@ -869,9 +892,7 @@
    "position": "Управляющий партнер, адвокат, Руководитель практики «Корпоративное право / M&A» и «TMT/ Интеллектуальная собственность»",
    "companyLogo": "https://lh3.googleusercontent.com/d/16Vxwt__33QKPODuy7hqnrXumh8Hy9cVE",
    "photo": "https://lh3.googleusercontent.com/d/1gVcCts5Wh9hfojQP_raaNkGQu00NtnTk",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP028",
@@ -880,9 +901,7 @@
    "position": "Юрист",
    "companyLogo": "https://lh3.googleusercontent.com/d/1JjwwKQsvzBoIczvknpBjhZP1sfmMh-iN",
    "photo": "https://lh3.googleusercontent.com/d/1tfwJzOYI7SqMogrvAZLscEkm-tvgLRe8",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP029",
@@ -891,9 +910,7 @@
    "position": "Партнер, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/1E4pF6NNMKcRCkW6LKiIDX-Z2Zyhqte0R",
    "photo": "https://lh3.googleusercontent.com/d/1vOQLdzrVhk5PBUOeXt9EMdTztGh5u4vx",
-   "tasks": [
-
-   ]
+   "tasks": []
   },
   {
    "id": "EXP030",
@@ -902,17 +919,27 @@
    "position": "Партнер, адвокат",
    "companyLogo": "https://lh3.googleusercontent.com/d/1r2WxAH-lQ6eQyFz4MG2GH405QTKWlj0V",
    "photo": "https://lh3.googleusercontent.com/d/1yaoTMvlSKQlsvznoFXY3sMbUPk3ZEAPw",
-   "tasks": [
-
-   ]
+   "tasks": []
   }
  ],
  "assessorOrgs": [
+  {
+   "id": "ORG04",
+   "name": "Томский государственный университет",
+   "type": "",
+   "logo": ""
+  },
   {
    "id": "ORG05",
    "name": "Балтийский федеральный университет им. Иммануила Канта",
    "type": "",
    "logo": "https://lh3.googleusercontent.com/d/1N9mnxgSl1AH5llWmnWlUAZ-Gy60wXchf"
+  },
+  {
+   "id": "ORG06",
+   "name": "ШПиУ ТюмГУ",
+   "type": "",
+   "logo": "https://lh3.googleusercontent.com/d/1DCjzUMNylcs1emkZTkEpxXDzTi6Ex6ZB"
   },
   {
    "id": "ORG07",
@@ -937,6 +964,12 @@
    "name": "Билайн Adtech",
    "type": "",
    "logo": "https://lh3.googleusercontent.com/d/1eH6cIiq_1GaiKTqvh2xdeMnj8SeoC90F"
+  },
+  {
+   "id": "ORG13",
+   "name": "PRO32",
+   "type": "",
+   "logo": "https://lh3.googleusercontent.com/d/1WsOxsROWXRkbNpD5jitoKg5JATMN2Ouh"
   }
  ],
  "team": [
