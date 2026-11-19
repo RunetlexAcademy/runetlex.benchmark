@@ -725,7 +725,7 @@ select:focus{outline:none;border-color:var(--accent)}
 .tdetail{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:32px;align-items:start;padding:8px 0 32px}
 .tmain{display:flex;flex-direction:column;gap:28px;min-width:0}
 .tblock{display:flex;flex-direction:column;gap:12px}
-.tblock h3{margin:0;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+.tblock h3{margin:0;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0;color:var(--mute)}
 .rich{font-size:15px;line-height:1.65;max-width:72ch}
 .rich p{margin:0 0 12px}.rich p:last-child{margin-bottom:0}
 .rich ul{margin:0 0 12px;padding-left:20px}.rich li{margin-bottom:6px}
@@ -789,7 +789,7 @@ select{padding-right:44px;text-overflow:ellipsis;white-space:nowrap;overflow:hid
 .course-body{display:flex;flex-direction:column;gap:14px;padding-bottom:36px}
 .course-pills{display:flex;flex-wrap:wrap;gap:8px}
 .course-pills span{border:1px solid #c9d6f5;color:#1a56db;border-radius:999px;padding:6px 14px;font-size:13px;line-height:1.2}
-.course-kicker{margin:6px 0 0;font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.course-kicker{margin:6px 0 0;font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:0}
 .course-title{font-family:var(--disp);font-weight:400;font-size:clamp(28px,3.6vw,46px);line-height:1.05;text-transform:uppercase;margin:0;max-width:720px}
 .course-body p{margin:0;max-width:620px}
 .course-facts{color:var(--mute);font-size:14px}
@@ -929,7 +929,7 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 @media (max-width:640px){.wrap>.course,.wrap>#stats,.wrap>.takeaways,.wrap>#results,.wrap>.layout{margin-top:56px}.about-course{margin-top:24px}}
 /* course promo code */
 .course-promo{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 14px;border-radius:12px;background:#fff1ef;color:#07141D;font-size:14px;border:1px dashed #f62a17}
-.course-promo b{color:#f62a17;letter-spacing:.04em;font-weight:700}
+.course-promo b{color:#f62a17;letter-spacing:0;font-weight:700}
 .course-promo{display:block;white-space:nowrap;max-width:100%}
 @media (max-width:400px){.course-promo{font-size:13px;padding:8px 12px}}
 
@@ -954,7 +954,7 @@ a.logo-item.partner.on-dark{background:#07141D!important;padding:0 24px;border-r
 /* closed preview: password screen and top bar */
 .gate{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:var(--sub)}
 .gate-box{width:100%;max-width:420px;gap:14px;border-radius:20px;padding:32px}
-.gate-kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0}
+.gate-kicker{font-size:12px;letter-spacing:0;text-transform:uppercase;color:var(--accent);margin:0}
 .gate-title{font-size:34px;margin:0}
 .gate-err{color:#c42b1c;font-size:14px;margin:0}
 .gate-out{font-size:13px;color:var(--mute);align-self:center}
@@ -1129,7 +1129,7 @@ html{scroll-behavior:smooth}
 .rep{background:var(--accent-soft);padding:44px 48px;display:flex;flex-direction:column;gap:28px}
 .rep-main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;align-items:center}
 .rep-intro{display:flex;flex-direction:column;gap:14px;max-width:620px}
-.rep-k,.rep-h{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:600}
+.rep-k,.rep-h{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:0;color:var(--accent);font-weight:600}
 .rep-lead{font-size:18px;line-height:1.5;margin:0}
 .rep .form{background:var(--bg);margin-top:8px}
 .rep-cover{aspect-ratio:3/4;background:var(--accent);color:#fff;padding:26px 24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 24px 48px -20px rgba(7,20,29,.45);transform:rotate(2deg);transition:transform .3s var(--ease)}
@@ -1149,3 +1149,24 @@ html{scroll-behavior:smooth}
 @media (max-width:560px){.rep{padding:24px 16px;margin:0 -16px}.rep-list{grid-template-columns:1fr}.rep-cover{max-width:200px}.rep-cover-t{font-size:32px}}
 .rep-cover-wm{color:#fff}.rep-cover-wm .wm,.rep-cover-wm .wm *{fill:#fff!important;opacity:1!important}
 @media (max-width:560px){.rep-cover{max-width:210px;padding:20px 18px}.rep-cover-t{font-size:26px}.rep-cover-wm .wm{width:110px}}
+
+/* ===== One spacing system for every page =====
+   --s-sec  between sections of a page (same everywhere: home, methodology, about…)
+   --s-head from the page header (title, crumbs) to the first content
+   --s-in   inside a section: heading → content, card → card
+   --s-sub  between groups inside one section (expert areas) */
+:root{--s-sec:120px;--s-head:56px;--s-in:28px;--s-sub:56px}
+@media (max-width:900px){:root{--s-sec:96px;--s-head:48px;--s-in:24px;--s-sub:48px}}
+@media (max-width:560px){:root{--s-sec:88px;--s-head:40px;--s-in:20px;--s-sub:40px}}
+.wrap{gap:var(--s-sec)!important}
+.wrap>*{margin-top:0!important}
+.wrap>:first-child:not(.hero){margin-bottom:calc(var(--s-head) - var(--s-sec))!important}
+.sec:not(.mnotes),.pghead,.blk{display:flex;flex-direction:column;gap:var(--s-in)!important;padding-top:0!important;border-top:0!important}
+.sec>.earea+.earea{margin-top:calc(var(--s-sub) - var(--s-in))}
+.partners{gap:var(--s-in)!important}
+.mnotes{gap:var(--s-in)!important}
+.sec>*,.pghead>*,.blk>*{margin-top:0!important;margin-bottom:0!important}
+.layout>.content{gap:var(--s-in)!important}
+.content>.cat-sec+.cat-sec,.content>.cat-sec~form{margin-top:calc(var(--s-sub) - var(--s-in))!important}
+.sec>.earea+.earea{margin-top:calc(var(--s-sub) - var(--s-in))!important}
+@media (max-width:560px){.rep{margin:0 -20px!important;padding:28px 20px}}
