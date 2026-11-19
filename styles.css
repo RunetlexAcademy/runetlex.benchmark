@@ -1096,3 +1096,17 @@ a.logo-item.partner.on-dark{padding:12px 20px!important}
 }
 @media (max-width:900px){.wrap>#partners{margin-top:52px}}
 @media (max-width:640px){.wrap>#partners{margin-top:56px}}
+
+/* ===== 19.11 (3) ===== */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* first screen fills the window on desktop too */
+@media (min-width:901px){.hero{min-height:calc(100svh - var(--navh,80px) - var(--barh,0px) - 56px)!important;justify-content:center!important;padding:40px 0!important}}
+/* methodology task table */
+.mtasks td.muted a{border-bottom:0!important}
+.mtasks th:nth-child(1),.mtasks td:nth-child(1){width:13%;padding-right:24px}
+/* no extra lines between sections */
+.sec{border-top:0!important}
+.steps .step:last-child{border-bottom:0}
+#results{border-top:0!important}
+.report-list{margin:0}

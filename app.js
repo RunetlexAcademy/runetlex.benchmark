@@ -497,7 +497,7 @@ ${areaTags(a, 'setTaskArea')}
 <table class="mtasks"><tr><th>отрасль</th><th>задача</th><th>автор</th><th>критериев</th><th>решили</th></tr>${list.map((t) => { const n = tested.filter((s) => (resOf(s, t.id) || {}).s).length; return `<tr class="clk" onclick="location.hash='#/task/${t.id}'"><td>${D.short[t.area]}</td><td><a class="tname" href="#/task/${t.id}">${t.title}</a></td><td class="muted">${authorLinks(t)}</td><td>${t.total}</td><td>${n} из ${tested.length}</td></tr>`; }).join('')}</table>
 </div>
 <div class="sec" id="m-report">
-<div class="report"><div class="col" style="gap:16px"><h2>Отчёт</h2><p>В отчёте мы подробно рассказываем, как считали результаты, как сервисы справились в каждой отрасли, что они уже умеют и где пока ошибаются, а также какой сервис подойдёт под какую задачу.${set('report_pages', '') ? ' PDF, ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + consent(), 'Отправить отчёт', 'Спасибо! Отчёт придёт на почту в течение нескольких минут. Если письма нет, проверьте папку «Спам».')}</div><div class="ph cover">обложка отчёта</div></div>
+<div class="report"><div class="col" style="gap:16px"><h2>Отчёт</h2><p>Полная история бенчмарка: от того, зачем мы его затеяли, до того, что получилось.${set('report_pages', '') ? ' PDF, ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p><ul class="step-list report-list"><li><b>Зачем мы сделали бенчмарк</b>, какие задачи ставили и каких принципов держались: открытость, перепроверка на каждом этапе, независимость.</li><li><b>Как отбирали сервисы.</b> Из 57 найденных на рынке в проверку вошли 33, протестировали 31. Рассказываем, по каким правилам отбирали и почему исключили двоих.</li><li><b>Как готовили задачи</b> вместе с экспертами и как устроили сбор ответов и слепую оценку.</li><li><b>Результаты</b>: итоговые, по отраслям и комментарии к работе с каждым сервисом.</li><li><b>С какими сложностями столкнулись</b>: выбор тарифов, разные режимы работы сервисов, расхождения в оценках и как мы их решали.</li><li><b>Наши выводы</b> о том, что сервисы уже умеют и где им ещё расти.</li></ul>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + consent(), 'Отправить отчёт', 'Спасибо! Отчёт придёт на почту в течение нескольких минут. Если письма нет, проверьте папку «Спам».')}</div><div class="ph cover">обложка отчёта</div></div>
 </div>`;
 }
 // Team photos uploaded to the site; a photo link in the sheet («Команда») takes priority.
@@ -759,10 +759,11 @@ function render(preserve) {
   if (window.PENDING_GO) { const id = PENDING_GO; PENDING_GO = null; setTimeout(() => go(id), 60); }
   if (window.PENDING_EXP && p[0] === 'experts') { const id = PENDING_EXP; PENDING_EXP = null; setTimeout(() => goExpert(id), 60); }
   if (p[0] === 'catalog') applyCatFilter();
-  const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px');
+  const nv = document.querySelector('.nav'); if (nv) document.documentElement.style.setProperty('--navh', nv.offsetHeight + 'px'); const bar = document.querySelector('.demo-bar'); document.documentElement.style.setProperty('--barh', (bar ? bar.offsetHeight : 0) + 'px');
   document.querySelectorAll('#app table').forEach((t) => { if (!t.parentElement.classList.contains('tscroll') && !t.parentElement.classList.contains('md-table')) { const w = document.createElement('div'); w.className = 'tscroll'; t.parentNode.insertBefore(w, t); w.appendChild(t); } });
   document.body.style.overflow = S.modal ? 'hidden' : '';
-  if (!preserve) window.scrollTo(0, 0); else if (window.scrollY !== keepY) window.scrollTo(0, keepY);
+  // jumps on page change are instant; smooth scrolling is for moving within a page
+  if (!preserve) window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); else if (window.scrollY !== keepY) window.scrollTo({ top: keepY, left: 0, behavior: 'instant' });
 }
 window.addEventListener('hashchange', () => { S.modal = null; closeShot(); document.body.classList.remove('menu-open'); render(); });
 render();
