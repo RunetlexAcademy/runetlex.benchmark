@@ -1199,3 +1199,20 @@ html{scroll-behavior:smooth}
 .steps .step:last-child{padding-bottom:0}
 .mnotes{padding-top:0!important;border-top:0!important}
 .filters+.tlist{border-top:0}
+
+/* 19.11 (6): consistency */
+/* one corner radius for blocks and cards */
+.box,.dash,.takeaways,.rep,.disclaimer,.hint,.crit-panel,.course,.mnote,.gate-box,.buy,.box.contact,.nomb,.tdetail .tmain>*{border-radius:16px}
+.rep{overflow:hidden}
+.rep-list li{border-radius:12px}
+.disclaimer{border-left:0!important}
+.svc-logo{border-radius:16px!important}
+@media (max-width:560px){.course{border-radius:16px}.rep{border-radius:0}}
+/* no line under the filter bars */
+.filters{border-bottom:0!important}
+/* task page: service rows */
+.tsvc-name{color:inherit;text-decoration:none;border-bottom:0!important}
+.tsvc-name:hover{color:var(--accent)}
+.tread{color:var(--accent)}
+.trow-h[role=button]{cursor:pointer}
+.tfacts a{border-bottom:0!important;text-decoration:none;color:inherit}.tfacts a:hover{color:var(--accent)}

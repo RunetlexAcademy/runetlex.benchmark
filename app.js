@@ -206,13 +206,13 @@ function home() {
 <h1 class="hero-title">Рунетлекс<br><em>Бенчмарк</em></h1>
 <p class="hero-sub">// оценка юридических ИИ-сервисов</p>
 <span class="updated"><span class="dot"></span>сбор ответов сервисов: ${esc(PERIOD)}</span>
-<div class="cta-hero"><a class="btn dark" href="#/" onclick="goTo('stats',this)">Смотреть результаты</a><a class="btn" href="#/catalog">Найти сервис под задачу</a><a class="btn" href="#/method" onclick="goTo('m-report',this)">Скачать отчёт</a></div>
+<div class="cta-hero"><a class="btn dark" href="#/" onclick="goTo('stats',this)">Смотреть результаты</a><a class="btn" href="#/catalog">Найти сервис под задачу</a><a class="btn" href="#/method" onclick="goTo('m-report',this)">Получить отчёт</a></div>
 </div>
 <div class="grid4" id="stats"><a class="box stat lnk" href="#/catalog"><span class="num">${N_SERVICES}</span><p class="muted">${one(+N_SERVICES) ? "юридический" : "юридических"} ИИ-${svcWord(+N_SERVICES)}</p><span class="stat-go">все сервисы →</span></a><a class="box stat lnk" href="#/method" onclick="goTo('m-tasks',this)"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p><span class="stat-go">к задачам →</span></a><a class="box stat lnk" href="#/experts"><span class="num">${N_EXPERTS}</span><p class="muted">экспертов готовили задачи для оценки</p><span class="stat-go">к экспертам →</span></a><a class="box stat lnk" href="#/" onclick="event.preventDefault();go('results')"><span class="num">${set('stat_nominations', String(NOMS.length))}</span><p class="muted">номинаций</p><span class="stat-go">к номинациям ↓</span></a></div>
 ${D.takeaways.length ? `<div class="takeaways"><h2>Ключевые выводы</h2><ol>${D.takeaways.map((t) => `<li>${esc(t)}</li>`).join('')}</ol></div>` : ''}
 <div class="sec" id="results"><h2>Номинации</h2>
 <div class="grid4 noms-row">${NOMS.map(nomCard).join('')}</div></div>
-<div class="sec"><div class="layout">
+<div class="sec" id="all-results"><div class="layout">
 <div class="content">
 <h2>Результаты${a === -1 ? ' по всем задачам' : ': ' + D.short[a]}</h2>
 ${DISCLAIMER}
@@ -221,7 +221,7 @@ ${areaFilter(a, 'setArea')}
 ${hintMore('Как читать таблицу', 'У каждого сервиса два показателя:', `<ul class="hint-list"><li><b>Решено задач</b> — сколько ответов можно использовать в работе: в них выполнены все ключевые критерии.</li><li><b>Полнота ответов</b> — доля всех критериев, ключевых и опциональных, которые сервис выполнил по всем ${N_TASKS} задачам.</li></ul>`, `Например, «${Math.round(+N_TASKS / 2)} из ${N_TASKS}» и «65%» означают, что половина ответов пригодна для работы, а в целом ответы содержат почти две трети того, что ожидали эксперты.`, 'Показатели не зависят друг от друга. Подробный ответ не засчитывается, если не выполнен хотя бы один ключевой критерий, а засчитанный ответ может быть коротким.', `<b>Сильные отрасли</b> — отрасли, в которых сервис решил больше всего задач. Задачи, ответы и оценки — на странице сервиса и в разделе ${METHOD_LINK}.`)}
 <table class="rtable"><tr><th>сервис</th><th>решено задач${a === -1 ? '' : ', ' + D.short[a]}</th><th>полнота ответов</th><th>сильные отрасли</th><th>комментарий к результатам</th></tr>${rows.join('')}</table>
 </div></div>
-<div class="row cta-list"><a class="btn dark" href="#/method" onclick="goTo('m-report',this)">Скачать полный отчёт</a><a class="btn" href="#/method" onclick="goTo('m-tasks',this)">Смотреть задачи</a><a class="btn" href="#/method">Изучить методологию</a></div></div>
+<div class="row cta-list"><a class="btn dark" href="#/method" onclick="goTo('m-report',this)">Получить отчёт</a><a class="btn" href="#/method" onclick="goTo('m-tasks',this)">Смотреть задачи</a><a class="btn" href="#/method">Изучить методологию</a></div></div>
 ${partnersBlock()}`;
 }
 
@@ -403,7 +403,7 @@ function service(id) {
   const lvl = LVL[S.view[id] || s.pkg || 'free'];
   const sw = PREVIEW ? `<div class="pkg-switch">${viewSwitch(id, PKGS)}</div>` : '';
   if (!s.tested) {
-    return `<div class="pghead"><p class="crumbs"><a href="#/catalog">Все ИИ-сервисы</a> → ${s.name}</p>${sw}${svcHead(s)}</div>${pkgBlocks(s, lvl)}`;
+    return `<div class="pghead"><div><a class="btn backlink" href="#/catalog">← Ко всем сервисам</a></div>${sw}${svcHead(s)}</div>${pkgBlocks(s, lvl)}`;
   }
   const st = ST[s.id];
   const resultBlock = `<div class="sec"><h2>Результат</h2>
@@ -420,7 +420,7 @@ ${lvl >= 1 ? box('Комментарий к результату', vf(s.comment,
   const tasksBlock = `<div class="sec"><h2>По задачам</h2>
 <div class="filters">${areaTags(ta, 'setTaskArea')}<div class="seg2" aria-label="итог по задаче">${[['all', 'Все'], ['ok', 'Решены'], ['no', 'Не решены']].map(([k, n]) => `<button type="button" class="${f === k ? 'on' : ''}" onclick="setFilt('${k}')">${n}<span>${cnt[k]}</span></button>`).join('')}</div></div>
 <div class="tlist">${taskRows.join('') || '<p class="muted">Нет задач по выбранным фильтрам.</p>'}</div></div>`;
-  return `<div class="pghead"><p class="crumbs"><a href="#/">Результаты</a> → ${s.name}</p>
+  return `<div class="pghead"><div><a class="btn backlink" href="#/" onclick="goTo('all-results',this)">← Ко всем результатам</a></div>
 ${sw}
 ${svcHead(s)}
 ${s.testedAt ? `<p class="muted" style="font-size:12px">проверен ${esc(s.testedAt)}</p>` : ''}
@@ -528,7 +528,7 @@ function taskPage(id) {
   const i = D.tasks.indexOf(t); const prev = D.tasks[i - 1]; const next = D.tasks[i + 1];
   const all = [...tested].map((s) => ({ s, r: resOf(s, id) })).filter((x) => x.r);
   const tf = S.tf || 'all'; const cntT = { all: all.length, ok: all.filter((x) => x.r.s).length, no: all.filter((x) => !x.r.s).length };
-  const rows = all.filter((x) => tf === 'all' || (tf === 'ok' ? x.r.s : !x.r.s)).sort((x, y) => (y.r.s - x.r.s) || (y.r.p - x.r.p)).map(({ s, r }) => `<tr><td><a href="#/service/${s.id}">${s.name}</a></td><td>${r.s ? 'решена' : 'не решена'}</td><td>${r.p} / ${t.total}</td><td><a href="javascript:void 0" onclick="openAns('${s.id}','${id}')">ответ сервиса</a></td></tr>`);
+  const rows = all.filter((x) => tf === 'all' || (tf === 'ok' ? x.r.s : !x.r.s)).sort((x, y) => (y.r.s - x.r.s) || (y.r.p - x.r.p)).map(({ s, r }) => `<div class="trow"><div class="trow-h" role="button" tabindex="0" onclick="openAns('${s.id}','${id}')" onkeydown="if(event.key==='Enter')openAns('${s.id}','${id}')"><span class="ttitle"><a class="tsvc-name" href="#/service/${s.id}" onclick="event.stopPropagation()">${s.name}</a><span class="tmeta"><span class="tread">читать ответ</span></span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev go" aria-hidden="true"></span></div></div>`);
   const n = tested.filter((s) => (resOf(s, id) || {}).s).length;
   return `<div class="pghead"><div><a class="btn backlink" href="#/method" onclick="goTo('m-tasks',this)">← Ко всем задачам</a></div>
 <div class="col" style="gap:14px"><h1>${t.title}</h1><div class="tfacts"><span class="tag soft">${D.areas[t.area]}</span><span>${authorLabel(t)}: ${authorLinks(t)}</span><span>${t.total} ${critWord(t.total)}</span><span>решили ${n} ${svcWord(n)} из ${tested.length}</span></div><div class="row" style="gap:8px">${prev ? `<a class="tag" href="#/task/${prev.id}">← предыдущая</a>` : ''}${next ? `<a class="tag" href="#/task/${next.id}">следующая →</a>` : ''}</div></div>
@@ -536,7 +536,7 @@ function taskPage(id) {
 ${!taskReady(t) ? LOADING : `<div class="tdetail"><div class="tmain">${clampBlock('tq' + id, 'Задача', richText(t.text || SAMPLE.task))}${clampBlock('tr' + id, 'Эталонный ответ', richText(t.reference || SAMPLE.answer))}</div>${critPanel(t, null)}</div>`}
 <div class="sec"><h2 id="t-svc">Как решили ${tested.length} ${svcWord(tested.length)}</h2>
 <div class="seg2" aria-label="итог по задаче">${[['all', 'Все'], ['ok', 'Решили'], ['no', 'Не решили']].map(([k, nm]) => `<button type="button" class="${tf === k ? 'on' : ''}" onclick="refilter(()=>{S.tf='${k}';render(true)})">${nm}<span>${cntT[k]}</span></button>`).join('')}</div>
-<table class="tsvc"><tr><th>сервис</th><th>итог</th><th>критерии</th><th></th></tr>${rows.join('') || '<tr><td colspan="4" class="muted">Нет сервисов по этому фильтру.</td></tr>'}</table></div>`;
+<div class="tlist">${rows.join('') || '<p class="muted">Нет сервисов по этому фильтру.</p>'}</div></div>`;
 }
 // Latin-named services first, then Russian alphabetical order.
 // Catalog search. Names are compared three ways: as typed, transliterated to Latin, and as a sound skeleton
