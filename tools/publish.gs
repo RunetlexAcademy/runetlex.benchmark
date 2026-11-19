@@ -33,6 +33,10 @@ function runetlexMenu() {
   SpreadsheetApp.getUi().createMenu('Рунетлекс')
     .addItem('Проверить данные', 'checkData')
     .addItem('Опубликовать на сайт', 'publishToSite')
+    .addSeparator()
+    .addItem('Проверить результаты', 'checkResults')
+    .addItem('Обновить закрытый просмотр', 'updatePreview')
+    .addItem('Опубликовать результаты для всех', 'publishResults')
     .addToUi();
 }
 
@@ -125,9 +129,13 @@ function buildData_(ss) {
     if (!pkgOf[sid]) { warnings.push(where + ': сервис ' + sid + ' не опубликован — кейс не попадёт на сайт'); return; }
     if (!(allow.cases && allow.cases[pkgOf[sid]])) { warnings.push(where + ': в пакете сервиса ' + sid + ' нет кейса — кейс не попадёт на сайт'); return; }
     pendingCheck('Кейсы', r, r['Заголовок'] || r['ID кейса']);
-    const area = areas.indexOf(r['Отрасль']);
-    if (area < 0) errors.push(where + ': отрасли «' + r['Отрасль'] + '» нет в «Справочниках»');
-    cases.push({ id: r['ID кейса'], service: sid, client: r['Клиент (компания)'] || '', clientLogo: img(r['Логотип клиента (ссылка)']), area: Math.max(area, 0), title: r['Заголовок'] || '', text: r['Текст кейса'] || '', k: r['Результат (цифра)'] || '', kd: r['Что означает результат'] || '' });
+    // У кейса может быть несколько отраслей: выбираются в ячейке списком (через запятую).
+    const areaNames = String(r['Отрасль'] || '').split(/\s*[,;]\s*/).filter(Boolean);
+    const caseAreas = areaNames.map((n) => areas.indexOf(n));
+    caseAreas.forEach((i, k) => { if (i < 0) errors.push(where + ': отрасли «' + areaNames[k] + '» нет в «Справочниках»'); });
+    if (!areaNames.length) errors.push(where + ': не указана отрасль');
+    const area = caseAreas.find((i) => i >= 0);
+    cases.push({ id: r['ID кейса'], service: sid, client: r['Клиент (компания)'] || '', clientLogo: img(r['Логотип клиента (ссылка)']), area: area === undefined ? 0 : area, areas: caseAreas.filter((i) => i >= 0), title: r['Заголовок'] || '', text: r['Текст кейса'] || '', k: r['Результат (цифра)'] || '', kd: r['Что означает результат'] || '' });
   });
 
   // эксперты
