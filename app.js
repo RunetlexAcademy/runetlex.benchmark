@@ -90,7 +90,8 @@ const COURSE_URL = set('course_url', 'https://runetlex-academy.ru/neuralnetworks
 const MOUNTAINS = '<svg class="course-art" viewBox="0 0 320 200" aria-hidden="true"><polygon points="0,200 70,110 120,150 175,60 230,130 270,95 320,140 320,200" fill="#1a56db" opacity=".18"/><polygon points="20,200 110,95 160,140 205,40 260,120 320,200" fill="#1a56db" opacity=".55"/><polygon points="205,40 230,80 214,76 200,100 188,82 175,90" fill="#fff" opacity=".9"/><polygon points="90,200 205,40 320,200" fill="#1a56db"/><path d="M205,40 C215,80 190,100 210,130 C228,158 200,175 215,200" fill="none" stroke="#f62a17" stroke-width="3"/><circle cx="205" cy="40" r="7" fill="#f62a17"/></svg>';
 // Partners: services with any paid package, highest package first; each logo links to the service site.
 const PKG_RANK = { p3: 3, p2: 2, p1: 1 };
-const partnersBlock = () => { const ps = D.services.filter((s) => PKG_RANK[s.pkg]).sort((x, y) => PKG_RANK[y.pkg] - PKG_RANK[x.pkg] || x.name.localeCompare(y.name, 'ru')); return ps.length ? `<div class="partners" id="partners"><h2>Партнёры Рунетлекс Бенчмарк</h2><div class="gallery"><div class="gallery-track partners-track">${ps.map((s) => `<a class="logo-item logo-img partner${s.logo ? '' : ' logo-txt'}" href="${esc(url(site1(s.site)))}" target="_blank" rel="noopener" title="${esc(s.name)}">${s.logo ? `<img src="${esc(s.logo)}" alt="${esc(s.name)}">` : `<span>${esc(s.name)}</span>`}</a>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div></div>` : ''; };
+const FAIR = '<div class="fair"><p>Место в бенчмарке и итоговые оценки не могли быть приобретены или изменены по запросу вендора. Все сервисы тестировались в равных условиях; вендоры не получали информации о задачах, сроках и порядке проверки, а также предварительных результатах.</p><p>Доступ к каждому сервису команда оформляла самостоятельно. Мы предложили всем вендорам возможность поддержать бенчмарк, оплатив размещение подробной информации о себе на странице сайта бенчмарка. На это предложение откликнулись Докзилла, aiXpert, Когневия, Консультант Плюс, ПравоТех, Стриж и jhelper.</p></div>';
+const partnersBlock = () => { const ps = D.services.filter((s) => PKG_RANK[s.pkg]).sort((x, y) => PKG_RANK[y.pkg] - PKG_RANK[x.pkg] || x.name.localeCompare(y.name, 'ru')); return ps.length ? `<div class="partners" id="partners"><h2>Партнёры Рунетлекс Бенчмарк</h2><div class="gallery"><div class="gallery-track partners-track">${ps.map((s) => `<a class="logo-item logo-img partner${s.logo ? '' : ' logo-txt'}" href="#/service/${s.id}" title="${esc(s.name)}">${s.logo ? `<img src="${esc(s.logo)}" alt="${esc(s.name)}">` : `<span>${esc(s.name)}</span>`}</a>`).join('')}</div><div class="gallery-nav"><button type="button" class="gbtn" aria-label="назад" onclick="slideLogos(this,-1)">←</button><button type="button" class="gbtn" aria-label="вперёд" onclick="slideLogos(this,1)">→</button></div></div>${FAIR}</div>` : ''; };
 const courseBlock = () => `<div class="course" id="course"><div class="course-body"><div class="course-pills"><span>${esc(set('course_stream', '8 поток'))}</span><span>${esc(set('course_dates', '16 ноября — 19 декабря 2026'))}</span></div><p class="course-kicker">Курс Рунетлекс Академии</p><h2 class="course-title">${esc(set('course_title', 'Нейросети для юриста: практика и результат'))}</h2><p>${esc(set('course_text', 'Пять недель практики, на которых вы соберёте своих ИИ-помощников для работы с документами, договорами и судебными делами. Успеете начать работать с ними ещё до нового года.'))}</p><ul class="course-facts"><li>5 недель</li><li>2 вебинара в неделю</li><li>4 ИИ-агента</li></ul>${set('course_promo', 'BENCH10') ? `<p class="course-promo">Промокод <button type="button" class="promo-copy" onclick="copyPromo(this,'${esc(set('course_promo', 'BENCH10'))}')" title="Скопировать промокод"><b>${esc(set('course_promo', 'BENCH10'))}</b><span class="promo-hint">скопировать</span></button> даёт скидку ${esc(set('course_promo_discount', '10%'))}</p>` : ''}<div class="course-cta"><a class="btn red" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Записаться на курс</a><a class="course-more" href="${esc(COURSE_URL)}" target="_blank" rel="noopener">Посмотреть программу</a></div></div>${MOUNTAINS}</div>`;
 
 function stats(s) {
@@ -104,18 +105,35 @@ const ST = {}; tested.forEach((s) => { ST[s.id] = stats(s); });
 const ranked = [...tested].sort((a, b) => ST[b.id].solved - ST[a.id].solved || ST[b.id].pts - ST[a.id].pts);
 const isLatin = (n) => /^[A-Za-z]/.test(n);
 const byName = (a, b) => (isLatin(b.name) - isLatin(a.name)) || a.name.localeCompare(b.name, isLatin(a.name) ? 'en' : 'ru', { sensitivity: 'base' });
-// Nominations. When several services share the best value, all of them win.
-const NOMS = [];
-const winners = (val) => { const best = Math.max(...tested.map(val)); return [...tested].filter((x) => val(x) === best).sort(byName); };
-const nom = (t, val, d) => { if (!tested.length) return; const w = winners(val); NOMS.push({ t, w, d: d(val(w[0])) }); };
-D.areas.forEach((name, a) => nom('лучший: ' + D.short[a], (x) => ST[x.id].byArea[a], (v) => v + ' из ' + AREA_N[a] + ' задач'));
-nom('самый полный', (x) => ST[x.id].pts, (v) => 'полнота ответов ' + pct(v));
-nom('самый точный по источникам', (x) => ST[x.id].src, (v) => 'ссылки верны в ' + v + ' задачах из ' + (D.tasks.filter((t) => t.srcCode).length || D.tasks.length));
-nom('самый сбалансированный', (x) => ST[x.id].min, (v) => 'не меньше ' + v + ' решённых задач в каждой отрасли');
+// Nominations: fixed list from the nominations sheet (name, winners, what it measures, formula).
+const KEY_F = 'Число ответов, выполнивших все применимые ключевые критерии / число ответов со всеми валидно оценёнными ключевыми критериями';
+const UNI_F = 'Сумма оценок по точному нормализованному тексту универсального критерия / число его валидных сданных оценок';
+const areaNom = (area) => `Доля полностью решённых задач в отрасли «${area}».`;
+const NOMS = [
+  { t: 'Самое аккуратное обращение с фактами', w: ['S017'], m: 'Доля баллов по критерию, который проверяет, не добавляет ли ответ обстоятельства вне фабулы и не выдаёт ли несостоявшиеся события за состоявшиеся.', f: UNI_F },
+  { t: 'Самая надёжная опора на источники', w: ['S005'], m: 'Доля баллов по критерию корректности и достаточности ссылок на нормы права и судебную практику.', f: UNI_F },
+  { t: 'Больше всего полностью решённых задач', w: ['S006'], m: 'Доля ответов, в которых выполнены все применимые ключевые критерии.', f: KEY_F },
+  { t: 'Самая сильная дополнительная проработка', w: ['S028'], m: 'Доля набранных баллов по опциональным критериям без трёх универсальных критериев.', f: 'Сумма валидных сданных оценок по прочим опциональным критериям / число таких оценок' },
+  { t: 'Сильнее всего в корпоративном праве', w: ['S026'], m: areaNom('Корпоративное право'), f: KEY_F },
+  { t: 'Сильнее всего в разрешении споров', w: ['S003'], m: areaNom('Разрешение споров'), f: KEY_F },
+  { t: 'Сильнее всего в интеллектуальной собственности', w: ['S015', 'S017'], m: areaNom('Интеллектуальная собственность'), f: KEY_F },
+  { t: 'Сильнее всего в вопросах недвижимости', w: ['S006'], m: areaNom('Недвижимость'), f: KEY_F },
+  { t: 'Сильнее всего в договорном праве', w: ['S018', 'S028', 'S006'], m: areaNom('Договорное право'), f: KEY_F },
+  { t: 'Самый сильный по всем отраслям', w: ['S006'], m: 'Среднее отраслевых долей полностью решённых задач при одинаковом весе каждой отрасли.', f: 'Сумма отраслевых долей полностью решённых задач / число отраслей' },
+].map((n, i) => ({ ...n, i, w: n.w.map(byId).filter(Boolean) })).filter((n) => n.w.length);
 const nomsOf = (id) => NOMS.filter((n) => n.w.some((x) => x.id === id));
-const nomCard = (n) => (n.w.length === 1
-  ? `<a class="box lnk" href="#/service/${n.w[0].id}"><span class="tag nom">${n.t}</span><p class="b">${esc(n.w[0].name)}</p><p class="muted">${n.d}</p></a>`
-  : `<div class="box nom-multi"><span class="tag nom">${n.t}</span><p class="b">${n.w.map((x) => `<a href="#/service/${x.id}">${esc(x.name)}</a>`).join(', ')}</p><p class="muted">${n.d}${n.w.length > 1 ? ' у каждого' : ''}</p></div>`);
+const winLinks = (n) => n.w.map((x) => `<a href="#/service/${x.id}">${esc(x.name)}</a>`).join(', ');
+const nomCard = (n) => `<div class="box nomc"><span class="tag nom">${n.t}</span><p class="b">${n.w.length > 1 ? 'Ничья: ' : ''}${winLinks(n)}</p><button type="button" class="nom-how" onclick="openNom(${n.i})">Как считали</button></div>`;
+window.openNom = (i) => { S.modal = { nom: i }; render(true); };
+function nomModal(i) {
+  const n = NOMS.find((x) => x.i === i); if (!n) return '';
+  return `<div class="modal-bg" onclick="if(event.target===this)closeAns()"><div class="modal nom-modal" role="dialog" aria-modal="true"><button class="close" onclick="closeAns()" aria-label="закрыть">×</button>
+<p class="crumbs">Номинация</p><h2>${n.t}</h2>
+<p class="nom-win">${n.w.length > 1 ? 'Ничья' : 'Победитель'}: ${n.w.map((x) => `<a href="#/service/${x.id}" onclick="S.modal=null">${esc(x.name)}</a>`).join(', ')}</p>
+<div class="nom-part"><p class="b">Что измеряет номинация</p><p>${n.m}</p></div>
+<div class="nom-part"><p class="b">Формула расчёта</p><p>${n.f}</p></div>
+</div></div>`;
+}
 
 const NAV = [['#/', 'Результаты', 'results'], ['#/method', 'Методология', null], ['#/catalog', 'Все ИИ-сервисы', null], ['#/cases', 'Кейсы', null], ['#/experts', 'Эксперты', null], ['#/about', 'О нас', null]];
 function nav(cur) {
@@ -208,10 +226,10 @@ function home() {
 <span class="updated"><span class="dot"></span>сбор ответов сервисов: ${esc(PERIOD)}</span>
 <div class="cta-hero"><a class="btn dark" href="#/" onclick="goTo('stats',this)">Смотреть результаты</a><a class="btn" href="#/catalog">Найти сервис под задачу</a><a class="btn" href="#/method" onclick="goTo('m-report',this)">Получить отчёт</a></div>
 </div>
-<div class="grid4" id="stats"><a class="box stat lnk" href="#/catalog"><span class="num">${N_SERVICES}</span><p class="muted">${one(+N_SERVICES) ? "юридический" : "юридических"} ИИ-${svcWord(+N_SERVICES)}</p><span class="stat-go">все сервисы →</span></a><a class="box stat lnk" href="#/method" onclick="goTo('m-tasks',this)"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p><span class="stat-go">к задачам →</span></a><a class="box stat lnk" href="#/experts"><span class="num">${N_EXPERTS}</span><p class="muted">экспертов готовили задачи для оценки</p><span class="stat-go">к экспертам →</span></a><a class="box stat lnk" href="#/" onclick="event.preventDefault();go('results')"><span class="num">${set('stat_nominations', String(NOMS.length))}</span><p class="muted">номинаций</p><span class="stat-go">к номинациям ↓</span></a></div>
+<div class="grid4" id="stats"><a class="box stat lnk" href="#/catalog"><span class="num">${N_SERVICES}</span><p class="muted">${one(+N_SERVICES) ? "юридический" : "юридических"} ИИ-${svcWord(+N_SERVICES)}</p><span class="stat-go">все сервисы →</span></a><a class="box stat lnk" href="#/method" onclick="goTo('m-tasks',this)"><span class="num">${N_TASKS}</span><p class="muted">${taskWord(+N_TASKS)} по пяти отраслям права</p><span class="stat-go">к задачам →</span></a><a class="box stat lnk" href="#/experts"><span class="num">${N_EXPERTS}</span><p class="muted">экспертов готовили задачи для оценки</p><span class="stat-go">к экспертам →</span></a><a class="box stat lnk" href="#/" onclick="event.preventDefault();go('results')"><span class="num">${NOMS.length}</span><p class="muted">номинаций</p><span class="stat-go">к номинациям ↓</span></a></div>
 ${D.takeaways.length ? `<div class="takeaways"><h2>Ключевые выводы</h2><ol>${D.takeaways.map((t) => `<li>${esc(t)}</li>`).join('')}</ol></div>` : ''}
 <div class="sec" id="results"><h2>Номинации</h2>
-<div class="grid4 noms-row">${NOMS.map(nomCard).join('')}</div></div>
+<div class="grid4 noms-row noms10">${NOMS.map(nomCard).join('')}</div></div>
 <div class="sec" id="all-results"><div class="layout">
 <div class="content">
 <h2>Результаты${a === -1 ? ' по всем задачам' : ': ' + D.short[a]}</h2>
@@ -434,7 +452,7 @@ ${sw}
 ${svcHead(s)}
 ${testedOn(s)}
 ${s.testedAt ? `<p class="muted" style="font-size:12px">проверен ${esc(s.testedAt)}</p>` : ''}
-${nomsOf(id).length ? `<div class="noms">${nomsOf(id).map((n) => `<div class="nomb"><span class="nt">${n.t}</span><span class="nd">${n.d}</span></div>`).join('')}</div>` : ''}</div>
+${nomsOf(id).length ? `<div class="noms">${nomsOf(id).map((n) => `<button type="button" class="nomb" onclick="openNom(${n.i})"><span class="nt">${n.t}</span><span class="nd">${n.w.length > 1 ? 'ничья · ' : ''}как считали →</span></button>`).join('')}</div>` : ''}</div>
 ${resultBlock}
 ${pkgBlocks(s, lvl)}
 ${collectorBlock(s)}
@@ -595,7 +613,7 @@ function catalog() {
   const secs = D.skills.map((k, i) => { const list = D.services.filter((s) => s.skills.includes(k)).sort(byName); return list.length ? `<div class="col cat-sec" id="reg${i}" style="gap:14px"><h2 class="cat-h">${k}</h2><div class="grid3">${list.map(card).join('')}</div></div>` : ''; }).join('');
   const nOn = D.services.filter((s) => s.checked).length;
   const lg = (k, dot, label, n) => `<button type="button" class="lg-btn${S.cfilt === k ? ' on' : ''}" data-f="${k}" aria-pressed="${S.cfilt === k}" onclick="setCatFilt('${k}')">${dot}${label}<span class="lg-n">${n}</span></button>`;
-  return `<div class="intro"><h1>Реестр сервисов</h1><p>Все юридические ИИ-сервисы на рынке. В бенчмарке мы проверили навык «Ответ на правовой вопрос»: у этих сервисов есть результат на ${N_TASKS} задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
+  return `<div class="intro"><h1>Реестр сервисов</h1><p>В бенчмарке мы проверили навык «Ответ на правовой вопрос»: у этих сервисов есть результат на ${N_TASKS} задачах. Остальные навыки пока не оценивали, по ним реестр работает как справочник.</p></div>
 <div class="layout">
 <div class="sidebar"><p class="muted" style="padding:0 12px 6px">Выбрать категорию</p>${D.skills.map((k, i) => `<a class="stag" data-sec="reg${i}" href="#/catalog" onclick="event.preventDefault();go('reg${i}')">${k}</a>`).join('')}</div>
 <div class="content">
@@ -680,6 +698,7 @@ window.closeAns = () => { S.modal = null; render(true); };
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.modal) closeAns(); });
 function ansModal() {
   if (!S.modal) return '';
+  if (S.modal.nom !== undefined) return nomModal(S.modal.nom);
   const s = byId(S.modal.sid); const t = task(S.modal.tid); const r = s.res.find((x) => x.t === t.id);
   return `<div class="modal-bg" onclick="if(event.target===this)closeAns()"><div class="modal" role="dialog" aria-modal="true"><button class="close" onclick="closeAns()" aria-label="закрыть">×</button>
 <p class="crumbs">${t.title}</p>

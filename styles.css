@@ -1238,3 +1238,21 @@ html{scroll-behavior:smooth}
 .box.collector p{margin:0 0 10px}.box.collector p:last-child{margin:0}
 .box.collector ul{margin:0 0 10px;padding-left:20px}.box.collector li{margin-bottom:6px}
 @media (max-width:560px){.tested-on{padding:14px 16px;gap:12px}.box.collector{font-size:14px}}
+/* 20.11 (2): nominations from the sheet, popup, fairness note under partners */
+.nomc{gap:10px}
+.nomc .tag.nom{font-size:13px}
+.nomc .b{font-size:17px;line-height:1.35}
+.nomc .b a{color:var(--ink);text-decoration:none}.nomc .b a:hover{color:var(--accent)}
+.nom-how{margin-top:auto;align-self:flex-start;background:none;border:0;padding:4px 0 0;font:inherit;font-size:14px;font-weight:500;color:var(--accent);cursor:pointer}
+.nom-how::after{content:" →"}.nom-how:hover{text-decoration:underline}
+@media (min-width:1101px){.noms10{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (min-width:561px) and (max-width:1100px){.noms10{grid-template-columns:repeat(2,minmax(0,1fr))}}
+button.nomb{border:0;font:inherit;text-align:left;cursor:pointer;transition:filter .12s var(--ease)}button.nomb:hover{filter:brightness(1.12)}
+.nomb .nd{opacity:.9}
+.nom-modal{max-width:640px}
+.nom-modal h2{margin:0}
+.nom-win{margin:0;font-size:16px}.nom-win a{color:var(--accent)}
+.nom-part{display:flex;flex-direction:column;gap:6px}.nom-part p{margin:0;font-size:15px;line-height:1.55}
+.fair{display:flex;flex-direction:column;gap:12px;max-width:900px;font-size:15px;line-height:1.6;color:var(--mute)}
+.fair p{margin:0}
+@media (max-width:560px){.fair{font-size:14px}}
