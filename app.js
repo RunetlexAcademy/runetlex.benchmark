@@ -123,8 +123,16 @@ const NOMS = [
 ].map((n, i) => ({ ...n, i, w: n.w.map(byId).filter(Boolean) })).filter((n) => n.w.length);
 const nomsOf = (id) => NOMS.filter((n) => n.w.some((x) => x.id === id));
 const winLinks = (n) => n.w.map((x) => `<a href="#/service/${x.id}">${esc(x.name)}</a>`).join(', ');
-const nomCard = (n) => `<div class="box nomc"><span class="tag nom">${n.t}</span><p class="b">${n.w.length > 1 ? 'Ничья: ' : ''}${winLinks(n)}</p><button type="button" class="nom-how" onclick="openNom(${n.i})">Как считали</button></div>`;
-window.openNom = (i) => { S.modal = { nom: i }; render(true); };
+const nomCard = (n) => `<div class="box nomc"><span class="tag nom">${n.t}</span><p class="b">${n.w.length > 1 ? 'Ничья: ' : ''}${winLinks(n)}</p><button type="button" class="nom-how" onclick="event.stopPropagation();openNom(${n.i},this)">Как считали</button></div>`;
+// Phones: the same light popup from the bottom as the vendor comments; wider screens: a modal window.
+window.openNom = (i) => {
+  if (window.innerWidth > 640) { S.modal = { nom: i }; render(true); return; }
+  closeCmt(); const n = NOMS.find((x) => x.i === i); if (!n) return;
+  const pop = document.createElement('div'); pop.className = 'cmt-pop sheet nom-pop'; pop.id = 'cmt-pop'; pop.setAttribute('role', 'dialog');
+  pop.innerHTML = `<div class="cmt-head"><div class="cmt-who"><p class="muted">номинация</p><p class="b">${n.t}</p></div><button type="button" class="cmt-x" aria-label="закрыть" onclick="closeCmt()">×</button></div><p class="nom-win">${n.w.length > 1 ? 'Ничья' : 'Победитель'}: ${n.w.map((x) => `<a href="#/service/${x.id}" onclick="closeCmt()">${esc(x.name)}</a>`).join(', ')}</p><div class="nom-part"><p class="b">Что измеряет номинация</p><p>${n.m}</p></div><div class="nom-part"><p class="b">Формула расчёта</p><p>${n.f}</p></div>`;
+  document.body.appendChild(pop);
+  setTimeout(() => document.addEventListener('click', cmtOutside), 0);
+};
 function nomModal(i) {
   const n = NOMS.find((x) => x.i === i); if (!n) return '';
   return `<div class="modal-bg" onclick="if(event.target===this)closeAns()"><div class="modal nom-modal" role="dialog" aria-modal="true"><button class="close" onclick="closeAns()" aria-label="закрыть">×</button>
@@ -452,7 +460,7 @@ ${sw}
 ${svcHead(s)}
 ${testedOn(s)}
 ${s.testedAt ? `<p class="muted" style="font-size:12px">проверен ${esc(s.testedAt)}</p>` : ''}
-${nomsOf(id).length ? `<div class="noms">${nomsOf(id).map((n) => `<button type="button" class="nomb" onclick="openNom(${n.i})"><span class="nt">${n.t}</span><span class="nd">${n.w.length > 1 ? 'ничья · ' : ''}как считали →</span></button>`).join('')}</div>` : ''}</div>
+${nomsOf(id).length ? `<div class="noms">${nomsOf(id).map((n) => `<button type="button" class="nomb" onclick="event.stopPropagation();openNom(${n.i},this)"><span class="nt">${n.t}</span><span class="nd">${n.w.length > 1 ? 'ничья · ' : ''}как считали →</span></button>`).join('')}</div>` : ''}</div>
 ${resultBlock}
 ${pkgBlocks(s, lvl)}
 ${collectorBlock(s)}
@@ -809,5 +817,5 @@ function render(preserve) {
   // jumps on page change are instant; smooth scrolling is for moving within a page
   if (!preserve) window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); else if (window.scrollY !== keepY) window.scrollTo({ top: keepY, left: 0, behavior: 'instant' });
 }
-window.addEventListener('hashchange', () => { S.modal = null; closeShot(); document.body.classList.remove('menu-open'); render(); });
+window.addEventListener('hashchange', () => { S.modal = null; closeShot(); closeCmt(); document.body.classList.remove('menu-open'); render(); });
 render();
