@@ -124,24 +124,19 @@ const NOMS = [
 const nomsOf = (id) => NOMS.filter((n) => n.w.some((x) => x.id === id));
 const winLinks = (n) => n.w.map((x) => `<a href="#/service/${x.id}">${esc(x.name)}</a>`).join(', ');
 const nomCard = (n) => `<div class="box nomc"><span class="tag nom">${n.t}</span><p class="b">${n.w.length > 1 ? 'Ничья: ' : ''}${winLinks(n)}</p><button type="button" class="nom-how" onclick="event.stopPropagation();openNom(${n.i},this)">Как считали</button></div>`;
-// Phones: the same light popup from the bottom as the vendor comments; wider screens: a modal window.
-window.openNom = (i) => {
-  if (window.innerWidth > 640) { S.modal = { nom: i }; render(true); return; }
+// Same light popup as the vendor comments: next to the button on wide screens, from the bottom on phones.
+window.openNom = (i, btn) => {
   closeCmt(); const n = NOMS.find((x) => x.i === i); if (!n) return;
-  const pop = document.createElement('div'); pop.className = 'cmt-pop sheet nom-pop'; pop.id = 'cmt-pop'; pop.setAttribute('role', 'dialog');
+  const pop = document.createElement('div'); pop.className = 'cmt-pop nom-pop'; pop.id = 'cmt-pop'; pop.setAttribute('role', 'dialog');
   pop.innerHTML = `<div class="cmt-head"><div class="cmt-who"><p class="muted">номинация</p><p class="b">${n.t}</p></div><button type="button" class="cmt-x" aria-label="закрыть" onclick="closeCmt()">×</button></div><p class="nom-win">${n.w.length > 1 ? 'Ничья' : 'Победитель'}: ${n.w.map((x) => `<a href="#/service/${x.id}" onclick="closeCmt()">${esc(x.name)}</a>`).join(', ')}</p><div class="nom-part"><p class="b">Что измеряет номинация</p><p>${n.m}</p></div><div class="nom-part"><p class="b">Формула расчёта</p><p>${n.f}</p></div>`;
   document.body.appendChild(pop);
+  if (window.innerWidth > 640 && btn) {
+    const r = btn.getBoundingClientRect(); const w = pop.offsetWidth;
+    pop.style.left = Math.max(16, Math.min(r.left, window.innerWidth - w - 16)) + 'px';
+    pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+  } else pop.classList.add('sheet');
   setTimeout(() => document.addEventListener('click', cmtOutside), 0);
 };
-function nomModal(i) {
-  const n = NOMS.find((x) => x.i === i); if (!n) return '';
-  return `<div class="modal-bg" onclick="if(event.target===this)closeAns()"><div class="modal nom-modal" role="dialog" aria-modal="true"><button class="close" onclick="closeAns()" aria-label="закрыть">×</button>
-<p class="crumbs">Номинация</p><h2>${n.t}</h2>
-<p class="nom-win">${n.w.length > 1 ? 'Ничья' : 'Победитель'}: ${n.w.map((x) => `<a href="#/service/${x.id}" onclick="S.modal=null">${esc(x.name)}</a>`).join(', ')}</p>
-<div class="nom-part"><p class="b">Что измеряет номинация</p><p>${n.m}</p></div>
-<div class="nom-part"><p class="b">Формула расчёта</p><p>${n.f}</p></div>
-</div></div>`;
-}
 
 const NAV = [['#/', 'Результаты', 'results'], ['#/method', 'Методология', null], ['#/catalog', 'Все ИИ-сервисы', null], ['#/cases', 'Кейсы', null], ['#/experts', 'Эксперты', null], ['#/about', 'О нас', null]];
 function nav(cur) {
@@ -633,20 +628,16 @@ ${secs}
 ${formBox('Знаете юридический ИИ-сервис, которого нет в реестре? Напишите нам об этом.', 'Новый сервис для реестра', field('name', 'Название сервиса') + field('url', 'Ссылка на сервис', 'type="url" placeholder="https://"'), 'Отправить', 'Спасибо! Мы проверим сервис и добавим его в реестр.')}
 </div></div>`;
 }
-window.setCaseArea = (i) => refilter(() => { S.caseArea = i; render(true); });
 // A client case card: the same on the «Кейсы» page and in the carousel on a service page (onSvc: text folds, no service line).
-const areasOf = (c) => (c.areas && c.areas.length ? c.areas : [c.area]);
 function caseCard(c, onSvc) {
   const s = byId(c.service);
-  return `<div class="box case">${c.clientLogo ? `<span class="clogo-plate"><img class="clogo" src="${esc(c.clientLogo)}" alt="" loading="lazy"></span>` : ''}<p class="b case-client">${esc(c.client)}</p><div class="case-tags">${areasOf(c).map((i) => (D.areas[i] ? `<span class="tag soft">${esc(D.areas[i])}</span>` : '')).join('')}</div><h2>${esc(c.title)}</h2>${onSvc ? `<p class="muted pre case-text">${esc(c.text)}</p><button type="button" class="case-more" onclick="this.closest('.case').classList.toggle('open');this.textContent=this.closest('.case').classList.contains('open')?'Свернуть':'Читать полностью'">Читать полностью</button>` : `<p class="muted pre">${esc(c.text)}</p>`}${c.k ? `<div class="res"><span class="k">${esc(c.k)}</span><span class="muted" style="font-size:13px">${esc(c.kd)}</span></div>` : ''}${onSvc ? '' : `<div class="svc"><span class="muted">сервис: ${s ? `<a href="#/service/${s.id}">${esc(s.name)}</a>` : esc(c.service)}</span>${vendorTag}</div>`}</div>`;
+  return `<div class="box case">${c.clientLogo ? `<span class="clogo-plate"><img class="clogo" src="${esc(c.clientLogo)}" alt="" loading="lazy"></span>` : ''}<p class="b case-client">${esc(c.client)}</p><h2>${esc(c.title)}</h2>${onSvc ? `<p class="muted pre case-text">${esc(c.text)}</p><button type="button" class="case-more" onclick="this.closest('.case').classList.toggle('open');this.textContent=this.closest('.case').classList.contains('open')?'Свернуть':'Читать полностью'">Читать полностью</button>` : `<p class="muted pre">${esc(c.text)}</p>`}${c.k ? `<div class="res"><span class="k">${esc(c.k)}</span><span class="muted" style="font-size:13px">${esc(c.kd)}</span></div>` : ''}${onSvc ? '' : `<div class="svc"><span class="muted">сервис: ${s ? `<a href="#/service/${s.id}">${esc(s.name)}</a>` : esc(c.service)}</span>${vendorTag}</div>`}</div>`;
 }
 function cases() {
-  const a = S.caseArea === undefined ? -1 : S.caseArea;
-  const list = D.cases.filter((c) => a === -1 || areasOf(c).includes(a));
+  const list = D.cases;
   const cards = list.map((c) => caseCard(c)).join('');
   return `<div class="intro"><h1>Кейсы</h1><p>Как юристы применяют ИИ-сервисы в работе.</p></div>
-<div class="blk">${D.cases.length ? areaFilter(a, 'setCaseArea') : ''}
-${list.length ? `<div class="grid3">${cards}</div>` : `<div class="dash"><p class="muted">${D.cases.length ? 'В этой отрасли кейсов пока нет.' : 'Кейсы появятся скоро.'}</p></div>`}</div>`;
+<div class="blk">${list.length ? `<div class="grid3">${cards}</div>` : '<div class="dash"><p class="muted">Кейсы появятся скоро.</p></div>'}</div>`;
 }
 const taskWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'задача' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'задачи' : 'задач');
 // Assessor organisations: a logo tile, or the name when there is no logo.
@@ -706,7 +697,6 @@ window.closeAns = () => { S.modal = null; render(true); };
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.modal) closeAns(); });
 function ansModal() {
   if (!S.modal) return '';
-  if (S.modal.nom !== undefined) return nomModal(S.modal.nom);
   const s = byId(S.modal.sid); const t = task(S.modal.tid); const r = s.res.find((x) => x.t === t.id);
   return `<div class="modal-bg" onclick="if(event.target===this)closeAns()"><div class="modal" role="dialog" aria-modal="true"><button class="close" onclick="closeAns()" aria-label="закрыть">×</button>
 <p class="crumbs">${t.title}</p>
