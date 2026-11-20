@@ -4,19 +4,27 @@
  * Скрипт привязан к таблице «Бенчмарк // Заявки с сайта» и опубликован как веб-приложение
  * (Deploy → New deployment → Web app, Execute as: Me, Who has access: Anyone).
  * Адрес веб-приложения вписывается в «Настройки сайта» таблицы 2 → forms_endpoint.
+ * После любой правки кода: Deploy → Manage deployments → карандаш → Version: New version → Deploy,
+ * иначе веб-приложение продолжит работать на старой версии.
  *
  * Сайт присылает POST с полями формы. Поле form говорит, какая это форма:
  *   «Новый сервис для реестра» → лист «Сервисы»
  *   «Заявка эксперта»          → лист «Эксперты»
- *   «Отчёт бенчмарка»          → лист «Отчёт» + передача в GetCourse (группа, по которой процесс шлёт письмо)
+ *   «Отчёт бенчмарка»          → лист «Отчёт» + письмо со ссылкой на отчёт через Unisender
+ *
+ * Письмо с отчётом уходит через Unisender (метод sendEmail), в GetCourse заявка не передаётся:
+ * так человеку не приходит письмо GetCourse «Добро пожаловать» с логином и паролем.
  *
  * Script Properties (Project Settings → Script Properties):
- *   GETCOURSE_ACCOUNT  адрес школы без https, например runetlex.getcourse.ru (или свой домен школы)
- *   GETCOURSE_KEY      ключ API GetCourse (секрет, вводит владелец)
- *   GETCOURSE_GROUP    название группы, по умолчанию «Бенчмарк: отчёт»
+ *   UNISENDER_KEY           ключ API Unisender (секрет, вводит владелец)
+ *   UNISENDER_LIST_ID       номер списка Unisender, куда попадут адреса (и из которого можно отписаться)
+ *   UNISENDER_SENDER_EMAIL  адрес отправителя, подтверждённый в Unisender
+ *   UNISENDER_SENDER_NAME   имя отправителя, по умолчанию «Рунетлекс Академия»
+ *   REPORT_URL              ссылка на PDF отчёта
  */
 
 const SHEET_ID = '1YpRPadicdZzyNGxDnJDkS29y_ljQKs_b7RxUL5ZqMvQ';
+const SITE_URL = 'https://benchmark.runetlex-academy.ru';
 
 const FORMS = {
   'Новый сервис для реестра': { sheet: 'Сервисы', row: (p) => [p.name, p.url, 'новая'] },
@@ -45,34 +53,65 @@ function doPost(e) {
     lock.releaseLock();
   }
 
-  if (p.form === 'Отчёт бенчмарка') sheet.getRange(rowNum, 5).setValue(sendToGetCourse_(p));
+  // Колонка E листа «Отчёт»: что стало с письмом («отправлено» или текст ошибки).
+  if (p.form === 'Отчёт бенчмарка') sheet.getRange(rowNum, 5).setValue(sendReport_(p.email, p.fio));
   return reply_({ ok: true });
 }
 
-// Добавляет человека в GetCourse и в группу; процесс GetCourse по этой группе отправляет письмо с отчётом.
-function sendToGetCourse_(p) {
-  const props = PropertiesService.getScriptProperties();
-  const account = (props.getProperty('GETCOURSE_ACCOUNT') || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-  const key = props.getProperty('GETCOURSE_KEY');
-  if (!account || !key) return 'нет: не заданы настройки GetCourse';
+// «Фамилия Имя Отчество» → «Имя»; при другом количестве слов имя не угадываем и пишем без обращения по имени.
+function firstName_(fio) {
+  const words = String(fio || '').split(/\s+/).filter(String);
+  return words.length === 3 ? words[1] : '';
+}
 
-  const words = (p.fio || '').split(/\s+/).filter(String);
-  // «Фамилия Имя Отчество» → имя и фамилия отдельно; иначе всё в поле имени.
-  const name = words.length === 3 ? { first_name: words[1], last_name: words[0] } : { first_name: p.fio };
-  const params = {
-    user: Object.assign({ email: p.email, group_name: [props.getProperty('GETCOURSE_GROUP') || 'Бенчмарк: отчёт'] }, name),
-    // Уже существующему пользователю только добавляем группу: имя и фамилию в базе Академии не трогаем.
-    system: { refresh_if_exists: 0 },
-  };
+const esc_ = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+function reportHtml_(name, reportUrl) {
+  const hello = name ? 'Добрый день, ' + esc_(name) + '!' : 'Добрый день!';
+  const p = 'margin:0 0 16px;font-size:16px;line-height:1.5;color:#07141d';
+  return '<div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;padding:24px">'
+    + '<p style="' + p + '">' + hello + '</p>'
+    + '<p style="' + p + '">На связи команда Рунетлекс Академии.</p>'
+    + '<p style="' + p + '">Спасибо за интерес к Рунетлекс Бенчмарку! Отчёт о проверке юридических ИИ-сервисов можно скачать по кнопке:</p>'
+    + '<p style="margin:0 0 24px"><a href="' + esc_(reportUrl) + '" style="display:inline-block;background:#1f4fd6;color:#ffffff;text-decoration:none;font-size:16px;font-weight:bold;padding:14px 28px;border-radius:28px">Скачать отчёт (PDF)</a></p>'
+    + '<p style="' + p + '">В отчёте: как мы проверяли сервисы, результаты по отраслям права, что сервисы уже умеют и где ошибаются, какой сервис выбрать под какую задачу.</p>'
+    + '<p style="' + p + '">Все результаты и методология — на сайте <a href="' + SITE_URL + '" style="color:#1f4fd6">benchmark.runetlex-academy.ru</a></p>'
+    + '<p style="' + p + '">С заботой,<br>команда Рунетлекс Академии</p>'
+    + '</div>';
+}
+
+// Отправляет письмо со ссылкой на отчёт через Unisender. Возвращает текст для колонки E.
+function sendReport_(email, fio) {
+  const props = PropertiesService.getScriptProperties();
+  const key = props.getProperty('UNISENDER_KEY');
+  const listId = props.getProperty('UNISENDER_LIST_ID');
+  const sender = props.getProperty('UNISENDER_SENDER_EMAIL');
+  const reportUrl = props.getProperty('REPORT_URL');
+  if (!key || !listId || !sender || !reportUrl) return 'нет: не заданы настройки Unisender или REPORT_URL';
+
+  const name = firstName_(fio);
   try {
-    const res = UrlFetchApp.fetch('https://' + account + '/pl/api/users', {
+    const res = UrlFetchApp.fetch('https://api.unisender.com/ru/api/sendEmail?format=json', {
       method: 'post',
-      payload: { action: 'add', key: key, params: Utilities.base64Encode(JSON.stringify(params), Utilities.Charset.UTF_8) },
+      payload: {
+        api_key: key,
+        email: name ? name + ' <' + email + '>' : email,
+        sender_name: props.getProperty('UNISENDER_SENDER_NAME') || 'Рунетлекс Академия',
+        sender_email: sender,
+        subject: 'Отчёт Рунетлекс Бенчмарка',
+        body: reportHtml_(name, reportUrl),
+        list_id: listId,
+        lang: 'ru',
+        error_checking: '1',
+      },
       muteHttpExceptions: true,
     });
     const body = JSON.parse(res.getContentText());
-    if (body.success && body.result && body.result.success) return 'да, ' + (body.result.user_status || 'ok');
-    return 'ошибка: ' + ((body.result && body.result.error_message) || body.error_message || res.getContentText().slice(0, 200));
+    if (body.error) return 'ошибка: ' + body.error;
+    const r = (body.result || [])[0] || {};
+    if (r.id) return 'отправлено';
+    const errs = (r.errors || []).map((x) => x.message || x.code).join('; ');
+    return 'ошибка: ' + (errs || res.getContentText().slice(0, 200));
   } catch (err) {
     return 'ошибка: ' + err;
   }
@@ -99,7 +138,14 @@ function checkSetup() {
   const missing = Object.keys(FORMS).map((f) => FORMS[f].sheet).filter((s) => !ss.getSheetByName(s));
   const props = PropertiesService.getScriptProperties();
   Logger.log('Листы: ' + (missing.length ? 'нет ' + missing.join(', ') : 'все на месте'));
-  Logger.log('GETCOURSE_ACCOUNT: ' + (props.getProperty('GETCOURSE_ACCOUNT') || 'не задан'));
-  Logger.log('GETCOURSE_KEY: ' + (props.getProperty('GETCOURSE_KEY') ? 'задан' : 'не задан'));
-  Logger.log('GETCOURSE_GROUP: ' + (props.getProperty('GETCOURSE_GROUP') || 'Бенчмарк: отчёт (по умолчанию)'));
+  Logger.log('UNISENDER_KEY: ' + (props.getProperty('UNISENDER_KEY') ? 'задан' : 'не задан'));
+  Logger.log('UNISENDER_LIST_ID: ' + (props.getProperty('UNISENDER_LIST_ID') || 'не задан'));
+  Logger.log('UNISENDER_SENDER_EMAIL: ' + (props.getProperty('UNISENDER_SENDER_EMAIL') || 'не задан'));
+  Logger.log('UNISENDER_SENDER_NAME: ' + (props.getProperty('UNISENDER_SENDER_NAME') || 'Рунетлекс Академия (по умолчанию)'));
+  Logger.log('REPORT_URL: ' + (props.getProperty('REPORT_URL') || 'не задан'));
+}
+
+// Запустить вручную из редактора: отправляет письмо с отчётом на почту владельца скрипта.
+function testReportEmail() {
+  Logger.log(sendReport_(Session.getEffectiveUser().getEmail(), ''));
 }
