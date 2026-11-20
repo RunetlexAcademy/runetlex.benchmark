@@ -145,7 +145,9 @@ function checkSetup() {
   Logger.log('REPORT_URL: ' + (props.getProperty('REPORT_URL') || 'не задан'));
 }
 
-// Запустить вручную из редактора: отправляет письмо с отчётом на почту владельца скрипта.
+// Запустить вручную из редактора: отправляет письмо с отчётом на TEST_EMAIL (или на адрес отправителя).
 function testReportEmail() {
-  Logger.log(sendReport_(Session.getEffectiveUser().getEmail(), ''));
+  const props = PropertiesService.getScriptProperties();
+  const to = props.getProperty('TEST_EMAIL') || props.getProperty('UNISENDER_SENDER_EMAIL');
+  Logger.log('Письмо на ' + to + ': ' + sendReport_(to, ''));
 }
