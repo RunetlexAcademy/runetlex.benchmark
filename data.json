@@ -1,5 +1,5 @@
 {
- "generatedAt": "20.11.2026 12:36",
+ "generatedAt": "20.11.2026 13:43",
  "settings": {
   "updated": "октябрь 2026",
   "check_number": "1",
@@ -11,13 +11,12 @@
   "collection_period": "29.10–02.11.2026",
   "methodology_author_position": "[должность]",
   "methodology_pdf": "https://drive.google.com/file/d/1Aqv3xNFptHTfTohep-z_aABEdjC_gRM6/view?usp=sharing",
-  "report_pdf": "",
+  "report_pdf": "https://drive.google.com/file/d/1Zvmceyr9iP3xOJ0ZoA3R4gfXuOxxbnyK/view?usp=share_link",
   "report_pages": "",
   "policy_url": "https://runetlex-academy.ru/privacy",
   "contact_email": "academy@runetlex.ru",
-  "demo_banner": "да",
-  "forms_endpoint": "https://script.google.com/macros/s/AKfycbwRySGcSbtyyzwRPSrVsEGnoU5iSg-YXkRNcGYcEbNhKZk2qjmIhcIVNxhR8anDNsqY/exec",
-  "preview_endpoint": "https://script.google.com/macros/s/AKfycbxXNhJZoq_H2c1b0jVZDLw8o094bTDDy9REB8fQaXEuzmY62-PDvetZPXRdBJd-w-U/exec"
+  "demo_banner": "нет",
+  "forms_endpoint": "https://script.google.com/macros/s/AKfycbwRySGcSbtyyzwRPSrVsEGnoU5iSg-YXkRNcGYcEbNhKZk2qjmIhcIVNxhR8anDNsqY/exec"
  },
  "skills": [
   "Ответ на правовой вопрос",
