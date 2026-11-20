@@ -80,7 +80,7 @@ const hint = (...paras) => `<div class="hint">${BULB}<div class="hint-body">${pa
 // Collapsible hint: only the title line is shown until the reader opens it.
 const hintMore = (title, ...paras) => `<details class="hint hint-more"><summary>${BULB}<span>${title}</span><span class="hint-chev" aria-hidden="true"></span></summary><div class="hint-body">${paras.map((p) => (/^<ul/.test(p) ? p : `<p>${p}</p>`)).join('')}</div></details>`;
 const METHOD_LINK = '<a href="#/method">Методология</a>';
-const PERIOD = set('collection_period', '29.10–02.11.2026');
+const PERIOD = set('collection_period', '29.10–13.11.2026');
 // Shown next to every result: the benchmark measures one function, not the whole service.
 const DISCLAIMER_TEXT = '<p>Мы проверяли одну функцию сервисов: как они отвечают на практический правовой вопрос. Результат бенчмарка говорит только об этом и не равен оценке сервиса целиком. Работа с документами, поиск судебной практики и другие возможности в этой проверке не участвовали.</p><p>У проверки есть ограничения:</p><ul><li>для одних сервисов ответ на правовой вопрос — главная функция, для других дополнительная, например к работе с договорами;</li><li>одни сервисы дают готовый ответ, другие помогают юристу подготовить собственное заключение.</li></ul><p>Поэтому слабый результат здесь не значит, что сервис плохо справляется с задачами, для которых он создан.</p>';
 // «Важно»: an open note on wide screens; on phones it folds like «Как читать таблицу».
