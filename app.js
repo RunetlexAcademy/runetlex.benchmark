@@ -735,9 +735,27 @@ function partnerFit(img, plate, bb) {
   const cw = bb[2] - bb[0], ch = bb[3] - bb[1]; const aspect = (cw * nw) / (ch * nh);
   let h = T, w = T * aspect; if (w > MAXW) { w = MAXW; h = MAXW / aspect; }
   const ih = h / ch, iw = ih * (nw / nh);
-  Object.assign(plate.style, { width: w.toFixed(1) + 'px', height: h.toFixed(1) + 'px', minWidth: '0', position: 'relative', overflow: 'hidden', boxSizing: 'content-box' });
-  Object.assign(img.style, { position: 'absolute', maxWidth: 'none', maxHeight: 'none', width: iw.toFixed(1) + 'px', height: ih.toFixed(1) + 'px', left: (-bb[0] * iw).toFixed(1) + 'px', top: (-bb[1] * ih).toFixed(1) + 'px' });
+  plate._fit = { img, w, h, iw, ih, l: -bb[0] * iw, t: -bb[1] * ih };
+  applyPartner(plate, 1);
+  squeezePartners();
 }
+function applyPartner(plate, k) {
+  const f = plate._fit; const px = (v) => (v * k).toFixed(1) + 'px';
+  Object.assign(plate.style, { width: px(f.w), height: px(f.h), minWidth: '0', position: 'relative', overflow: 'hidden', boxSizing: 'content-box' });
+  Object.assign(f.img.style, { position: 'absolute', maxWidth: 'none', maxHeight: 'none', width: px(f.iw), height: px(f.ih), left: px(f.l), top: px(f.t) });
+}
+// Desktop: all partner logos stay in one row without scrolling; if they do not fit, every logo is scaled down by the same factor.
+function squeezePartners() {
+  const tr = document.querySelector('.partners-track'); if (!tr) return;
+  const plates = [...tr.children].filter((p) => p._fit);
+  const wide = window.innerWidth > 900;
+  const gap = parseFloat(getComputedStyle(tr).columnGap) || 0;
+  const room = tr.clientWidth - 4;
+  const need = plates.reduce((s, p) => s + p._fit.w, 0) + gap * Math.max(0, tr.children.length - 1);
+  const k = wide && need > room ? Math.max(0.5, (room - gap * Math.max(0, tr.children.length - 1)) / (need - gap * Math.max(0, tr.children.length - 1))) : 1;
+  plates.forEach((p) => applyPartner(p, k));
+}
+window.addEventListener('resize', () => squeezePartners());
 function fitLogo(img) {
   const bb = LOGO_BOX[img.src]; const plate = img.parentElement;
   if (bb && plate && plate.matches('.partner')) { partnerFit(img, plate, bb); return; }

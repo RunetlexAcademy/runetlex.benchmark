@@ -1,2 +1,14 @@
+# Link previews in messengers and social networks are allowed; search engines are not (yet).
+User-agent: TelegramBot
+User-agent: facebookexternalhit
+User-agent: Facebot
+User-agent: vkShare
+User-agent: Twitterbot
+User-agent: WhatsApp
+User-agent: LinkedInBot
+User-agent: Slackbot-LinkExpanding
+User-agent: Discordbot
+Allow: /
+
 User-agent: *
 Disallow: /

@@ -1264,3 +1264,9 @@ button.nomb{border:0;font:inherit;text-align:left;cursor:pointer;transition:filt
 @media (max-width:640px){.takeaways{padding-right:36px!important}}
 /* 20.11 (4): course kicker in normal case, no caps */
 .course-kicker{text-transform:none!important;font-size:13px}
+/* 20.11 (5): desktop — all partner logos in one row, no scrolling */
+@media (min-width:901px){
+  .partners-track{overflow:visible;scroll-snap-type:none;justify-content:space-between;gap:32px}
+  a.logo-item.partner{flex:0 0 auto}
+  .partners .gallery-nav{display:none}
+}
