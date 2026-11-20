@@ -11,7 +11,8 @@
   const samePerson = (a, b) => { const x = words(a); const y = words(b); return x.filter((w) => y.some((v) => sameWord(w, v))).length >= Math.min(2, x.length, y.length); };
   const areaIndex = (name, areas) => { const n = String(name || '').toLowerCase().trim(); const first = n.split(/[\s,]+/)[0]; const i = areas.findIndex((a) => a.toLowerCase() === n); return i >= 0 ? i : areas.findIndex((a) => a.toLowerCase().split(/[\s,]+/)[0] === first); };
 
-  function merge(d, r) {
+  function merge(d, r, notes) {
+    notes = notes || {};
     const tasks = r.tasks || [];
     const areas = d.areas && d.areas.length ? d.areas : r.areas || [];
     const experts = (d.experts || []).map((e) => ({ ...e, tasks: e.tasks || [] }));
@@ -29,7 +30,7 @@
       t.author = t.authors[0];
     });
     const res = r.results || {};
-    const services = (d.services || []).map((s) => ({ ...s, skills: s.skills || [], res: res[s.id] || [], checked: !!s.tested, tested: !!s.tested && (res[s.id] || []).length > 0 }));
+    const services = (d.services || []).map((s) => ({ ...s, skills: s.skills || [], res: res[s.id] || [], tariff: (notes[s.id] || {}).tariff || '', mode: (notes[s.id] || {}).mode || '', collector: (notes[s.id] || {}).comment || '', checked: !!s.tested, tested: !!s.tested && (res[s.id] || []).length > 0 }));
     return {
       areas, short: d.short && d.short.length ? d.short : r.short, skills: d.skills || [],
       tasks, services, experts: experts.concat(extra), resultsAt: r.generatedAt || '',
@@ -76,8 +77,10 @@
     });
   }
 
+  // notes.json: tariff and mode each service was tested on, plus the answer collector's comment (optional file)
+  const notes = get('notes.json').catch(() => ({}));
   get('data.json')
-    .then((d) => (wantPrivate ? privateResults(d) : get('results.json')).then((r) => { window.DATA = merge(d, r); return load('sample.js'); }))
+    .then((d) => (wantPrivate ? privateResults(d) : get('results.json')).then((r) => notes.then((n) => { window.DATA = merge(d, r, n); return load('sample.js'); })))
     .then(() => load('app.js?v=' + Date.now()))
     .catch((e) => { console.error(e); app().innerHTML = '<p style="padding:40px">Не удалось загрузить данные сайта. Обновите страницу.</p>'; });
 })();

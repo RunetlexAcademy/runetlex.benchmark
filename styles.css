@@ -1229,3 +1229,12 @@ html{scroll-behavior:smooth}
 .foot .logo .prod{transform:translateY(2px)!important}
 @media (max-width:560px){.intro-cta.cta-list{flex-direction:column;gap:0!important}.intro-cta.cta-list .btn{width:100%}.intro-cta.cta-list .btn:not(.dark){height:56px;min-height:0;padding:0 4px;text-align:left}}
 .intro-cta.cta-list .btn:not(.dark){border-bottom:0!important}.steps{border-top:0!important}.steps .step:first-child{padding-top:0}
+/* 20.11: how the service was tested + answer collector's comment */
+.tested-on{display:flex;flex-wrap:wrap;gap:12px 40px;margin:20px 0 0;padding:16px 20px;border:1px solid var(--line);border-radius:16px;max-width:900px}
+.tested-on div{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1 1 220px}
+.tested-on dt{font-size:13px;color:var(--mute)}
+.tested-on dd{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
+.box.collector{max-width:900px;font-size:15px;line-height:1.6}
+.box.collector p{margin:0 0 10px}.box.collector p:last-child{margin:0}
+.box.collector ul{margin:0 0 10px;padding-left:20px}.box.collector li{margin-bottom:6px}
+@media (max-width:560px){.tested-on{padding:14px 16px;gap:12px}.box.collector{font-size:14px}}

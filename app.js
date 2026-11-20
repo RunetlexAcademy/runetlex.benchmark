@@ -398,12 +398,21 @@ function taskDetail(s, t, r, k) {
   return `<div class="tdetail"><div class="tmain">${clampBlock(k + 'q', 'Задача', richText(t.text || SAMPLE.task))}${clampBlock(k + 'a', `Ответ сервиса ${esc(s.name)}, дословно`, richText(r.answer || (t.loaded === true ? 'Текст ответа не найден.' : SAMPLE.answer)))}<a class="tlink" href="#/task/${t.id}">Эта задача у всех сервисов →</a></div>${critPanel(t, r)}</div>`;
 }
 
+// How the service was tested (tariff, mode) and the answer collector's comment, from notes.json.
+function testedOn(s) {
+  const rows = [['Тариф', s.tariff], ['Режим', s.mode]].filter((x) => x[1]);
+  return rows.length ? `<dl class="tested-on">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` : '';
+}
+function collectorBlock(s) {
+  if (!s.collector) return '';
+  return `<div class="sec" id="collector"><h2>Комментарий сборщика ответов</h2><div class="disclaimer"><p>Это комментарий сборщика ответов — специалиста, который отправлял задачи в сервис и собирал ответы. Это субъективное мнение одного человека о том, как было работать с сервисом. Оно не входит в оценку и приводится только для информации: делать по нему серьёзных выводов не стоит.</p></div><div class="box collector rich">${richText(s.collector)}</div></div>`;
+}
 function service(id) {
   const s = byId(id); if (!s) return '<p>Нет такого сервиса</p>';
   const lvl = LVL[S.view[id] || s.pkg || 'free'];
   const sw = PREVIEW ? `<div class="pkg-switch">${viewSwitch(id, PKGS)}</div>` : '';
   if (!s.tested) {
-    return `<div class="pghead"><div><a class="btn backlink" href="#/catalog">← Ко всем сервисам</a></div>${sw}${svcHead(s)}</div>${pkgBlocks(s, lvl)}`;
+    return `<div class="pghead"><div><a class="btn backlink" href="#/catalog">← Ко всем сервисам</a></div>${sw}${svcHead(s)}${testedOn(s)}</div>${pkgBlocks(s, lvl)}${collectorBlock(s)}`;
   }
   const st = ST[s.id];
   const resultBlock = `<div class="sec"><h2>Результат</h2>
@@ -423,11 +432,13 @@ ${lvl >= 1 ? box('Комментарий к результату', vf(s.comment,
   return `<div class="pghead"><div><a class="btn backlink" href="#/" onclick="goTo('all-results',this)">← Ко всем результатам</a></div>
 ${sw}
 ${svcHead(s)}
+${testedOn(s)}
 ${s.testedAt ? `<p class="muted" style="font-size:12px">проверен ${esc(s.testedAt)}</p>` : ''}
 ${nomsOf(id).length ? `<div class="noms">${nomsOf(id).map((n) => `<div class="nomb"><span class="nt">${n.t}</span><span class="nd">${n.d}</span></div>`).join('')}</div>` : ''}</div>
 ${resultBlock}
 ${pkgBlocks(s, lvl)}
-${tasksBlock}`;
+${tasksBlock}
+${collectorBlock(s)}`;
 }
 
 // Logos scroll continuously; the set is rendered twice so the loop is seamless.
