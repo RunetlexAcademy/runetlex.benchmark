@@ -437,8 +437,8 @@ ${s.testedAt ? `<p class="muted" style="font-size:12px">проверен ${esc(s
 ${nomsOf(id).length ? `<div class="noms">${nomsOf(id).map((n) => `<div class="nomb"><span class="nt">${n.t}</span><span class="nd">${n.d}</span></div>`).join('')}</div>` : ''}</div>
 ${resultBlock}
 ${pkgBlocks(s, lvl)}
-${tasksBlock}
-${collectorBlock(s)}`;
+${collectorBlock(s)}
+${tasksBlock}`;
 }
 
 // Logos scroll continuously; the set is rendered twice so the loop is seamless.
