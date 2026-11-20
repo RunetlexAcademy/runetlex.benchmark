@@ -1257,3 +1257,8 @@ button.nomb{border:0;font:inherit;text-align:left;cursor:pointer;transition:filt
 .nom-pop .cmt-who .b{font-size:16px;line-height:1.3;margin-top:2px}
 .nom-pop .nom-win{font-size:14px}.nom-pop .nom-part p{font-size:14px}
 .nom-pop{width:400px}
+/* 20.11 (3): takeaways read row by row (1 2 / 3 4 / 5), rows aligned; more air on the right on phones */
+.takeaways ol{display:grid;columns:auto;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-flow:row;gap:24px 40px}
+.takeaways ol li{margin-bottom:0}
+@media (max-width:900px){.takeaways ol{grid-template-columns:1fr;gap:18px}}
+@media (max-width:640px){.takeaways{padding-right:36px!important}}
