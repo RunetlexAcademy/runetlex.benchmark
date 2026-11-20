@@ -1270,3 +1270,10 @@ button.nomb{border:0;font:inherit;text-align:left;cursor:pointer;transition:filt
   a.logo-item.partner{flex:0 0 auto}
   .partners .gallery-nav{display:none}
 }
+/* 20.11 (6): results presentation video, second block of the home page */
+.pvideo-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.pvideo-head h2{margin:0}
+.pvideo-sub{margin:10px 0 0;font-size:16px;line-height:1.5;max-width:720px}
+.pvideo-dur{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mute);white-space:nowrap}
+.pvideo-dur svg{width:16px;height:16px}
+@media (max-width:640px){.pvideo-head{flex-direction:column;align-items:flex-start;gap:8px}.pvideo-sub{font-size:15px}}
