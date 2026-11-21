@@ -21,12 +21,12 @@ const personName = (name) => {
 };
 const authorNames = (t) => authorIds(t).map((id) => personName((expert(id) || {}).name)).filter(Boolean).join(', ') || '—';
 // Author names link to the expert's card on the experts page.
-const authorLinks = (t) => authorIds(t).map((id) => { const e = expert(id); if (!e) return ''; const n = esc(personName(e.name)); return e.hidden ? n : `<a href="#/experts" onclick="event.stopPropagation();PENDING_EXP='${e.id}'">${n}</a>`; }).filter(Boolean).join(', ') || '—';
+const authorLinks = (t) => authorIds(t).map((id) => { const e = expert(id); if (!e) return ''; const n = esc(personName(e.name)); return e.hidden ? n : `<a href="#/experts" onclick="event.stopPropagation();event.preventDefault();PENDING_EXP='${e.id}';goRoute('#/experts')">${n}</a>`; }).filter(Boolean).join(', ') || '—';
 // Links that open another page and then scroll to a section: the scroll waits until the new page is drawn.
 window.PENDING_GO = null;
 window.goTo = (id, el) => {
-  const h = (el && el.getAttribute('href')) || ''; const cur = location.hash || '#/';
-  if (!h || h === cur || (h === '#/' && cur === '#')) { go(id); return; }
+  const h = toHash((el && el.getAttribute('href')) || ''); const cur = ROUTE();
+  if (!el || h === cur) { go(id); return; }
   PENDING_GO = id;
 };
 window.PENDING_EXP = null;
@@ -157,7 +157,7 @@ window.sendForm = (ev, subject) => {
   const val = (el) => (el.type === 'checkbox' ? (el.checked ? 'да' : 'нет') : el.value.trim());
   const endpoint = set('forms_endpoint', '');
   if (endpoint) {
-    const body = new URLSearchParams({ form: subject, page: location.hash || '#/' });
+    const body = new URLSearchParams({ form: subject, page: location.pathname });
     fields.forEach((el) => body.append(el.name, val(el)));
     btn.disabled = true;
     fetch(endpoint, { method: 'POST', mode: 'no-cors', body }).then(() => { ok.textContent = f.dataset.done; ok.hidden = false; f.reset(); })
@@ -213,7 +213,7 @@ function home() {
     const st = ST[s.id];
     const solved = a === -1 ? st.solved + ' / ' + D.tasks.length : st.byArea[a] + ' / ' + AREA_N[a];
     const strong = st.byArea.map((v, i) => [v, i]).sort((x, y) => y[0] - x[0]).slice(0, 2).map((x) => D.short[x[1]]).join(', ');
-    return `<tr class="clk" onclick="location.hash='#/service/${s.id}'"><td><a class="sname" href="#/service/${s.id}">${s.name}</a></td><td>${solved}</td><td>${pct(st.pts)}</td><td>${strong}</td><td class="ccell">${commentCell(s)}</td></tr>`;
+    return `<tr class="clk" onclick="goRoute('#/service/${s.id}')"><td><a class="sname" href="#/service/${s.id}">${s.name}</a></td><td>${solved}</td><td>${pct(st.pts)}</td><td>${strong}</td><td class="ccell">${commentCell(s)}</td></tr>`;
   });
   const chartMax = a === -1 ? D.tasks.length : AREA_N[a];
   const top5 = order.slice(0, 5).map((s, i) => {
@@ -536,7 +536,7 @@ ${step(5, 'Подвели итоги', ['У каждого сервиса два
 <div class="sec">
 <div class="intro" id="m-tasks"><h2>Задачи</h2><p>Здесь все ${N_TASKS} ${taskWord(+N_TASKS)}, на которых мы проверяли сервисы. Откройте любую, и вы увидите фабулу, вопрос, эталонный ответ, критерии и дословные ответы всех ${N_SERVICES} ${svcGen}.</p></div>
 ${areaFilter(a, 'setTaskArea')}
-<div class="tlist mlist">${list.map((t) => { const n = tested.filter((s) => (resOf(s, t.id) || {}).s).length; return `<div class="trow"><div class="trow-h" role="link" tabindex="0" onclick="location.hash='#/task/${t.id}'" onkeydown="if(event.key==='Enter')location.hash='#/task/${t.id}'"><span class="ttitle">${t.title}<span class="tmeta"><span>${D.areas[t.area]}</span><span>${authorLabel(t)}: ${authorLinks(t)}</span><span>${t.total} ${critWord(t.total)}</span></span></span><span class="tstat ${n ? 'ok' : 'no'}">решили ${n} из ${tested.length}</span><span class="chev go" aria-hidden="true"></span></div></div>`; }).join('')}</div>
+<div class="tlist mlist">${list.map((t) => { const n = tested.filter((s) => (resOf(s, t.id) || {}).s).length; return `<div class="trow"><div class="trow-h" role="link" tabindex="0" onclick="goRoute('#/task/${t.id}')" onkeydown="if(event.key==='Enter')goRoute('#/task/${t.id}')"><span class="ttitle">${t.title}<span class="tmeta"><span>${D.areas[t.area]}</span><span>${authorLabel(t)}: ${authorLinks(t)}</span><span>${t.total} ${critWord(t.total)}</span></span></span><span class="tstat ${n ? 'ok' : 'no'}">решили ${n} из ${tested.length}</span><span class="chev go" aria-hidden="true"></span></div></div>`; }).join('')}</div>
 </div>
 <div class="sec" id="m-report">
 <div class="rep"><div class="rep-main"><div class="rep-intro"><p class="rep-k">полный отчёт в PDF</p><h2>Отчёт</h2><p class="rep-lead">Полная история бенчмарка: от того, зачем мы его затеяли, до того, что получилось.${set('report_pages', '') ? ' ' + esc(set('report_pages', '')) + ' страниц.' : ''}</p>${formBox('Получить отчёт на почту', 'Отчёт бенчмарка', field('fio', 'ФИО', 'autocomplete="name"') + field('email', 'Почта', 'type="email" autocomplete="email"') + consent(), 'Получить отчёт', 'Спасибо! Отчёт придёт на почту в течение 5–10 минут. Если письма нет, проверьте папку «Спам».')}</div><div class="rep-cover" aria-hidden="true"><span class="rep-cover-wm">${WM}</span><span class="rep-cover-t">Отчет<br>бенчмарка</span><span class="rep-cover-s">юридические ИИ-сервисы<br>2026</span><span class="rep-cover-n"><b>${N_TASKS}</b> ${taskWord(+N_TASKS)}<br><b>${N_SERVICES}</b> ${svcWord(+N_SERVICES)}</span></div></div><p class="rep-h">что внутри</p><ol class="rep-list"><li><b>Зачем мы это сделали</b><span>Какие задачи ставили и каких принципов держались: открытость, перепроверка на каждом этапе, независимость.</span></li><li><b>Как отбирали сервисы</b><span>Из 57 найденных на рынке в проверку вошли 33, протестировали 31. По каким правилам отбирали и почему исключили двоих.</span></li><li><b>Как готовили задачи</b><span>Как работали с экспертами, собирали ответы сервисов и устроили слепую оценку.</span></li><li><b>Результаты</b><span>Итоговые результаты, номинации и победители.</span></li><li><b>Сложности</b><span>Выбор тарифов, разные режимы работы сервисов, расхождения в оценках и как мы их решали.</span></li><li><b>Выводы</b><span>Что сервисы уже умеют и где им ещё расти.</span></li></ol></div>
@@ -561,7 +561,7 @@ function taskPage(id) {
   const i = D.tasks.indexOf(t); const prev = D.tasks[i - 1]; const next = D.tasks[i + 1];
   const all = [...tested].map((s) => ({ s, r: resOf(s, id) })).filter((x) => x.r);
   const tf = S.tf || 'all'; const cntT = { all: all.length, ok: all.filter((x) => x.r.s).length, no: all.filter((x) => !x.r.s).length };
-  const rows = all.filter((x) => tf === 'all' || (tf === 'ok' ? x.r.s : !x.r.s)).sort((x, y) => (y.r.s - x.r.s) || (y.r.p - x.r.p)).map(({ s, r }) => `<div class="trow"><div class="trow-h" role="button" tabindex="0" onclick="openAns('${s.id}','${id}')" onkeydown="if(event.key==='Enter')openAns('${s.id}','${id}')"><span class="ttitle"><a class="tsvc-name" href="#/service/${s.id}" onclick="event.stopPropagation()">${s.name}</a><span class="tmeta"><span class="tread">читать ответ</span></span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev go" aria-hidden="true"></span></div></div>`);
+  const rows = all.filter((x) => tf === 'all' || (tf === 'ok' ? x.r.s : !x.r.s)).sort((x, y) => (y.r.s - x.r.s) || (y.r.p - x.r.p)).map(({ s, r }) => `<div class="trow"><div class="trow-h" role="button" tabindex="0" onclick="openAns('${s.id}','${id}')" onkeydown="if(event.key==='Enter')openAns('${s.id}','${id}')"><span class="ttitle"><a class="tsvc-name" href="#/service/${s.id}" onclick="event.stopPropagation();event.preventDefault();goRoute('#/service/${s.id}')">${s.name}</a><span class="tmeta"><span class="tread">читать ответ</span></span></span><span class="tstat ${r.s ? 'ok' : 'no'}">${r.s ? 'решена' : 'не решена'}</span><span class="tpts">${r.p} / ${t.total}</span><span class="chev go" aria-hidden="true"></span></div></div>`);
   const n = tested.filter((s) => (resOf(s, id) || {}).s).length;
   return `<div class="pghead"><div><a class="btn backlink" href="#/method" onclick="goTo('m-tasks',this)">← Ко всем задачам</a></div>
 <div class="col" style="gap:14px"><h1>${t.title}</h1><div class="tfacts"><span class="tag soft">${D.areas[t.area]}</span><span>${authorLabel(t)}: ${authorLinks(t)}</span><span>${t.total} ${critWord(t.total)}</span><span>решили ${n} ${svcWord(n)} из ${tested.length}</span></div><div class="row" style="gap:8px">${prev ? `<a class="tag" href="#/task/${prev.id}">← предыдущая</a>` : ''}${next ? `<a class="tag" href="#/task/${next.id}">следующая →</a>` : ''}</div></div>
@@ -798,9 +798,41 @@ function markLightLogos() {
     probe.src = img.src;
   });
 }
+// Routing: every section has a normal address (/method/, /service/S003/) so search engines can index it.
+// Inside the code routes are still written as '#/method'; toPath/toHash convert between the two forms.
+const ROUTE_RE = /^\/(method|catalog|cases|experts|about|service\/[\w-]+|task\/[\w-]+)\/?$/;
+window.toPath = (h) => { const r = String(h || '').replace(/^#\/?/, '').replace(/\/+$/, ''); return r ? '/' + r + '/' : '/'; };
+window.toHash = (p) => { const s = String(p || ''); if (s.startsWith('#')) return s.startsWith('#/') ? s : '#/'; const m = s.match(ROUTE_RE); return m ? '#/' + m[1] : '#/'; };
+window.ROUTE = () => (location.hash.startsWith('#/') ? location.hash : toHash(location.pathname));
+// Old links with # (shared before the switch) keep working: /#/method becomes /method/.
+if (location.hash.startsWith('#/')) history.replaceState(null, '', toPath(location.hash) + location.search);
+window.goRoute = (h) => { const p = toPath(h.startsWith('#') ? h : toHash(h)); if (p !== location.pathname) history.pushState(null, '', p); onRoute(); };
+function onRoute() { S.modal = null; closeShot(); closeCmt(); document.body.classList.remove('menu-open'); render(); }
+window.addEventListener('popstate', onRoute);
+// Internal links: the address changes without reloading the page.
+document.addEventListener('click', (e) => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest('a[href]'); if (!a || a.target === '_blank') return;
+  const href = a.getAttribute('href');
+  if (!(href.startsWith('#/') || href === '/' || ROUTE_RE.test(href))) return;
+  e.preventDefault(); goRoute(href);
+});
+// Page title and description per section (search engines and browser tabs).
+function setMeta(title, desc) {
+  document.title = title ? title + ' — Рунетлекс Бенчмарк' : 'Рунетлекс Бенчмарк';
+  const m = document.querySelector('meta[name="description"]'); if (m && desc) m.setAttribute('content', desc);
+  const c = document.querySelector('link[rel="canonical"]'); if (c) c.setAttribute('href', 'https://benchmark.runetlex-academy.ru' + location.pathname);
+}
+function pageMeta(p) {
+  const T = { method: ['Методология', 'Как мы проверяли юридические ИИ-сервисы: задачи, критерии, слепая оценка и перепроверка.'], catalog: ['Все ИИ-сервисы', 'Каталог юридических ИИ-сервисов с результатами проверки и навыками.'], cases: ['Кейсы', 'Как юристы применяют ИИ-сервисы в работе.'], experts: ['Эксперты', 'Эксперты, которые составили задачи бенчмарка, и организации-оценщики.'], about: ['О нас', 'Команда Рунетлекс Бенчмарка и Рунетлекс Академии.'] };
+  if (p[0] === 'service' && byId(p[1])) { const s = byId(p[1]); const st = ST[s.id]; setMeta(s.name, s.tested && st ? `${s.name}: решено ${st.solved} из ${D.tasks.length} задач, полнота ответов ${pct(st.pts)}. Результаты по отраслям права и ответы на каждую задачу.` : `${s.name} в каталоге юридических ИИ-сервисов Рунетлекс Бенчмарка.`); return; }
+  if (p[0] === 'task' && task(p[1])) { const t = task(p[1]); setMeta(t.title, `Задача бенчмарка «${t.title}» (${D.short[t.area]}): ответы ${tested.length} юридических ИИ-сервисов и оценки по критериям.`); return; }
+  if (T[p[0]]) { setMeta(T[p[0]][0], T[p[0]][1]); return; }
+  setMeta('', 'Оценка юридических ИИ-сервисов: 31 сервис, 52 задачи по пяти отраслям права, 28 экспертов. Результаты, номинации и методология.');
+}
 function render(preserve) {
   const keepY = window.scrollY;
-  const h = location.hash || '#/';
+  const h = ROUTE();
   const p = h.replace(/^#\//, '').split('/');
   let cur = '#/' + (p[0] || ''); let body = '';
   if (p[0] === '' || p[0] === undefined) { cur = '#/'; body = home(); }
@@ -813,6 +845,8 @@ function render(preserve) {
   else if (p[0] === 'about') body = about();
   else body = home();
   document.getElementById('app').innerHTML = (window.PRIVATE ? `<div class="demo-bar private-bar">Закрытый просмотр: настоящие результаты${D.resultsAt ? ' от ' + esc(D.resultsAt) : ''}. Видны только по паролю. <button type="button" onclick="PRIVATE.exit()">Выйти</button></div>` : set('demo_banner', 'да') === 'да' ? '<div class="demo-bar">Демоверсия: названия сервисов настоящие, результаты условные. Реальные результаты появятся после проверки.</div>' : '') + nav(cur) + '<div class="wrap">' + body + '</div>' + foot + ansModal();
+  document.querySelectorAll('#app a[href^="#/"], .nav a[href^="#/"], .foot a[href^="#/"]').forEach((x) => x.setAttribute('href', toPath(x.getAttribute('href'))));
+  pageMeta(p);
   catalogSpy();
   fixYo();
   markLightLogos();
@@ -826,5 +860,5 @@ function render(preserve) {
   // jumps on page change are instant; smooth scrolling is for moving within a page
   if (!preserve) window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); else if (window.scrollY !== keepY) window.scrollTo({ top: keepY, left: 0, behavior: 'instant' });
 }
-window.addEventListener('hashchange', () => { S.modal = null; closeShot(); closeCmt(); document.body.classList.remove('menu-open'); render(); });
+window.addEventListener('hashchange', () => { if (location.hash.startsWith('#/')) { history.replaceState(null, '', toPath(location.hash)); onRoute(); } });
 render();

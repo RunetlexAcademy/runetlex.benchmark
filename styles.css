@@ -1277,3 +1277,6 @@ button.nomb{border:0;font:inherit;text-align:left;cursor:pointer;transition:filt
 .pvideo-dur{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mute);white-space:nowrap}
 .pvideo-dur svg{width:16px;height:16px}
 @media (max-width:640px){.pvideo-head{flex-direction:column;align-items:flex-start;gap:8px}.pvideo-sub{font-size:15px}}
+
+/* 21.11: text version of the page shown until the app starts (for search engines) */
+.seo{max-width:900px;margin:40px auto;padding:0 20px;font-size:14px;line-height:1.5;color:#5d6a73}.seo h1{font-size:28px;font-weight:400;color:#07141d}.seo a{color:inherit}
